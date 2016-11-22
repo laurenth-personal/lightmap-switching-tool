@@ -52,7 +52,6 @@ public class LevelLightmapData : MonoBehaviour
             }
         }
     }
-
     [SerializeField]
     List<RIArrayWrapper> m_RendererInfos;
     [SerializeField]
@@ -109,6 +108,7 @@ public class LevelLightmapData : MonoBehaviour
         }
 
         ApplyRendererInfo(m_RendererInfos[index].myRIArray);
+
         LightmapSettings.lightmaps = newLightmaps;
     }
 
@@ -139,24 +139,58 @@ public class LevelLightmapData : MonoBehaviour
         var lightmaps = new List<Texture2D>();
         var lightmapsdir = new List<Texture2D>();
 
-        m_LightmapsModes.Insert(index, LightmapSettings.lightmapsMode);
+        if ( m_LightmapsModes.Count <= index )
+        {
+            m_LightmapsModes.Insert(index, LightmapSettings.lightmapsMode);
+        }
+        else
+        {
+            m_LightmapsModes[index] = LightmapSettings.lightmapsMode;
+        }
 
         GenerateLightmapInfo(gameObject, rendererInfos, lightmaps, lightmapsdir, m_LightmapsModes[index]);
         
         var LMWrapper = new T2DArrayWrapper();
         LMWrapper.myT2DArray = lightmaps.ToArray();
-        lightmapdata.m_Lightmaps.Insert(index, LMWrapper);
+        if ( lightmapdata.m_Lightmaps.Count <= index )
+        {
+            lightmapdata.m_Lightmaps.Insert(index, LMWrapper);
+        }
+        else
+        {
+            lightmapdata.m_Lightmaps[index] = LMWrapper;
+        }
+
 
         Debug.Log("Lightmapslight count for index : " + m_Lightmaps[index].Length);
+
         if (m_LightmapsModes[index] != LightmapsMode.NonDirectional)
         {
             var LMDWrapper = new T2DArrayWrapper();
             LMDWrapper.myT2DArray = lightmapsdir.ToArray();
-            lightmapdata.m_Lightmapsdir.Insert(index, LMDWrapper);
+            if (lightmapdata.m_Lightmapsdir.Count <= index )
+            {
+                lightmapdata.m_Lightmapsdir.Insert(index, LMDWrapper);
+            }
+            else
+            {
+                lightmapdata.m_Lightmapsdir[index] = LMWrapper;
+            }
         }
+
         var RIWrapper = new RIArrayWrapper();
         RIWrapper.myRIArray = rendererInfos.ToArray();
-        m_RendererInfos.Insert(index, RIWrapper);
+        if (lightmapdata.m_RendererInfos.Count <= index )
+        {
+            lightmapdata.m_RendererInfos.Insert(index, RIWrapper);
+        }
+        else
+        {
+            lightmapdata.m_RendererInfos[index] = RIWrapper;
+        }
+
+        Debug.Log(index);
+
         Lightmapping.lightingDataAsset = null;
     }
 
