@@ -7,13 +7,17 @@ public class LightingScenarioSwitcher : MonoBehaviour {
     private LevelLightmapData LocalLevelLightmapData;
     private int LightingScenarioSelector;
     private int LightingScenariosCount;
+    [SerializeField]
+    public int DefaultLightingScenario;
 
     // Use this for initialization
     void Start ()
     {
         LocalLevelLightmapData = FindObjectOfType<LevelLightmapData>();
-        LightingScenarioSelector = LocalLevelLightmapData.DefaultLightingScenario;
+        LightingScenarioSelector = DefaultLightingScenario;
         LightingScenariosCount = LocalLevelLightmapData.LightingScenarios.Length;
+        LocalLevelLightmapData.LoadLightingScenario(DefaultLightingScenario);
+        Debug.Log("Load default lighting scenario");
     }
 	
 	// Update is called once per frame
