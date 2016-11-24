@@ -7,12 +7,10 @@ using UnityEditor.SceneManagement;
 public class LightinScenariosInspector : Editor
 {
     public SerializedProperty LightingScenarios;
-    public SerializedProperty DefaultLightingScenario;
 
     public void OnEnable()
     {
         LightingScenarios = serializedObject.FindProperty("LightingScenarios");
-        DefaultLightingScenario = serializedObject.FindProperty("DefaultLightingScenario");
     }
 
     public override void OnInspectorGUI()
@@ -22,7 +20,6 @@ public class LightinScenariosInspector : Editor
         LevelLightmapData LightmapData = (LevelLightmapData)target;
 
         EditorGUILayout.PropertyField(LightingScenarios, new GUIContent("Lighting Scenarios"), includeChildren:true);
-        EditorGUILayout.PropertyField(DefaultLightingScenario, new GUIContent("Default Lighting Scenario"));
 
         serializedObject.ApplyModifiedProperties();
 
@@ -44,6 +41,7 @@ public class LightinScenariosInspector : Editor
             if (GUILayout.Button("Build Lighting Scenario " + (i+1) ))
             {
                 LightmapData.BuildLightingScenario(LightmapData.LightingScenarios[i]);
+                //LightmapData.StoreLightmapInfos(i);
             }
         }
 
@@ -53,7 +51,7 @@ public class LightinScenariosInspector : Editor
         {
             if (GUILayout.Button("Store Lighting Scenario " + (i + 1)))
             {
-                LightmapData.StoreLightmapInfos( i );
+                LightmapData.StoreLightmapInfos(i);
             }
         }
     }
