@@ -2,10 +2,11 @@
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine.Rendering;
-
+#endif
 
 public class LevelLightmapData : MonoBehaviour
 {
