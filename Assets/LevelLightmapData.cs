@@ -11,115 +11,61 @@ using UnityEditor.SceneManagement;
 public class LevelLightmapData : MonoBehaviour
 {
     [System.Serializable]
-    public class SerializedSH
+    public class SphericalHarmonics
     {
-        public float[] SHcoefficients = new float[27];
+        public float[] coefficients = new float[27];
     }
-    [System.Serializable]
-    public class SerializedSHWrapper
-    {
-        public SerializedSH[] mySerializedSHArray;
 
-        public int Length { get { return mySerializedSHArray.Length; } }
+	[System.Serializable]
+	public class RendererInfo
+	{
+		public Renderer renderer;
+		public int lightmapIndex;
+		public Vector4 lightmapOffsetScale;
+	}
+		
+	[System.Serializable]
+	public class LightingScenarioData {
+		public RendererInfo[] rendererInfos;
+		public Texture2D[] lightmaps;
+		public Texture2D[] lightmapsDir;
+		public LightmapsMode lightmapsMode;
+		public SphericalHarmonics[] lightProbes;
+	}
 
-        public SerializedSH this[int i]
-        {
-            get
-            {
-                return mySerializedSHArray[i];
-            }
-            set
-            {
-                mySerializedSHArray[i] = value;
-            }
-        }
-    }
-    [System.Serializable]
-    public struct RendererInfo
-    {
-        public Renderer renderer;
-        public int lightmapIndex;
-        public Vector4 lightmapOffsetScale;
-    }
-    [System.Serializable]
-    public struct T2DArrayWrapper
-    {
-        public Texture2D[] myT2DArray;
-
-        public int Length { get { return myT2DArray.Length; } }
-
-        public Texture2D this[int i]
-        {
-            get
-            {
-                return myT2DArray[i];
-            }
-            set
-            {
-                myT2DArray[i] = value;
-            }
-        }
-    }
-    [System.Serializable]
-    public struct RIArrayWrapper
-    {
-        public RendererInfo[] myRIArray;
-
-        public int Length { get { return myRIArray.Length; } }
-
-        public RendererInfo this[int i]
-        {
-            get
-            {
-                return myRIArray[i];
-            }
-            set
-            {
-                myRIArray[i] = value;
-            }
-        }
-    }
-    [SerializeField]
-    List<RIArrayWrapper> m_RendererInfos;
-    [SerializeField]
-    List<T2DArrayWrapper> m_Lightmaps;
-    [SerializeField]
-    List<T2DArrayWrapper> m_Lightmapsdir;
-    [SerializeField]
-    List<LightmapsMode> m_LightmapsModes;
-    [SerializeField]
-    List<SerializedSHWrapper> m_LightProbes;
+	[SerializeField]
+	List<LightingScenarioData> lightingScenariosData;
 
     [SerializeField]
-    public string[] LightingScenarios;
+    public string[] lightingScenarios;
     
-
     public void LoadLightingScenario(int index)
     {
-        if (m_RendererInfos[index].Length == 0 || m_RendererInfos[index].myRIArray == null)
+		if (lightingScenariosData[index].rendererInfos == null
+			|| lightingScenariosData[index].rendererInfos.Length == 0)
         {
             Debug.Log("empty lighting scenario");
             return;
         }
 
-        LightmapSettings.lightmapsMode = m_LightmapsModes[index];
+		LightmapSettings.lightmapsMode = lightingScenariosData[index].lightmapsMode;
 
-        var newLightmaps = new LightmapData[m_Lightmaps[index].myT2DArray.Length];
+		var newLightmaps = new LightmapData[lightingScenariosData[index].lightmaps.Length];
 
         for (int i = 0; i < newLightmaps.Length; i++)
         {
             newLightmaps[i] = new LightmapData();
-            newLightmaps[i].lightmapLight = m_Lightmaps[index].myT2DArray[i];
+			newLightmaps[i].lightmapLight = lightingScenariosData[index].lightmaps[i];
 
-            if (m_LightmapsModes[index] != LightmapsMode.NonDirectional)
+			if (lightingScenariosData[index].lightmapsMode != LightmapsMode.NonDirectional)
             {
-                newLightmaps[i].lightmapDir = m_Lightmapsdir[index].myT2DArray[i];
+				newLightmaps[i].lightmapDir = lightingScenariosData[index].lightmapsDir[i];
             }
         }
 
         LoadLightProbes(index);
 
-        ApplyRendererInfo(m_RendererInfos[index].myRIArray);
+		ApplyRendererInfo(lightingScenariosData[index].rendererInfos);
 
         LightmapSettings.lightmaps = newLightmaps;
     }
@@ -136,11 +82,11 @@ public class LevelLightmapData : MonoBehaviour
 
     public void LoadLightProbes(int index)
     {
-        var SHArray = new SphericalHarmonicsL2[m_LightProbes[index].mySerializedSHArray.Length];
+		var sphericalHarmonicsArray = new SphericalHarmonicsL2[lightingScenariosData[index].lightProbes.Length];
 
-        for (int i = 0; i < m_LightProbes[index].mySerializedSHArray.Length; i++)
+		for (int i = 0; i < lightingScenariosData[index].lightProbes.Length; i++)
         {
-            var SH = new SphericalHarmonicsL2();
+			var sphericalHarmonics = new SphericalHarmonicsL2();
 
             // j is coefficient
             for (int j = 0; j < 3; j++)
@@ -148,85 +94,55 @@ public class LevelLightmapData : MonoBehaviour
                 //k is channel ( r g b )
                 for (int k = 0; k < 9; k++)
                 {
-                    SH[j, k] = m_LightProbes[index].mySerializedSHArray[i].SHcoefficients[j * 9 + k];
+					sphericalHarmonics[j, k] = lightingScenariosData[index].lightProbes[i].coefficients[j * 9 + k];
                 }
             }
 
-            SHArray[i] = SH;
+            sphericalHarmonicsArray[i] = sphericalHarmonics;
         }
 
-        LightmapSettings.lightProbes.bakedProbes = SHArray;
+        LightmapSettings.lightProbes.bakedProbes = sphericalHarmonicsArray;
     }
 
 #if UNITY_EDITOR
 
     public void StoreLightmapInfos(int index)
     {
-        Debug.Log("Storing lightmaps for index " + index);
+        Debug.Log("Storing data for index " + index);
         if (UnityEditor.Lightmapping.giWorkflowMode != UnityEditor.Lightmapping.GIWorkflowMode.OnDemand)
         {
             Debug.LogError("ExtractLightmapData requires that you have baked you lightmaps and Auto mode is disabled.");
             return;
         }
 
-        //LevelLightmapData lightmapdata = FindObjectOfType<LevelLightmapData>();
+		var newLightingScenarioData = new LightingScenarioData ();
+        var newRendererInfos = new List<RendererInfo>();
+        var newLightmapsTextures = new List<Texture2D>();
+        var newLightmapsTexturesDir = new List<Texture2D>();
+		var newLightmapsMode = new LightmapsMode();
+		var newSphericalHarmonicsList = new List<SphericalHarmonics>();
 
-        var rendererInfos = new List<RendererInfo>();
-        var lightmaps = new List<Texture2D>();
-        var lightmapsdir = new List<Texture2D>();
+		newLightmapsMode = LightmapSettings.lightmapsMode;
 
-        if ( m_LightmapsModes.Count <= index )
-        {
-            m_LightmapsModes.Insert(index, LightmapSettings.lightmapsMode);
-        }
-        else
-        {
-            m_LightmapsModes[index] = LightmapSettings.lightmapsMode;
-        }
+		GenerateLightmapInfo(gameObject, newRendererInfos, newLightmapsTextures, newLightmapsTexturesDir, newLightmapsMode);
 
-        GenerateLightmapInfo(gameObject, rendererInfos, lightmaps, lightmapsdir, m_LightmapsModes[index]);
-        
-        var LMWrapper = new T2DArrayWrapper();
-        LMWrapper.myT2DArray = lightmaps.ToArray();
-        if ( m_Lightmaps.Count <= index )
+		newLightingScenarioData.lightmapsMode = newLightmapsMode;
+
+		newLightingScenarioData.lightmaps = newLightmapsTextures.ToArray();
+
+		if (newLightmapsMode != LightmapsMode.NonDirectional)
         {
-            m_Lightmaps.Insert(index, LMWrapper);
-            m_Lightmapsdir.Insert(index, new T2DArrayWrapper());
-        }
-        else
-        {
-            m_Lightmaps[index] = LMWrapper;
+			newLightingScenarioData.lightmapsDir = newLightmapsTexturesDir.ToArray();
         }
 
-        Debug.Log("Lightmapslight count for index : " + m_Lightmaps[index].Length);
+		newLightingScenarioData.rendererInfos = newRendererInfos.ToArray();
 
-        if (m_LightmapsModes[index] != LightmapsMode.NonDirectional)
-        {
-            var LMDWrapper = new T2DArrayWrapper();
-            LMDWrapper.myT2DArray = lightmapsdir.ToArray();
-            m_Lightmapsdir[index] = LMDWrapper;
-            Debug.Log("Lightmapsdir count for index : " + m_Lightmapsdir[index].Length);
-        }
-
-        var RIWrapper = new RIArrayWrapper();
-        RIWrapper.myRIArray = rendererInfos.ToArray();
-        if (m_RendererInfos.Count <= index )
-        {
-            m_RendererInfos.Insert(index, RIWrapper);
-        }
-        else
-        {
-            m_RendererInfos[index] = RIWrapper;
-        }
-
-        var scene_LightProbes = new SphericalHarmonicsL2[LightmapSettings.lightProbes.bakedProbes.Length];
-        scene_LightProbes = LightmapSettings.lightProbes.bakedProbes;
-
-        var SHCoeffList = new List<SerializedSH>();
+		var scene_LightProbes = new SphericalHarmonicsL2[LightmapSettings.lightProbes.bakedProbes.Length];
+		scene_LightProbes = LightmapSettings.lightProbes.bakedProbes;
 
         for (int i = 0; i < scene_LightProbes.Length; i++)
         {
-            var SHCoeff = new SerializedSH();
+            var SHCoeff = new SphericalHarmonics();
 
             // j is coefficient
             for (int j = 0; j < 3; j++)
@@ -234,22 +150,27 @@ public class LevelLightmapData : MonoBehaviour
                 //k is channel ( r g b )
                 for (int k = 0; k < 9; k++)
                 {
-                    SHCoeff.SHcoefficients[j*9+k] = scene_LightProbes[i][j, k];
+                    SHCoeff.coefficients[j*9+k] = scene_LightProbes[i][j, k];
                 }
             }
 
-            SHCoeffList.Add(SHCoeff);
+            newSphericalHarmonicsList.Add(SHCoeff);
         }
-        if (m_LightProbes.Count <= index)
-        {
-            m_LightProbes.Insert(index, new SerializedSHWrapper());
-        }
-        m_LightProbes[index].mySerializedSHArray = SHCoeffList.ToArray();
 
-        Debug.Log(index);
+		newLightingScenarioData.lightProbes = newSphericalHarmonicsList.ToArray ();
+
+		if (newLightingScenarioData.rendererInfos.Length < index) 
+		{
+			lightingScenariosData [index] = newLightingScenarioData;
+		} 
+		else 
+		{
+			lightingScenariosData.Insert (index, newLightingScenarioData);
+		}
+        
     }
 
-    static void GenerateLightmapInfo (GameObject root, List<RendererInfo> rendererInfos, List<Texture2D> lightmapslight, List<Texture2D> lightmapsdir, LightmapsMode lightmapmode )
+	static void GenerateLightmapInfo (GameObject root, List<RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, LightmapsMode newLightmapsMode )
 	{
 		var renderers = FindObjectsOfType(typeof(MeshRenderer));
         Debug.Log("stored info for "+renderers.Length+" meshrenderers");
@@ -262,24 +183,24 @@ public class LevelLightmapData : MonoBehaviour
 				info.lightmapOffsetScale = renderer.lightmapScaleOffset;
 
 				Texture2D lightmaplight = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapLight;
-                info.lightmapIndex = lightmapslight.IndexOf(lightmaplight);
+                info.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);
                 if (info.lightmapIndex == -1)
 				{
-					info.lightmapIndex = lightmapslight.Count;
-                    lightmapslight.Add(lightmaplight);
+					info.lightmapIndex = newLightmapsLight.Count;
+                    newLightmapsLight.Add(lightmaplight);
 				}
 
-                if (lightmapmode != LightmapsMode.NonDirectional)
+                if (newLightmapsMode != LightmapsMode.NonDirectional)
                 {
                     Texture2D lightmapdir = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapDir;
-                    info.lightmapIndex = lightmapsdir.IndexOf(lightmapdir);
+                    info.lightmapIndex = newLightmapsDir.IndexOf(lightmapdir);
                     if (info.lightmapIndex == -1)
                     {
-                        info.lightmapIndex = lightmapsdir.Count;
-                        lightmapsdir.Add(lightmapdir);
+                        info.lightmapIndex = newLightmapsDir.Count;
+                        newLightmapsDir.Add(lightmapdir);
                     }
                 }
-                rendererInfos.Add(info);
+                newRendererInfos.Add(info);
 			}
 		}
 	}

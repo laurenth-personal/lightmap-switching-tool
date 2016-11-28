@@ -10,7 +10,7 @@ public class LightinScenariosInspector : Editor
 
     public void OnEnable()
     {
-        LightingScenarios = serializedObject.FindProperty("LightingScenarios");
+		LightingScenarios = serializedObject.FindProperty("lightingScenarios");
     }
 
     public override void OnInspectorGUI()
@@ -27,9 +27,9 @@ public class LightinScenariosInspector : Editor
 
         var ScenariosCount = new int();
 
-        if ( LightmapData.LightingScenarios != null )
+        if ( LightmapData.lightingScenarios != null )
         {
-            ScenariosCount = LightmapData.LightingScenarios.Length;
+            ScenariosCount = LightmapData.lightingScenarios.Length;
         }
         else
         {
@@ -40,7 +40,7 @@ public class LightinScenariosInspector : Editor
         {
             if (GUILayout.Button("Build Lighting Scenario " + (i+1) ))
             {
-                LightmapData.BuildLightingScenario(LightmapData.LightingScenarios[i]);
+                LightmapData.BuildLightingScenario(LightmapData.lightingScenarios[i]);
                 //LightmapData.StoreLightmapInfos(i);
             }
         }
