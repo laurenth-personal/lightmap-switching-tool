@@ -36,9 +36,14 @@ public class LevelLightmapData : MonoBehaviour
 	[SerializeField]
 	List<LightingScenarioData> lightingScenariosData;
 
+#if UNITY_EDITOR
     [SerializeField]
-    public string[] lightingScenarios;
-    
+	public List<SceneAsset> lightingScenariosScenes;
+#endif
+
+    [SerializeField]
+    public int lightingScenariosCount;
+
     public void LoadLightingScenario(int index)
     {
 		if (lightingScenariosData[index].rendererInfos == null
@@ -167,7 +172,10 @@ public class LevelLightmapData : MonoBehaviour
 		{
 			lightingScenariosData.Insert (index, newLightingScenarioData);
 		}
-        
+
+        lightingScenariosCount = lightingScenariosData.Count;
+
+
     }
 
 	static void GenerateLightmapInfo (GameObject root, List<RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, LightmapsMode newLightmapsMode )
@@ -211,6 +219,8 @@ public class LevelLightmapData : MonoBehaviour
         Lightmapping.lightingDataAsset = null;
 
         Debug.Log("Baking"+ScenarioName);
+
+
         EditorSceneManager.OpenScene("Assets/Scenes/" + ScenarioName + ".unity", OpenSceneMode.Additive);
         EditorSceneManager.SetActiveScene(EditorSceneManager.GetSceneByPath("Assets/Scenes/" + ScenarioName + ".unity"));
         var newLightmapMode = new LightmapsMode();
