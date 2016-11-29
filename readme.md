@@ -17,7 +17,8 @@ How it works :
 - Start playing and when clicking ( left mouse button or Fire1 if you have changed the input assignments ) the lightmaps should switch between your different lighting scenarios.
 
 NEW :
-- Stores also the lightprobes from your StaticGeometry scene ( the number and position of the lightprobes cannot change between lighting scenarios ) 
+- Stores also the lightprobes from your StaticGeometry scene ( the number and position of the lightprobes cannot change between lighting scenarios )
+- Refactor, grouped custom wrappers, renamed variables for consistency and clarity
 
 CHANGES :
 - Default lighting scenario moved to LightingScenarioSwitcher so that the LevelLightmapData does not have any runtime logic, all lightmap switches need to be triggered from the switcher.

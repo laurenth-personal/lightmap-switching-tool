@@ -1,25 +1,23 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 
 [CustomEditor(typeof(LevelLightmapData))]
 public class LightinScenariosInspector : Editor
 {
-    public SerializedProperty LightingScenarios;
+	public SerializedProperty lightingScenariosScenes;
 
     public void OnEnable()
     {
-		LightingScenarios = serializedObject.FindProperty("lightingScenarios");
+		lightingScenariosScenes = serializedObject.FindProperty("lightingScenariosScenes");
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
 
-        LevelLightmapData LightmapData = (LevelLightmapData)target;
+		LevelLightmapData lightmapData = (LevelLightmapData)target;
 
-        EditorGUILayout.PropertyField(LightingScenarios, new GUIContent("Lighting Scenarios"), includeChildren:true);
+		EditorGUILayout.PropertyField(lightingScenariosScenes, new GUIContent("Lighting Scenarios Scenes"), includeChildren:true);
 
         serializedObject.ApplyModifiedProperties();
 
@@ -27,9 +25,9 @@ public class LightinScenariosInspector : Editor
 
         var ScenariosCount = new int();
 
-        if ( LightmapData.lightingScenarios != null )
+        if ( lightmapData.lightingScenariosScenes != null )
         {
-            ScenariosCount = LightmapData.lightingScenarios.Length;
+            ScenariosCount = lightmapData.lightingScenariosScenes.Count;
         }
         else
         {
@@ -38,20 +36,27 @@ public class LightinScenariosInspector : Editor
 
         for (int i = 0; i < ScenariosCount; i++)
         {
-            if (GUILayout.Button("Build Lighting Scenario " + (i+1) ))
+            if ( lightmapData.lightingScenariosScenes[i] != null )
             {
-                LightmapData.BuildLightingScenario(LightmapData.lightingScenarios[i]);
-                //LightmapData.StoreLightmapInfos(i);
+                if (GUILayout.Button("Build " + lightmapData.lightingScenariosScenes[i].name.ToString()))
+                {
+                    lightmapData.BuildLightingScenario(lightmapData.lightingScenariosScenes[i].name.ToString());
+                    //LightmapData.StoreLightmapInfos(i);
+                }
             }
+
         }
 
         EditorGUILayout.Space();
 
         for (int i = 0; i < ScenariosCount; i++)
         {
-            if (GUILayout.Button("Store Lighting Scenario " + (i + 1)))
+            if (lightmapData.lightingScenariosScenes[i] != null)
             {
-                LightmapData.StoreLightmapInfos(i);
+                if (lightmapData.lightingScenariosScenes[i].name != null && GUILayout.Button("Store " + lightmapData.lightingScenariosScenes[i].name.ToString()))
+                {
+                    lightmapData.StoreLightmapInfos(i);
+                }
             }
         }
     }

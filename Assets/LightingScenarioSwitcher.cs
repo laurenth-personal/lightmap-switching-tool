@@ -6,7 +6,7 @@ public class LightingScenarioSwitcher : MonoBehaviour {
 
     private LevelLightmapData LocalLevelLightmapData;
     private int LightingScenarioSelector;
-    private int LightingScenariosCount;
+    private int lightingScenariosCount;
     [SerializeField]
     public int DefaultLightingScenario;
 
@@ -15,7 +15,7 @@ public class LightingScenarioSwitcher : MonoBehaviour {
     {
         LocalLevelLightmapData = FindObjectOfType<LevelLightmapData>();
         LightingScenarioSelector = DefaultLightingScenario;
-        LightingScenariosCount = LocalLevelLightmapData.lightingScenarios.Length;
+        lightingScenariosCount = LocalLevelLightmapData.lightingScenariosCount;
         LocalLevelLightmapData.LoadLightingScenario(DefaultLightingScenario);
         Debug.Log("Load default lighting scenario");
     }
@@ -26,7 +26,7 @@ public class LightingScenarioSwitcher : MonoBehaviour {
         if (Input.GetButtonDown("Fire1"))
         {
             LightingScenarioSelector = LightingScenarioSelector + 1;
-            if (LightingScenarioSelector > (LightingScenariosCount - 1))
+            if (LightingScenarioSelector > (lightingScenariosCount - 1))
             {
                 LightingScenarioSelector = 0;
             }
