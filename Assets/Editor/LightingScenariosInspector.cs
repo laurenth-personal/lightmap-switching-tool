@@ -41,19 +41,8 @@ public class LightinScenariosInspector : Editor
                 if (GUILayout.Button("Build " + lightmapData.lightingScenariosScenes[i].name.ToString()))
                 {
                     lightmapData.BuildLightingScenario(lightmapData.lightingScenariosScenes[i].name.ToString());
-                    //LightmapData.StoreLightmapInfos(i);
                 }
-            }
-
-        }
-
-        EditorGUILayout.Space();
-
-        for (int i = 0; i < ScenariosCount; i++)
-        {
-            if (lightmapData.lightingScenariosScenes[i] != null)
-            {
-                if (lightmapData.lightingScenariosScenes[i].name != null && GUILayout.Button("Store " + lightmapData.lightingScenariosScenes[i].name.ToString()))
+                if (GUILayout.Button("Store " + lightmapData.lightingScenariosScenes[i].name.ToString()))
                 {
                     lightmapData.StoreLightmapInfos(i);
                 }

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
+using System.Collections;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -44,16 +45,19 @@ public class LevelLightmapData : MonoBehaviour
     [SerializeField]
     public int lightingScenariosCount;
 
+    //TODO : enable logs only when verbose enabled
+    public bool verbose = false;
+
     public void LoadLightingScenario(int index)
     {
-		if (lightingScenariosData[index].rendererInfos == null
-			|| lightingScenariosData[index].rendererInfos.Length == 0)
+        if (lightingScenariosData[index].lightmaps == null
+            || lightingScenariosData[index].lightmaps.Length == 0)
         {
-            Debug.Log("empty lighting scenario");
+            Debug.LogWarning("No lightmaps stored in scenario " + index);
             return;
         }
 
-		LightmapSettings.lightmapsMode = lightingScenariosData[index].lightmapsMode;
+        LightmapSettings.lightmapsMode = lightingScenariosData[index].lightmapsMode;
 
 		var newLightmaps = new LightmapData[lightingScenariosData[index].lightmaps.Length];
 
@@ -77,13 +81,27 @@ public class LevelLightmapData : MonoBehaviour
 
     public void ApplyRendererInfo (RendererInfo[] infos)
 	{
-		for (int i=0;i<infos.Length;i++)
-		{
-			var info = infos[i];
-			info.renderer.lightmapIndex = info.lightmapIndex;
-			info.renderer.lightmapScaleOffset = info.lightmapOffsetScale;
-		}
-	}
+        try
+        {
+            for (int i = 0; i < infos.Length; i++)
+            {
+                var info = infos[i];
+                info.renderer.lightmapIndex = infos[i].lightmapIndex;
+                if (!info.renderer.isPartOfStaticBatch)
+                {
+                    info.renderer.lightmapScaleOffset = infos[i].lightmapOffsetScale;
+                }
+                if (info.renderer.isPartOfStaticBatch && verbose == true)
+                {
+                    Debug.Log("Object " + info.renderer.gameObject.name + " is part of static batch, skipping lightmap offset and scale.");
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error in ApplyRendererInfo:" + e.GetType().ToString());
+        }
+    }
 
     public void LoadLightProbes(int index)
     {
@@ -106,14 +124,18 @@ public class LevelLightmapData : MonoBehaviour
             sphericalHarmonicsArray[i] = sphericalHarmonics;
         }
 
-        LightmapSettings.lightProbes.bakedProbes = sphericalHarmonicsArray;
+        try
+        {
+            LightmapSettings.lightProbes.bakedProbes = sphericalHarmonicsArray;
+        }
+        catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + index); }
     }
 
 #if UNITY_EDITOR
 
     public void StoreLightmapInfos(int index)
     {
-        Debug.Log("Storing data for index " + index);
+        Debug.Log("Storing data for lighting scenario " + index);
         if (UnityEditor.Lightmapping.giWorkflowMode != UnityEditor.Lightmapping.GIWorkflowMode.OnDemand)
         {
             Debug.LogError("ExtractLightmapData requires that you have baked you lightmaps and Auto mode is disabled.");
@@ -164,14 +186,14 @@ public class LevelLightmapData : MonoBehaviour
 
 		newLightingScenarioData.lightProbes = newSphericalHarmonicsList.ToArray ();
 
-		if (newLightingScenarioData.rendererInfos.Length < index) 
-		{
-			lightingScenariosData [index] = newLightingScenarioData;
-		} 
-		else 
-		{
-			lightingScenariosData.Insert (index, newLightingScenarioData);
-		}
+        if (lightingScenariosData.Count < index + 1)
+        {
+            lightingScenariosData.Insert(index, newLightingScenarioData);
+        }
+        else
+        {
+            lightingScenariosData[index] = newLightingScenarioData;
+        }
 
         lightingScenariosCount = lightingScenariosData.Count;
 
@@ -218,14 +240,21 @@ public class LevelLightmapData : MonoBehaviour
         //Remove reference to LightingDataAsset so that Unity doesn't delete the previous bake
         Lightmapping.lightingDataAsset = null;
 
-        Debug.Log("Baking"+ScenarioName);
-
+        Debug.Log("Baking" + ScenarioName);
 
         EditorSceneManager.OpenScene("Assets/Scenes/" + ScenarioName + ".unity", OpenSceneMode.Additive);
         EditorSceneManager.SetActiveScene(EditorSceneManager.GetSceneByPath("Assets/Scenes/" + ScenarioName + ".unity"));
+
+        StartCoroutine(BuildLightingAsync(ScenarioName));
+    }
+
+    private IEnumerator BuildLightingAsync(string ScenarioName)
+    {
         var newLightmapMode = new LightmapsMode();
         newLightmapMode = LightmapSettings.lightmapsMode;
-        UnityEditor.Lightmapping.Bake();
+        Lightmapping.BakeAsync();
+        while (Lightmapping.isRunning) { yield return null; }
+        Lightmapping.lightingDataAsset = null;
         EditorSceneManager.SaveScene(EditorSceneManager.GetSceneByPath("Assets/Scenes/" + ScenarioName + ".unity"));
         EditorSceneManager.CloseScene(EditorSceneManager.GetSceneByPath("Assets/Scenes/" + ScenarioName + ".unity"), true);
         LightmapSettings.lightmapsMode = newLightmapMode;

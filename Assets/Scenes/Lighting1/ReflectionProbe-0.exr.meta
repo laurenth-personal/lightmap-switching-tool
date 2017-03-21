@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 85ed71f58c0f3c8478ed4b2574a56ab3
-timeCreated: 1480434164
+timeCreated: 1490031714
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -28,10 +28,13 @@ TextureImporter:
   textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
+    serializedVersion: 2
     filterMode: 2
     aniso: 0
     mipBias: 0
-    wrapMode: 1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 1
   lightmap: 0
   compressionQuality: 50
@@ -63,6 +66,7 @@ TextureImporter:
     serializedVersion: 2
     sprites: []
     outline: []
+    physicsShape: []
   spritePackingTag: 
   userData: 
   assetBundleName: 
