@@ -41,10 +41,12 @@ public class LightinScenariosInspector : Editor
                 if (GUILayout.Button("Build " + lightmapData.lightingScenariosScenes[i].name.ToString()))
                 {
                     lightmapData.BuildLightingScenario(lightmapData.lightingScenariosScenes[i].name.ToString());
+                }
+                if (GUILayout.Button("Store " + lightmapData.lightingScenariosScenes[i].name.ToString()))
+                {
                     lightmapData.StoreLightmapInfos(i);
                 }
             }
-
         }
     }
 }
