@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,8 @@ public class LevelLightmapData : MonoBehaviour
 		public RendererInfo[] rendererInfos;
 		public Texture2D[] lightmaps;
 		public Texture2D[] lightmapsDir;
-		public LightmapsMode lightmapsMode;
+        public Texture2D[] shadowMasks;
+        public LightmapsMode lightmapsMode;
 		public SphericalHarmonics[] lightProbes;
 	}
 
@@ -69,6 +70,11 @@ public class LevelLightmapData : MonoBehaviour
 			if (lightingScenariosData[index].lightmapsMode != LightmapsMode.NonDirectional)
             {
 				newLightmaps[i].lightmapDir = lightingScenariosData[index].lightmapsDir[i];
+            }
+
+            if (lightingScenariosData[index].shadowMasks.Length > 0)
+            {
+                newLightmaps[i].shadowMask = lightingScenariosData[index].shadowMasks[i];
             }
         }
 
@@ -146,12 +152,13 @@ public class LevelLightmapData : MonoBehaviour
         var newRendererInfos = new List<RendererInfo>();
         var newLightmapsTextures = new List<Texture2D>();
         var newLightmapsTexturesDir = new List<Texture2D>();
+        var newLightmapsShadowMasks = new List<Texture2D>();
 		var newLightmapsMode = new LightmapsMode();
 		var newSphericalHarmonicsList = new List<SphericalHarmonics>();
 
 		newLightmapsMode = LightmapSettings.lightmapsMode;
 
-		GenerateLightmapInfo(gameObject, newRendererInfos, newLightmapsTextures, newLightmapsTexturesDir, newLightmapsMode);
+		GenerateLightmapInfo(gameObject, newRendererInfos, newLightmapsTextures, newLightmapsTexturesDir, newLightmapsShadowMasks, newLightmapsMode);
 
 		newLightingScenarioData.lightmapsMode = newLightmapsMode;
 
@@ -161,6 +168,9 @@ public class LevelLightmapData : MonoBehaviour
         {
 			newLightingScenarioData.lightmapsDir = newLightmapsTexturesDir.ToArray();
         }
+
+        if (newLightingScenarioData.shadowMasks.Length > 0)
+            newLightingScenarioData.shadowMasks = newLightmapsShadowMasks.ToArray();
 
 		newLightingScenarioData.rendererInfos = newRendererInfos.ToArray();
 
@@ -200,7 +210,7 @@ public class LevelLightmapData : MonoBehaviour
 
     }
 
-	static void GenerateLightmapInfo (GameObject root, List<RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, LightmapsMode newLightmapsMode )
+	static void GenerateLightmapInfo (GameObject root, List<RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, List<Texture2D> newLightmapsShadow, LightmapsMode newLightmapsMode )
 	{
 		var renderers = FindObjectsOfType(typeof(MeshRenderer));
         Debug.Log("stored info for "+renderers.Length+" meshrenderers");
@@ -228,6 +238,17 @@ public class LevelLightmapData : MonoBehaviour
                     {
                         info.lightmapIndex = newLightmapsDir.Count;
                         newLightmapsDir.Add(lightmapdir);
+                    }
+                }
+
+                if (LightmapSettings.lightmaps[renderer.lightmapIndex].shadowMask != null)
+                {
+                    Texture2D lightmapShadow = LightmapSettings.lightmaps[renderer.lightmapIndex].shadowMask;
+                    info.lightmapIndex = newLightmapsShadow.IndexOf(lightmapShadow);
+                    if (info.lightmapIndex == -1)
+                    {
+                        info.lightmapIndex = newLightmapsShadow.Count;
+                        newLightmapsShadow.Add(lightmapShadow);
                     }
                 }
                 newRendererInfos.Add(info);
