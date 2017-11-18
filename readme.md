@@ -28,7 +28,7 @@ CHANGES :
 
 NOTES : 
 - if you want to use unity versions below 5.5, you should at least change the name of the lightmaps in the LevelLightmapData script ( replace lightmapLight and lightmapDir respectively with lightmapNear and lightmapFar, not tested ).
-- if you want to use lights that don't have direct lighting baked, then you would need to also load the lighting scene associated with the lightmaps when operating the switch.
+- if you want to use lights that use Mixed Bake Mode, then you would need to also load the lighting scene associated with the lightmaps when operating the switch using the SceneManager.
 
 TODO :
 - Include reflection probes
