@@ -64,7 +64,7 @@ public class LevelLightmapData : MonoBehaviour
         for (int i = 0; i < newLightmaps.Length; i++)
         {
             newLightmaps[i] = new LightmapData();
-			newLightmaps[i].lightmapLight = lightingScenariosData[index].lightmaps[i];
+			newLightmaps[i].lightmapColor = lightingScenariosData[index].lightmaps[i];
 
 			if (lightingScenariosData[index].lightmapsMode != LightmapsMode.NonDirectional)
             {
@@ -212,7 +212,7 @@ public class LevelLightmapData : MonoBehaviour
 				info.renderer = renderer;
 				info.lightmapOffsetScale = renderer.lightmapScaleOffset;
 
-				Texture2D lightmaplight = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapLight;
+				Texture2D lightmaplight = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapColor;
                 info.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);
                 if (info.lightmapIndex == -1)
 				{
