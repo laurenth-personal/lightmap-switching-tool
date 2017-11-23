@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 85ed71f58c0f3c8478ed4b2574a56ab3
-timeCreated: 1490031714
-licenseType: Pro
+timeCreated: 1511470157
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     8900000: generatedCubemap
@@ -13,6 +13,8 @@ TextureImporter:
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
