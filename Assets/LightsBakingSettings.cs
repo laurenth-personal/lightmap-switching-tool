@@ -17,7 +17,6 @@ public class LightsBakingSettings : MonoBehaviour
         }
         foreach(Light light in sceneBakedLights)
         {
-            light.alreadyLightmapped = true;
         }
     }
 }

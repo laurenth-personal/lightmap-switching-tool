@@ -58,6 +58,8 @@ public class LevelLightmapData : MonoBehaviour
     //TODO : enable logs only when verbose enabled
     public bool verbose = false;
 
+    private List<SphericalHarmonicsL2[]> lightProbesRuntime = new List<SphericalHarmonicsL2[]>();
+
     public void LoadLightingScenario(int index)
     {
         if(index != currentLightingScenario)
@@ -72,9 +74,7 @@ public class LevelLightmapData : MonoBehaviour
 
             var newLightmaps = LoadLightmaps(index);
 
-            LoadLightProbes(index);
-
-		    ApplyRendererInfo(lightingScenariosData[index].rendererInfos);
+            ApplyRendererInfo(lightingScenariosData[index].rendererInfos);
 
             LightmapSettings.lightmaps = newLightmaps;
 
@@ -82,20 +82,40 @@ public class LevelLightmapData : MonoBehaviour
 
     }
 
-    void MuteBakedLights()
+    private void Start()
     {
-        var sceneLights = FindObjectsOfType<Light>();
-        var sceneBakedLights = new List<Light>();
+        PrepareLightProbeArrays();
+    }
 
-        foreach (Light light in sceneLights)
+    private void PrepareLightProbeArrays()
+    {
+        for (int x = 0; x < lightingScenariosCount; x++)
         {
-            if (light.lightmapBakeType == LightmapBakeType.Baked)
-                sceneBakedLights.Add(light);
+            lightProbesRuntime.Add(DeserializeLightProbes(x));
         }
-        foreach (Light light in sceneBakedLights)
+    }
+
+    private SphericalHarmonicsL2[] DeserializeLightProbes(int index)
+    {
+        var sphericalHarmonicsArray = new SphericalHarmonicsL2[lightingScenariosData[index].lightProbes.Length];
+
+        for (int i = 0; i < lightingScenariosData[index].lightProbes.Length; i++)
         {
-            light.alreadyLightmapped = true;
+            var sphericalHarmonics = new SphericalHarmonicsL2();
+
+            // j is coefficient
+            for (int j = 0; j < 3; j++)
+            {
+                //k is channel ( r g b )
+                for (int k = 0; k < 9; k++)
+                {
+                    sphericalHarmonics[j, k] = lightingScenariosData[index].lightProbes[i].coefficients[j * 9 + k];
+                }
+            }
+
+            sphericalHarmonicsArray[i] = sphericalHarmonics;
         }
+        return sphericalHarmonicsArray;
     }
 
     IEnumerator SwitchSceneCoroutine(string sceneToUnload, string sceneToLoad)
@@ -118,10 +138,11 @@ public class LevelLightmapData : MonoBehaviour
             while ((!loadop.isDone || loadop == null))
             {
                 yield return new WaitForEndOfFrame();
-            }
+            }   
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneToLoad));
         }
-        
-        MuteBakedLights();
+        LoadLightProbes(currentLightingScenario);
+        //MuteBakedLights();
     }
 
     LightmapData[] LoadLightmaps(int index)
@@ -179,28 +200,14 @@ public class LevelLightmapData : MonoBehaviour
 
     public void LoadLightProbes(int index)
     {
-		var sphericalHarmonicsArray = new SphericalHarmonicsL2[lightingScenariosData[index].lightProbes.Length];
-
-		for (int i = 0; i < lightingScenariosData[index].lightProbes.Length; i++)
+        if (Application.isEditor && !Application.isPlaying)
         {
-			var sphericalHarmonics = new SphericalHarmonicsL2();
-
-            // j is coefficient
-            for (int j = 0; j < 3; j++)
-            {
-                //k is channel ( r g b )
-                for (int k = 0; k < 9; k++)
-                {
-					sphericalHarmonics[j, k] = lightingScenariosData[index].lightProbes[i].coefficients[j * 9 + k];
-                }
-            }
-
-            sphericalHarmonicsArray[i] = sphericalHarmonics;
+            PrepareLightProbeArrays();
         }
 
         try
         {
-            LightmapSettings.lightProbes.bakedProbes = sphericalHarmonicsArray;
+            LightmapSettings.lightProbes.bakedProbes = lightProbesRuntime[index];
         }
         catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + index); }
     }
@@ -240,8 +247,7 @@ public class LevelLightmapData : MonoBehaviour
         //Mixed or realtime support
         newLightingScenarioData.hasRealtimeLights = latestBuildHasReltimeLights;
 
-        if (newLightmapsMode != null)
-            newLightingScenarioData.shadowMasks = newLightmapsShadowMasks.ToArray();
+        newLightingScenarioData.shadowMasks = newLightmapsShadowMasks.ToArray();
 
         newLightingScenarioData.rendererInfos = newRendererInfos.ToArray();
 
@@ -369,8 +375,8 @@ public class LevelLightmapData : MonoBehaviour
         newLightmapMode = LightmapSettings.lightmapsMode;
         Lightmapping.BakeAsync();
         while (Lightmapping.isRunning) { yield return null; }
-        EditorSceneManager.SaveScene(EditorSceneManager.GetSceneByPath("Assets/Scenes/" + ScenarioName + ".unity"));
-        Lightmapping.lightingDataAsset = null;
+        //EditorSceneManager.SaveScene(EditorSceneManager.GetSceneByPath("Assets/Scenes/" + ScenarioName + ".unity"));
+        //Lightmapping.lightingDataAsset = null;
         EditorSceneManager.SaveScene(EditorSceneManager.GetSceneByPath("Assets/Scenes/" + ScenarioName + ".unity"));
         EditorSceneManager.CloseScene(EditorSceneManager.GetSceneByPath("Assets/Scenes/" + ScenarioName + ".unity"), true);
         LightmapSettings.lightmapsMode = newLightmapMode;
