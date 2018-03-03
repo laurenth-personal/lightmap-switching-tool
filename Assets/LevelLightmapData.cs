@@ -360,6 +360,7 @@ public class LevelLightmapData : MonoBehaviour
     void SearchLightsNeededRealtime()
     {
         var lights = FindObjectsOfType<Light>();
+        var reflectionProbes = FindObjectsOfType<ReflectionProbe>();
         latestBuildHasReltimeLights = false;
 
         foreach (Light light in lights)
@@ -367,6 +368,8 @@ public class LevelLightmapData : MonoBehaviour
             if (light.lightmapBakeType == LightmapBakeType.Mixed || light.lightmapBakeType == LightmapBakeType.Realtime)
                 latestBuildHasReltimeLights = true;
         }
+        if (reflectionProbes.Length > 0)
+            latestBuildHasReltimeLights = true;
     }
 
     private IEnumerator BuildLightingAsync(string ScenarioName)

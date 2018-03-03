@@ -1,0 +1,15 @@
+﻿<Properties StartupConfiguration="{DC2936F9-8BD8-BB68-DA20-DE785CF5D908}|Unit Tests">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/LevelLightmapData.cs">
+    <Files>
+      <File FileName="Assets/LightingScenarioSwitcher.cs" Line="16" Column="68" />
+      <File FileName="Assets/LevelLightmapData.cs" Line="36" Column="38" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp-Editor PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>

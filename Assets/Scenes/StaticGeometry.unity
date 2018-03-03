@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43359762, g: 0.47037256, b: 0.50652444, a: 1}
+  m_IndirectSpecularColor: {r: 0.43359727, g: 0.47037232, b: 0.5065237, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -77,15 +77,18 @@ LightmapSettings:
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
-    m_PVRFiltering: 0
+    m_PVRFilterTypeDirect: 0
+    m_PVRFilterTypeIndirect: 0
+    m_PVRFilterTypeAO: 0
     m_PVRFilteringMode: 0
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
     m_PVRFilteringGaussRadiusAO: 2
-    m_PVRFilteringAtrousColorSigma: 1
-    m_PVRFilteringAtrousNormalSigma: 1
-    m_PVRFilteringAtrousPositionSigma: 1
+    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
+    m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 112000006, guid: e5c40ec1acd28d042847fc65e0f34a0a,
     type: 2}
   m_UseShadowmask: 1
@@ -108,6 +111,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    debug:
+      m_Flags: 0
   m_NavMeshData: {fileID: 0}
 --- !u!1 &79560294
 GameObject:
@@ -189,6 +194,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -204,6 +210,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -238,7 +245,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 160949652}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.18, y: 0.93, z: -2.89}
+  m_LocalPosition: {x: 7.72, y: 0.93, z: 3.02}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -271,6 +278,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -286,6 +294,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -320,7 +329,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 462247090}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.91, y: 0.93, z: -2.89}
+  m_LocalPosition: {x: -6.07, y: 0.93, z: -0.43}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -394,6 +403,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -409,6 +419,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -443,11 +454,179 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 779719398}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.29400587, y: 1.1032724, z: -0.5168524}
+  m_LocalPosition: {x: -0.29400587, y: 2.5, z: -0.5168524}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &943756089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 943756093}
+  - component: {fileID: 943756092}
+  - component: {fileID: 943756091}
+  - component: {fileID: 943756090}
+  m_Layer: 0
+  m_Name: Cube (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!23 &943756090
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 943756089}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 2f2af3b41b54d5e428c4c26ee8f4b534, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!65 &943756091
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 943756089}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &943756092
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 943756089}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &943756093
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 943756089}
+  m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -3.294, y: 2.5, z: 1.4831}
+  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
+--- !u!1 &968237345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 968237349}
+  - component: {fileID: 968237348}
+  - component: {fileID: 968237347}
+  - component: {fileID: 968237346}
+  m_Layer: 0
+  m_Name: Cube (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!65 &968237346
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 968237345}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &968237347
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 968237345}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: dceff66d337124d2ba8a67a6a09cab2c, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &968237348
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 968237345}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &968237349
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 968237345}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.028, y: -0.07, z: 2.735}
+  m_LocalScale: {x: 3.0562453, y: 0.4999998, z: 4.8171744}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1052615634
 GameObject:
@@ -476,6 +655,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -491,6 +671,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -558,6 +739,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -573,6 +755,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -641,6 +824,174 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1656405770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1656405774}
+  - component: {fileID: 1656405773}
+  - component: {fileID: 1656405772}
+  - component: {fileID: 1656405771}
+  m_Layer: 0
+  m_Name: Cube (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!23 &1656405771
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1656405770}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 2f2af3b41b54d5e428c4c26ee8f4b534, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!65 &1656405772
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1656405770}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1656405773
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1656405770}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1656405774
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1656405770}
+  m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 2.706, y: 2.5, z: 1.4831}
+  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
+--- !u!1 &1686871725
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1686871729}
+  - component: {fileID: 1686871728}
+  - component: {fileID: 1686871727}
+  - component: {fileID: 1686871726}
+  m_Layer: 0
+  m_Name: Cube (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!23 &1686871726
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1686871725}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 2f2af3b41b54d5e428c4c26ee8f4b534, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!65 &1686871727
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1686871725}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1686871728
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1686871725}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1686871729
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1686871725}
+  m_LocalRotation: {x: 0.49999997, y: -0.50000006, z: 0.49999997, w: 0.5000001}
+  m_LocalPosition: {x: -0.306, y: 5.5, z: 1.483}
+  m_LocalScale: {x: 5, y: 7.025425, z: 1.0000005}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 90.00001}
 --- !u!1 &1709437753
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,21 +1019,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311c76c9ffea5554c82aa90000c874ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  latestBuildHasReltimeLights: 0
+  latestBuildHasReltimeLights: 1
   lightingScenariosData:
   - rendererInfos:
+    - renderer: {fileID: 1686871726}
+      lightmapIndex: 0
+      lightmapOffsetScale: {x: 0.1888974, y: 0.1888974, z: 0.7961089, w: -0.0007661237}
     - renderer: {fileID: 160949653}
       lightmapIndex: 0
-      lightmapOffsetScale: {x: 0.062499978, y: 0.062499978, z: 0.171875, w: 0.05649083}
+      lightmapOffsetScale: {x: 0.062499978, y: 0.062499978, z: 0.796875, w: 0.5734429}
     - renderer: {fileID: 462247091}
       lightmapIndex: 0
-      lightmapOffsetScale: {x: 0.062499978, y: 0.062499978, z: 0.171875, w: 0}
+      lightmapOffsetScale: {x: 0.062499978, y: 0.062499978, z: 0.9140625, w: 0.49143508}
     - renderer: {fileID: 779719399}
       lightmapIndex: 0
-      lightmapOffsetScale: {x: 0.1574145, y: 0.1574145, z: -0.0006384364, w: -0.0006384364}
+      lightmapOffsetScale: {x: 0.1574145, y: 0.1574145, z: 0.7962366, w: 0.25529185}
+    - renderer: {fileID: 943756090}
+      lightmapIndex: 0
+      lightmapOffsetScale: {x: 0.1574145, y: 0.1574145, z: 0.7962366, w: 0.37304425}
+    - renderer: {fileID: 968237347}
+      lightmapIndex: 0
+      lightmapOffsetScale: {x: 0.10231943, y: 0.10231943, z: 0.79646003, w: 0.49102008}
+    - renderer: {fileID: 1656405771}
+      lightmapIndex: 0
+      lightmapOffsetScale: {x: 0.1574145, y: 0.1574145, z: 0.7962366, w: 0.13753943}
     - renderer: {fileID: 1972097390}
       lightmapIndex: 0
-      lightmapOffsetScale: {x: 0.78125, y: 0.78125, z: 0, w: 0.1177524}
+      lightmapOffsetScale: {x: 0.78125, y: 0.78125, z: 0, w: 0}
     lightmaps:
     - {fileID: 2800000, guid: 87273c7186ded6640b9c3343382e3ac6, type: 3}
     lightmapsDir:
@@ -691,455 +1054,458 @@ MonoBehaviour:
     lightmapsMode: 1
     lightProbes:
     - coefficients:
-      - 0.5501236
-      - 0.17364268
-      - -0.27208143
-      - 0.07969462
-      - -0.010420896
-      - -0.39665273
-      - 0.10949355
-      - 0.18164627
-      - -0.011786318
-      - 0.5651384
-      - 0.17869604
-      - -0.26202953
-      - 0.08661366
-      - -0.008582017
-      - -0.3679951
-      - 0.1029739
-      - 0.18360034
-      - 0.0020165462
-      - 0.5671579
-      - 0.18653388
-      - -0.21652587
-      - 0.098950945
-      - -0.003956982
-      - -0.29388514
-      - 0.08356501
-      - 0.1827919
-      - 0.02162329
+      - 0.4959213
+      - 0.18940489
+      - -0.3474283
+      - -0.0390428
+      - -0.030677535
+      - -0.38614568
+      - 0.101257585
+      - 0.037684374
+      - -0.048360325
+      - 0.5045243
+      - 0.19009323
+      - -0.3449682
+      - -0.03419407
+      - -0.027630856
+      - -0.3638697
+      - 0.09431049
+      - 0.036998693
+      - -0.03479632
+      - 0.4922583
+      - 0.1865804
+      - -0.31701002
+      - -0.023815686
+      - -0.020742096
+      - -0.30502832
+      - 0.073857784
+      - 0.032606818
+      - -0.014694513
     - coefficients:
-      - 0.49768555
-      - 0.17352852
-      - -0.3254165
-      - 0.017249288
-      - -0.025697144
-      - -0.40816545
-      - 0.11171289
-      - 0.11486668
-      - -0.034109138
-      - 0.5193076
-      - 0.17903821
-      - -0.305975
-      - 0.022358263
-      - -0.023927007
-      - -0.37681675
-      - 0.10669672
-      - 0.115765125
-      - -0.019668596
-      - 0.5333357
-      - 0.18708706
-      - -0.24408129
-      - 0.031478003
-      - -0.01941509
-      - -0.29752648
-      - 0.08993241
-      - 0.11216071
-      - 0.00019887566
+      - 0.46592095
+      - 0.18235798
+      - -0.37502918
+      - -0.03341007
+      - -0.029278422
+      - -0.40238616
+      - 0.101388544
+      - 0.040986825
+      - -0.04404795
+      - 0.48090726
+      - 0.18575628
+      - -0.3649324
+      - -0.027782254
+      - -0.026431862
+      - -0.3764338
+      - 0.094716825
+      - 0.04252174
+      - -0.029794967
+      - 0.48239926
+      - 0.18851055
+      - -0.32133582
+      - -0.016937459
+      - -0.019865334
+      - -0.3088656
+      - 0.07465777
+      - 0.04081701
+      - -0.009649399
     - coefficients:
-      - 0.55107296
-      - 0.23384255
-      - -0.29304856
-      - 0.04001214
-      - 0.032980915
-      - -0.31461254
-      - 0.1018804
-      - 0.12176416
-      - -0.04414457
-      - 0.55888104
-      - 0.23503323
-      - -0.28462124
-      - 0.045669347
-      - 0.035473503
-      - -0.2916159
-      - 0.096052766
-      - 0.124607176
-      - -0.033646263
-      - 0.5506398
-      - 0.23269427
-      - -0.24479505
-      - 0.057967972
-      - 0.0419234
-      - -0.23159982
-      - 0.07736661
-      - 0.1263433
-      - -0.016602166
+      - 0.49880534
+      - 0.20119452
+      - -0.360152
+      - -0.037331954
+      - -0.035518434
+      - -0.36301905
+      - 0.09934717
+      - 0.03925724
+      - -0.05102192
+      - 0.5057224
+      - 0.20169526
+      - -0.3561705
+      - -0.031902112
+      - -0.03211652
+      - -0.34221935
+      - 0.092668734
+      - 0.03894318
+      - -0.038572893
+      - 0.49264032
+      - 0.19553027
+      - -0.32488084
+      - -0.020763498
+      - -0.023615066
+      - -0.28896937
+      - 0.07306366
+      - 0.035250522
+      - -0.018670162
     - coefficients:
-      - 0.4925043
-      - 0.2001635
-      - -0.34237927
-      - 0.0018534414
-      - -0.009252211
-      - -0.36427125
-      - 0.10676483
-      - 0.08746617
-      - -0.042866517
-      - 0.5076841
-      - 0.2021074
-      - -0.32932037
-      - 0.006666585
-      - -0.006834263
-      - -0.33850682
-      - 0.101137735
-      - 0.087368965
-      - -0.03116703
-      - 0.51363796
-      - 0.20215854
-      - -0.27842197
-      - 0.016319077
-      - -0.00096415856
-      - -0.27126864
-      - 0.082980074
-      - 0.08369724
-      - -0.013541037
+      - 0.4689553
+      - 0.19069903
+      - -0.38152233
+      - -0.033191364
+      - -0.03227826
+      - -0.38236043
+      - 0.10062016
+      - 0.040404335
+      - -0.04716604
+      - 0.48169485
+      - 0.19221996
+      - -0.37269357
+      - -0.027585946
+      - -0.028846197
+      - -0.3589193
+      - 0.09408789
+      - 0.04125909
+      - -0.0337457
+      - 0.48141593
+      - 0.190279
+      - -0.33034185
+      - -0.016771723
+      - -0.02086828
+      - -0.29812998
+      - 0.074497804
+      - 0.038982566
+      - -0.013173452
     - coefficients:
-      - 0.50754553
-      - 0.17334795
-      - -0.33968765
-      - 0.054221075
-      - -0.03170785
-      - -0.4083397
-      - 0.09706212
-      - 0.118225
-      - -0.018039955
-      - 0.5216531
-      - 0.17791677
-      - -0.3314981
-      - 0.054271806
-      - -0.029974846
-      - -0.38018596
-      - 0.09015906
-      - 0.11227845
-      - -0.004408692
-      - 0.5224382
-      - 0.18487252
-      - -0.28877127
-      - 0.05631418
-      - -0.02467701
-      - -0.30683547
-      - 0.07016676
-      - 0.099875264
-      - 0.01504179
+      - 0.4968727
+      - 0.1918072
+      - -0.34597117
+      - -0.020488111
+      - -0.029292574
+      - -0.38458335
+      - 0.10141957
+      - 0.051625997
+      - -0.047979742
+      - 0.5049932
+      - 0.19245122
+      - -0.3442738
+      - -0.02059439
+      - -0.027253347
+      - -0.3623122
+      - 0.09446707
+      - 0.047066983
+      - -0.034663975
+      - 0.49187714
+      - 0.18880007
+      - -0.31759655
+      - -0.019408712
+      - -0.022245383
+      - -0.3034964
+      - 0.07402055
+      - 0.035767946
+      - -0.014812328
     - coefficients:
-      - 0.4741531
-      - 0.17390086
-      - -0.36864612
-      - 0.004754688
-      - -0.029995663
-      - -0.41209814
-      - 0.09974837
-      - 0.087386206
-      - -0.033539552
-      - 0.49524814
-      - 0.17958541
-      - -0.3499301
-      - 0.0059432033
-      - -0.02819652
-      - -0.38090962
-      - 0.09447871
-      - 0.08226421
-      - -0.018965138
-      - 0.5084258
-      - 0.1880471
-      - -0.28920186
-      - 0.010291875
-      - -0.02342632
-      - -0.30166507
-      - 0.07738607
-      - 0.07119442
-      - 0.0011195111
+      - 0.46553126
+      - 0.18336795
+      - -0.37508738
+      - -0.024515942
+      - -0.028196603
+      - -0.40136597
+      - 0.10156091
+      - 0.05075888
+      - -0.044121496
+      - 0.47986725
+      - 0.18668932
+      - -0.36622334
+      - -0.024272198
+      - -0.026591437
+      - -0.3755783
+      - 0.09461367
+      - 0.045198213
+      - -0.029920844
+      - 0.48005354
+      - 0.18916228
+      - -0.32497844
+      - -0.021927616
+      - -0.022633953
+      - -0.30853853
+      - 0.07407246
+      - 0.032536987
+      - -0.0098612625
     - coefficients:
-      - 0.51073265
-      - 0.21391325
-      - -0.33853146
-      - 0.039014447
-      - 0.0074578733
-      - -0.3557814
-      - 0.09747702
-      - 0.09792694
-      - -0.038386982
-      - 0.51689625
-      - 0.21455316
-      - -0.33201343
-      - 0.042113304
-      - 0.009089574
-      - -0.33385646
-      - 0.09135756
-      - 0.09202491
-      - -0.028104046
-      - 0.5057117
-      - 0.21070717
-      - -0.29547223
-      - 0.048345592
-      - 0.01287097
-      - -0.27634242
-      - 0.07225597
-      - 0.07909627
-      - -0.01125739
+      - 0.49773213
+      - 0.20576996
+      - -0.36038792
+      - -0.021406295
+      - -0.025706416
+      - -0.3604433
+      - 0.09927845
+      - 0.05095567
+      - -0.050966356
+      - 0.5037405
+      - 0.20596503
+      - -0.35726488
+      - -0.01959695
+      - -0.023757238
+      - -0.3399619
+      - 0.0926094
+      - 0.04829686
+      - -0.03894971
+      - 0.48927274
+      - 0.1991572
+      - -0.32714748
+      - -0.0155745
+      - -0.019236704
+      - -0.28740993
+      - 0.07302412
+      - 0.039751906
+      - -0.01959433
     - coefficients:
-      - 0.47058135
-      - 0.19135457
-      - -0.37427366
-      - -0.0037665325
-      - -0.016749324
-      - -0.38580784
-      - 0.09986483
-      - 0.07669604
-      - -0.040660743
-      - 0.48500392
-      - 0.19357789
-      - -0.3623799
-      - -0.0017508772
-      - -0.015122928
-      - -0.36021045
-      - 0.09391928
-      - 0.07273962
-      - -0.028751994
-      - 0.48981798
-      - 0.1941938
-      - -0.31336358
-      - 0.003753603
-      - -0.010931225
-      - -0.29343846
-      - 0.07525005
-      - 0.06267469
-      - -0.010515231
+      - 0.4683835
+      - 0.19271955
+      - -0.38121358
+      - -0.024276398
+      - -0.026026716
+      - -0.3807336
+      - 0.10063463
+      - 0.05139084
+      - -0.047208454
+      - 0.48070273
+      - 0.1938208
+      - -0.37337872
+      - -0.0231811
+      - -0.024375478
+      - -0.35773313
+      - 0.093908936
+      - 0.047175482
+      - -0.033824746
+      - 0.4794922
+      - 0.19099085
+      - -0.33296776
+      - -0.02013406
+      - -0.020396302
+      - -0.2980696
+      - 0.07400456
+      - 0.035726566
+      - -0.013332946
     - coefficients:
-      - 0.48153797
-      - 0.24179928
-      - -0.47291014
-      - 0.13252938
-      - -0.027629038
-      - -0.42862895
-      - 0.0944455
-      - -0.126538
-      - 0.014007147
-      - 0.5049218
-      - 0.24090397
-      - -0.42842904
-      - 0.13707112
-      - -0.023486122
-      - -0.3933206
-      - 0.089037
-      - -0.13409635
-      - 0.026708039
-      - 0.52599674
-      - 0.23362966
-      - -0.33513013
-      - 0.1435709
-      - -0.013890612
-      - -0.3086187
-      - 0.07169531
-      - -0.14717764
-      - 0.043133117
+      - 0.1363356
+      - 0.025340179
+      - 0.00043283642
+      - 0.03017674
+      - 0.0015142154
+      - -0.0054711318
+      - 0.010219258
+      - -0.024090689
+      - 0.00931928
+      - 0.15553008
+      - 0.029655
+      - 0.020257581
+      - 0.026748378
+      - 0.000049514507
+      - 0.0027898534
+      - 0.015105968
+      - -0.026562722
+      - 0.011471424
+      - 0.18280211
+      - 0.038675986
+      - 0.049405266
+      - 0.0222242
+      - -0.0028636805
+      - 0.018881707
+      - 0.02119245
+      - -0.029669208
+      - 0.012937497
     - coefficients:
-      - 0.2493424
-      - 0.0033361407
-      - 0.020454291
-      - 0.24641441
-      - 0.029424842
-      - -0.020503303
-      - -0.029175345
-      - -0.07034478
-      - 0.11934328
-      - 0.2862756
-      - 0.01815829
-      - 0.039213706
-      - 0.24773207
-      - 0.030968674
-      - -0.012969853
-      - -0.02786946
-      - -0.07117365
-      - 0.124523014
-      - 0.344592
-      - 0.051988963
-      - 0.06419587
-      - 0.24801433
-      - 0.03437395
-      - 0.0015313622
-      - -0.028231919
-      - -0.07225609
-      - 0.12634398
+      - 0.15719208
+      - 0.027414765
+      - -0.016955366
+      - 0.033717744
+      - 0.0026187326
+      - 0.008153635
+      - 0.012348521
+      - 0.0029121158
+      - 0.0032988477
+      - 0.17117281
+      - 0.029145865
+      - -0.0067913053
+      - 0.03140581
+      - 0.0014325357
+      - 0.012513304
+      - 0.016682483
+      - -0.000886206
+      - 0.00431358
+      - 0.18956941
+      - 0.03185787
+      - 0.0072535193
+      - 0.027598966
+      - -0.0005925017
+      - 0.020523138
+      - 0.022129444
+      - -0.004849141
+      - 0.005215061
     - coefficients:
-      - 0.1939555
-      - 0.06679283
-      - -0.048972614
-      - 0.11208414
-      - 0.07772497
-      - -0.06629932
-      - 0.00231864
-      - -0.099839985
-      - 0.034701195
-      - 0.23783997
-      - 0.08351397
-      - -0.03579153
-      - 0.114376925
-      - 0.079397805
-      - -0.06380727
-      - 0.0038785355
-      - -0.1033823
-      - 0.04145547
-      - 0.31336948
-      - 0.118559115
-      - -0.019696254
-      - 0.11751926
-      - 0.083106406
-      - -0.05927484
-      - 0.0042561633
-      - -0.10967156
-      - 0.045557782
+      - 0.11303965
+      - 0.0048575657
+      - 0.011863951
+      - 0.013354095
+      - -0.0057413527
+      - -0.0052018072
+      - 0.0069756345
+      - -0.008630064
+      - -0.009132853
+      - 0.13194236
+      - 0.011992878
+      - 0.031515814
+      - 0.01022045
+      - -0.007590702
+      - 0.0031242317
+      - 0.011612722
+      - -0.011255399
+      - -0.007689141
+      - 0.16109669
+      - 0.025390748
+      - 0.061161462
+      - 0.0058781668
+      - -0.011527542
+      - 0.020823224
+      - 0.017655402
+      - -0.014699726
+      - -0.007172256
     - coefficients:
-      - 0.20524323
-      - 0.09303964
-      - 0.021766607
-      - 0.159922
-      - 0.14338665
-      - -0.025884064
-      - -0.02331665
-      - -0.033820644
-      - 0.036187064
-      - 0.24050258
-      - 0.106230974
-      - 0.042741627
-      - 0.1619883
-      - 0.14483029
-      - -0.018296525
-      - -0.021600693
-      - -0.03469621
-      - 0.041964833
-      - 0.29857147
-      - 0.13242206
-      - 0.07388351
-      - 0.16451335
-      - 0.14791977
-      - -0.0016226016
-      - -0.020731376
-      - -0.0361079
-      - 0.04669451
+      - 0.117236726
+      - 0.008338387
+      - 0.009645987
+      - 0.008838171
+      - 0.0013060286
+      - -0.0020210235
+      - 0.004768226
+      - -0.0012362938
+      - -0.011373171
+      - 0.13172291
+      - 0.013106782
+      - 0.020438334
+      - 0.006155951
+      - 0.00025932002
+      - 0.0032779474
+      - 0.009147245
+      - -0.0053259158
+      - -0.010649401
+      - 0.15287924
+      - 0.021608017
+      - 0.036575586
+      - 0.0017390727
+      - -0.0022054857
+      - 0.013749325
+      - 0.014996529
+      - -0.010097838
+      - -0.0101810135
     - coefficients:
-      - 0.43134847
-      - 0.24254672
-      - -0.39714265
-      - 0.04485117
-      - -0.013360043
-      - -0.41752684
-      - 0.08303511
-      - -0.017040672
-      - 0.0051669492
-      - 0.45411545
-      - 0.24131519
-      - -0.35144296
-      - 0.046585817
-      - -0.012358097
-      - -0.3817157
-      - 0.077270225
-      - -0.01841625
-      - 0.017786337
-      - 0.47425646
-      - 0.23350175
-      - -0.25630972
-      - 0.052560784
-      - -0.009601342
-      - -0.29633227
-      - 0.05950107
-      - -0.025139173
-      - 0.033996932
+      - 0.11377115
+      - 0.022092557
+      - 0.022615947
+      - 0.025024947
+      - 0.007133922
+      - 0.00053814414
+      - 0.01025497
+      - -0.012982822
+      - 0.018986871
+      - 0.13359603
+      - 0.02730802
+      - 0.04335278
+      - 0.027427772
+      - 0.007706137
+      - 0.009798077
+      - 0.015432193
+      - -0.011423922
+      - 0.021639304
+      - 0.16136144
+      - 0.03805856
+      - 0.07400136
+      - 0.03058359
+      - 0.00893949
+      - 0.027809475
+      - 0.021815129
+      - -0.008984688
+      - 0.02383137
     - coefficients:
-      - 0.18277425
-      - -0.0029458182
-      - 0.050356515
-      - 0.11087451
-      - 0.0178979
-      - -0.010714092
-      - -0.013452265
-      - -0.02189865
-      - 0.07763387
-      - 0.2191868
-      - 0.011655278
-      - 0.069780156
-      - 0.11104532
-      - 0.016753457
-      - -0.003216942
-      - -0.012007383
-      - -0.020787299
-      - 0.08236214
-      - 0.27676833
-      - 0.044855684
-      - 0.096007265
-      - 0.11149962
-      - 0.014374789
-      - 0.011156366
-      - -0.012105697
-      - -0.018747931
-      - 0.08346339
+      - 0.11258229
+      - 0.018267652
+      - 0.0121982675
+      - 0.031019285
+      - 0.007744238
+      - 0.012269053
+      - 0.008106749
+      - -0.00002389215
+      - 0.011880114
+      - 0.12763245
+      - 0.019735336
+      - 0.022095442
+      - 0.032803502
+      - 0.0083628865
+      - 0.017716203
+      - 0.013043745
+      - 0.0025880868
+      - 0.013103779
+      - 0.1467196
+      - 0.022569623
+      - 0.036134392
+      - 0.034519967
+      - 0.009154541
+      - 0.02741076
+      - 0.019070694
+      - 0.00611558
+      - 0.014211388
     - coefficients:
-      - 0.14678779
-      - 0.04083561
-      - 0.0012376284
-      - 0.051455896
-      - 0.04040791
-      - -0.019054482
-      - -0.00095763046
-      - -0.039505545
-      - 0.04332722
-      - 0.19063285
-      - 0.057114806
-      - 0.014983729
-      - 0.04947275
-      - 0.03908363
-      - -0.016300043
-      - 0.0004609172
-      - -0.035528
-      - 0.050339296
-      - 0.26543978
-      - 0.09117983
-      - 0.03309982
-      - 0.04666925
-      - 0.035935067
-      - -0.011057522
-      - 0.0004672
-      - -0.029029932
-      - 0.054718092
+      - 0.07361716
+      - 0.050574567
+      - 0.022038274
+      - 0.012850251
+      - 0.010211337
+      - -0.002579008
+      - 0.007360656
+      - -0.0055581573
+      - 0.008256912
+      - 0.0914895
+      - 0.06020591
+      - 0.04243742
+      - 0.015076625
+      - 0.011268567
+      - 0.0065419064
+      - 0.011950498
+      - -0.0037747913
+      - 0.010354094
+      - 0.11794717
+      - 0.0785824
+      - 0.073249854
+      - 0.018592633
+      - 0.013468951
+      - 0.026116192
+      - 0.017693201
+      - -0.0011125705
+      - 0.011992367
     - coefficients:
-      - 0.14006647
-      - 0.04809253
-      - 0.03897599
-      - 0.08088346
-      - 0.062751815
-      - -0.0014950517
-      - -0.010212753
-      - -0.01407997
-      - 0.04510843
-      - 0.17502877
-      - 0.061024882
-      - 0.060252234
-      - 0.080240324
-      - 0.062207803
-      - 0.006365386
-      - -0.00845128
-      - -0.012598995
-      - 0.05084277
-      - 0.23261735
-      - 0.08658416
-      - 0.09191769
-      - 0.07906116
-      - 0.060734604
-      - 0.023647565
-      - -0.0075029423
-      - -0.009859144
-      - 0.055547375
+      - 0.08415927
+      - 0.027535325
+      - 0.007961843
+      - 0.018423457
+      - 0.009234858
+      - 0.017684085
+      - 0.004094089
+      - 0.00042755384
+      - 0.0014045074
+      - 0.09875156
+      - 0.033354763
+      - 0.018365644
+      - 0.02001435
+      - 0.010057091
+      - 0.023755735
+      - 0.008856925
+      - 0.0028966297
+      - 0.0023203504
+      - 0.119642496
+      - 0.043539498
+      - 0.03358207
+      - 0.02205134
+      - 0.011273447
+      - 0.036401343
+      - 0.015034417
+      - 0.0067540603
+      - 0.0030537446
     hasRealtimeLights: 1
   - rendererInfos:
+    - renderer: {fileID: 1686871726}
+      lightmapIndex: 0
+      lightmapOffsetScale: {x: 0.1888974, y: 0.1888974, z: 0.7961089, w: 0.11698628}
     - renderer: {fileID: 160949653}
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.062499978, y: 0.062499978, z: 0.171875, w: 0.05649083}
@@ -1149,6 +1515,15 @@ MonoBehaviour:
     - renderer: {fileID: 779719399}
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.1574145, y: 0.1574145, z: -0.0006384364, w: -0.0006384364}
+    - renderer: {fileID: 943756090}
+      lightmapIndex: 0
+      lightmapOffsetScale: {x: 0.1574145, y: 0.1574145, z: 0.24936156, w: -0.0006384364}
+    - renderer: {fileID: 968237347}
+      lightmapIndex: 0
+      lightmapOffsetScale: {x: 0.10231943, y: 0.10231943, z: 0.59333503, w: -0.0004149837}
+    - renderer: {fileID: 1656405771}
+      lightmapIndex: 0
+      lightmapOffsetScale: {x: 0.1574145, y: 0.1574145, z: 0.42123657, w: -0.0006384364}
     - renderer: {fileID: 1972097390}
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.78125, y: 0.78125, z: 0, w: 0.1177524}
@@ -1161,467 +1536,479 @@ MonoBehaviour:
     lightmapsMode: 1
     lightProbes:
     - coefficients:
-      - 0.02192852
-      - 0.007357068
-      - -0.0036482664
-      - 0.00023361789
-      - 0.0001969127
-      - -0.00030638234
-      - 0.00022041696
-      - -0.0008442953
-      - 0.0029017401
-      - 0.031285714
-      - 0.011653396
-      - -0.004807515
-      - 0.00020836052
-      - 0.00011321914
-      - -0.00059037196
-      - 0.00020716645
-      - -0.0015756467
-      - 0.003765586
-      - 0.04756124
-      - 0.019364417
-      - -0.0066391244
-      - -0.00008841506
-      - -0.00040221695
-      - -0.0005813206
-      - 0.000015710448
-      - -0.0026349192
-      - 0.0047019906
+      - 0.019684475
+      - 0.0056021013
+      - -0.006011916
+      - 0.0005481346
+      - 0.0008216042
+      - -0.0025947767
+      - 0.00007889946
+      - -0.0005977094
+      - 0.0028259854
+      - 0.028014792
+      - 0.008689928
+      - -0.008376006
+      - 0.0008999451
+      - 0.0010309329
+      - -0.0042062514
+      - -0.000008785055
+      - -0.0010920833
+      - 0.0037282906
+      - 0.042358093
+      - 0.014157642
+      - -0.012419755
+      - 0.0012986223
+      - 0.0010927268
+      - -0.0066355923
+      - -0.00031393982
+      - -0.0017293363
+      - 0.0048335325
     - coefficients:
-      - 0.023959082
-      - 0.0077115847
-      - -0.0015760182
-      - -0.00081137754
-      - -0.00039759144
-      - 0.0014682823
-      - 0.0005334023
-      - -0.00207408
-      - 0.0028934705
-      - 0.034112766
-      - 0.012417637
-      - -0.0016077892
-      - -0.0012986206
-      - -0.0008218765
-      - 0.0019372525
-      - 0.00066769705
-      - -0.0033076887
-      - 0.0038043377
-      - 0.051774114
-      - 0.02057503
-      - -0.0015747559
-      - -0.002365519
-      - -0.0017523705
-      - 0.003066265
-      - 0.0007132519
-      - -0.0051880768
-      - 0.0048481543
+      - 0.021978358
+      - 0.006216388
+      - -0.004741143
+      - -0.000429251
+      - 0.0005954282
+      - -0.0006178764
+      - 0.00012176699
+      - -0.0016489553
+      - 0.0032436235
+      - 0.031272918
+      - 0.010008558
+      - -0.0063199536
+      - -0.00051032833
+      - 0.00051924994
+      - -0.0012679978
+      - 0.000035071324
+      - -0.0026556107
+      - 0.0043245326
+      - 0.047386307
+      - 0.016841738
+      - -0.008742416
+      - -0.0008682574
+      - 0.000088658395
+      - -0.0020061268
+      - -0.00032348995
+      - -0.0039519914
+      - 0.0055356147
     - coefficients:
-      - 0.01779397
-      - 0.0068756985
-      - -0.004864182
-      - 0.00021126404
-      - 0.0005107144
-      - -0.0023644343
-      - 0.0002680695
-      - -0.0001300521
-      - 0.0018563007
-      - 0.025934137
-      - 0.010226994
-      - -0.0072442875
-      - 0.00028919472
-      - 0.00062072324
-      - -0.0036871978
-      - 0.00030147645
-      - -0.0004492468
-      - 0.0025286162
-      - 0.04013148
-      - 0.01614998
-      - -0.011065642
-      - 0.00026316202
-      - 0.00058479427
-      - -0.005693998
-      - 0.00018963154
-      - -0.0007867479
-      - 0.003224314
+      - 0.017821617
+      - 0.0068679857
+      - -0.0057099834
+      - 0.00094125
+      - 0.00041384887
+      - -0.0029233075
+      - -0.000016042643
+      - -0.00064198027
+      - 0.0022223443
+      - 0.026105605
+      - 0.0101752635
+      - -0.008385896
+      - 0.0014521402
+      - 0.00057257205
+      - -0.0044919127
+      - -0.000082412735
+      - -0.001035034
+      - 0.0031497185
+      - 0.04029749
+      - 0.01586462
+      - -0.012820432
+      - 0.002049912
+      - 0.0006487492
+      - -0.007076496
+      - -0.00034071587
+      - -0.0015354643
+      - 0.004315437
     - coefficients:
-      - 0.02126777
-      - 0.006732411
-      - -0.0040214635
-      - -0.0007371886
-      - 0.0002717579
-      - -0.00041307122
-      - 0.00010485481
-      - -0.001668202
-      - 0.0020144086
-      - 0.03072999
-      - 0.010815236
-      - -0.005512999
-      - -0.0008460015
-      - 0.000028566847
-      - -0.000874998
-      - 0.00008755759
-      - -0.002485903
-      - 0.0028559861
-      - 0.047297534
-      - 0.017915407
-      - -0.0077285245
-      - -0.0013018204
-      - -0.00059999333
-      - -0.0013446601
-      - -0.000105641164
-      - -0.0037062431
-      - 0.0037665428
+      - 0.019942515
+      - 0.006985442
+      - -0.004762232
+      - -0.00020407964
+      - 0.00040755278
+      - -0.001608214
+      - -0.00005909569
+      - -0.00081228255
+      - 0.0026376015
+      - 0.028964302
+      - 0.0105730295
+      - -0.006881831
+      - -0.00020293717
+      - 0.0002843332
+      - -0.0027465133
+      - -0.00019731691
+      - -0.0015298143
+      - 0.0037082527
+      - 0.04464645
+      - 0.016817207
+      - -0.01020039
+      - -0.00043781835
+      - -0.00010248219
+      - -0.0044434248
+      - -0.00057964923
+      - -0.002550721
+      - 0.005040039
     - coefficients:
-      - 0.022591483
-      - 0.006966862
-      - -0.0039555943
-      - -0.0012449168
-      - -0.00020236918
-      - 0.000008508624
-      - 0.0002150136
-      - -0.0030551828
-      - 0.0030545376
-      - 0.032183032
-      - 0.011264033
-      - -0.0051635215
-      - -0.0016263525
-      - -0.0006714598
-      - -0.00016497729
-      - 0.00021808472
-      - -0.004540078
-      - 0.0040597385
-      - 0.0487344
-      - 0.019008389
-      - -0.006997481
-      - -0.0026792707
-      - -0.0015782024
-      - -0.000054568893
-      - 0.000014605171
-      - -0.006791992
-      - 0.005186648
+      - 0.020266261
+      - 0.005406951
+      - -0.005948505
+      - -0.0010203286
+      - 0.00021872252
+      - -0.0022039486
+      - -0.000006750679
+      - -0.0018047665
+      - 0.0028748806
+      - 0.028758304
+      - 0.008602233
+      - -0.0082010105
+      - -0.001227511
+      - -0.000015498335
+      - -0.0037383498
+      - -0.00013645216
+      - -0.0027554624
+      - 0.0038730619
+      - 0.04334564
+      - 0.01422448
+      - -0.012078775
+      - -0.0018934548
+      - -0.0005383526
+      - -0.006040902
+      - -0.00051083346
+      - -0.004206108
+      - 0.005136034
     - coefficients:
-      - 0.024332829
-      - 0.0073048226
-      - -0.0018112336
-      - -0.001374302
-      - -0.0004975008
-      - 0.0015569968
-      - 0.00066449353
-      - -0.003588679
-      - 0.0029960196
-      - 0.034620892
-      - 0.011932094
-      - -0.0019198824
-      - -0.0019559811
-      - -0.0009914275
-      - 0.0021150345
-      - 0.00087138935
-      - -0.0053417594
-      - 0.003983449
-      - 0.052438855
-      - 0.020016233
-      - -0.0018979748
-      - -0.0032947436
-      - -0.0020030504
-      - 0.0033194558
-      - 0.0009917468
-      - -0.008005731
-      - 0.005106842
+      - 0.022543995
+      - 0.0056300056
+      - -0.0053038714
+      - -0.0015163546
+      - 0.000076324824
+      - -0.0003915354
+      - 0.00016590301
+      - -0.002805217
+      - 0.0029455174
+      - 0.031810295
+      - 0.009335681
+      - -0.007236281
+      - -0.0019226322
+      - -0.00023266008
+      - -0.00112891
+      - 0.00010488925
+      - -0.004094929
+      - 0.00400035
+      - 0.047901742
+      - 0.01602281
+      - -0.010088056
+      - -0.0029517459
+      - -0.00095028384
+      - -0.0020525744
+      - -0.00024622172
+      - -0.0060928618
+      - 0.0052168984
     - coefficients:
-      - 0.018948097
-      - 0.005922617
-      - -0.0051129176
-      - -0.0007012396
-      - 0.00024008946
-      - -0.0018724698
-      - 0.00006673384
-      - -0.0028103148
-      - 0.0016896155
-      - 0.027261429
-      - 0.009483594
-      - -0.0073207174
-      - -0.0007496862
-      - 0.000038789876
-      - -0.0030602177
-      - 0.00006778981
-      - -0.004090498
-      - 0.0023702926
-      - 0.041710995
-      - 0.015703062
-      - -0.010878981
-      - -0.0011142484
-      - -0.0005294555
-      - -0.004875482
-      - -0.00009956676
-      - -0.0060922317
-      - 0.00308299
+      - 0.018544562
+      - 0.006506748
+      - -0.0059508663
+      - -0.00045689993
+      - -0.000018976825
+      - -0.0025583429
+      - -0.00006256033
+      - -0.0013435279
+      - 0.0023628287
+      - 0.026965633
+      - 0.009851478
+      - -0.008568429
+      - -0.00047070047
+      - -0.00022655161
+      - -0.0041079754
+      - -0.00016471064
+      - -0.0021103977
+      - 0.0033521776
+      - 0.041373778
+      - 0.015625784
+      - -0.012917411
+      - -0.0008259029
+      - -0.00073347276
+      - -0.0066631655
+      - -0.00048020997
+      - -0.0032547256
+      - 0.0045852843
     - coefficients:
-      - 0.02114126
-      - 0.006974014
-      - -0.003156567
-      - -0.00022240021
-      - -0.0010802239
-      - -0.0012180181
-      - 0.00014322961
-      - -0.0023385037
-      - 0.0020902362
-      - 0.030614268
-      - 0.011046872
-      - -0.004607561
-      - -0.00052530324
-      - -0.0014609976
-      - -0.0016518591
-      - 0.00013447512
-      - -0.0035050567
-      - 0.002943724
-      - 0.047199797
-      - 0.018123621
-      - -0.0067612547
-      - -0.001309503
-      - -0.0023220994
-      - -0.0020813541
-      - -0.000046630346
-      - -0.0053189704
-      - 0.0038689948
+      - 0.021512851
+      - 0.004867469
+      - -0.0047837123
+      - -0.0012468033
+      - -0.0001582574
+      - -0.0015433204
+      - -0.00018904108
+      - -0.0024427604
+      - 0.0023411294
+      - 0.030607302
+      - 0.008428099
+      - -0.0068290285
+      - -0.0015976657
+      - -0.00046841503
+      - -0.0026262277
+      - -0.0003341418
+      - -0.0035295477
+      - 0.003455696
+      - 0.046414904
+      - 0.014610603
+      - -0.010023091
+      - -0.0024950798
+      - -0.0012127399
+      - -0.004233785
+      - -0.00072967075
+      - -0.0052440516
+      - 0.0048646415
     - coefficients:
-      - 0.026738169
-      - 0.0049729184
-      - 0.0016221497
-      - -0.0015783455
-      - -0.0005303773
-      - 0.0012821981
-      - 0.0009687886
-      - -0.0029710606
-      - 0.0027145501
-      - 0.03711714
-      - 0.009348681
-      - 0.003122538
-      - -0.0023092325
-      - -0.0009608738
-      - 0.0019248996
-      - 0.001173599
-      - -0.004766994
-      - 0.0036823107
-      - 0.055142168
-      - 0.017030945
-      - 0.005838429
-      - -0.0036900055
-      - -0.0019483345
-      - 0.003120707
-      - 0.001303132
-      - -0.007510593
-      - 0.004777622
+      - 0.01598804
+      - 0.0013130466
+      - 0.008698636
+      - 0.002777813
+      - -0.0023468703
+      - 0.003872801
+      - 0.0015110273
+      - -0.0033020696
+      - 0.0016418729
+      - 0.02069011
+      - 0.0026896691
+      - 0.012994273
+      - 0.0018405179
+      - -0.003251569
+      - 0.0059842523
+      - 0.0022510856
+      - -0.004714045
+      - 0.0020052856
+      - 0.028517196
+      - 0.005091891
+      - 0.020206569
+      - 0.00024987868
+      - -0.004791342
+      - 0.009622641
+      - 0.0034026061
+      - -0.0070155365
+      - 0.0024411473
     - coefficients:
-      - 0.026700139
-      - 0.0031505069
-      - 0.0014050548
-      - -0.0016936231
-      - -0.0010975671
-      - 0.0035664109
-      - 0.0007264375
-      - -0.0021178282
-      - 0.002403359
-      - 0.035867028
-      - 0.0064115524
-      - 0.0042677457
-      - -0.0024453974
-      - -0.001797433
-      - 0.0057905624
-      - 0.0007439944
-      - -0.0034201648
-      - 0.003245052
-      - 0.051874768
-      - 0.012380456
-      - 0.009378623
-      - -0.0038865688
-      - -0.0031103168
-      - 0.00936992
-      - 0.0006513521
-      - -0.0055338237
-      - 0.00420204
+      - 0.013555169
+      - -0.00081155094
+      - 0.0042128954
+      - 0.0031326937
+      - -0.0018850511
+      - 0.0022373374
+      - 0.001703552
+      - -0.0016926216
+      - 0.00080600503
+      - 0.01691455
+      - -0.00040994756
+      - 0.0063864565
+      - 0.002586143
+      - -0.0022510875
+      - 0.0033124427
+      - 0.0024019831
+      - -0.0025807635
+      - 0.00093376683
+      - 0.02221199
+      - 0.00016103475
+      - 0.009891118
+      - 0.0017342258
+      - -0.0028331538
+      - 0.004992099
+      - 0.0034846787
+      - -0.0039167986
+      - 0.001082833
     - coefficients:
-      - 0.02562597
-      - 0.004925727
-      - 0.0028775919
-      - -0.0017347006
-      - -0.00059956976
-      - 0.0015149612
-      - 0.00057537656
-      - -0.0029887604
-      - 0.0026982736
-      - 0.035754774
-      - 0.008826293
-      - 0.005395195
-      - -0.0024636376
-      - -0.0009138446
-      - 0.002878732
-      - 0.0006295745
-      - -0.0048845285
-      - 0.0039137863
-      - 0.053404126
-      - 0.015747022
-      - 0.009597261
-      - -0.0037939046
-      - -0.0017366781
-      - 0.005290845
-      - 0.00054430676
-      - -0.007826386
-      - 0.005336014
+      - 0.015792776
+      - 0.0034908336
+      - 0.007446521
+      - 0.0032946942
+      - -0.0012428067
+      - 0.0038578582
+      - 0.0012994392
+      - -0.0033801792
+      - 0.00075687456
+      - 0.02066053
+      - 0.0054196897
+      - 0.011747007
+      - 0.0024478233
+      - -0.0022156395
+      - 0.0062057897
+      - 0.00198748
+      - -0.0048277755
+      - 0.0009359587
+      - 0.028864883
+      - 0.008800246
+      - 0.018865673
+      - 0.0010602012
+      - -0.003947244
+      - 0.010452119
+      - 0.0030171047
+      - -0.007170135
+      - 0.0010010436
     - coefficients:
-      - 0.025525846
-      - 0.0054491325
-      - 0.0027769336
-      - -0.0016227962
-      - -0.0011900757
-      - 0.0015310616
-      - 0.00067965395
-      - -0.0027029398
-      - 0.0022140646
-      - 0.03462985
-      - 0.008887973
-      - 0.0060822726
-      - -0.002242634
-      - -0.0017500292
-      - 0.0036010582
-      - 0.0008199041
-      - -0.004298576
-      - 0.0032678584
-      - 0.05031477
-      - 0.01496434
-      - 0.011765463
-      - -0.0033997763
-      - -0.0028066696
-      - 0.0072842967
-      - 0.0008974836
-      - -0.006766395
-      - 0.004543594
+      - 0.013820879
+      - 0.00283583
+      - 0.0035947536
+      - 0.0039241286
+      - -0.00034607964
+      - 0.0025528902
+      - 0.0014388682
+      - -0.001295421
+      - 0.00028611883
+      - 0.017315768
+      - 0.0041110786
+      - 0.0058851363
+      - 0.0034874713
+      - -0.0008112417
+      - 0.004055081
+      - 0.0021166503
+      - -0.0020700195
+      - 0.0002832846
+      - 0.023052664
+      - 0.0061613335
+      - 0.0097425245
+      - 0.002738558
+      - -0.0015938322
+      - 0.0065947445
+      - 0.0032110992
+      - -0.003358329
+      - 0.00023545758
     - coefficients:
-      - 0.026624423
-      - 0.004879754
-      - 0.001767184
-      - -0.0015224854
-      - -0.0008364082
-      - 0.0014847585
-      - 0.0009376198
-      - -0.003083902
-      - 0.0026709582
-      - 0.03692043
-      - 0.009225965
-      - 0.00341012
-      - -0.0024457735
-      - -0.0013561982
-      - 0.0021976263
-      - 0.0011091216
-      - -0.0045732777
-      - 0.0036239177
-      - 0.054833565
-      - 0.016858896
-      - 0.0063357446
-      - -0.0041769003
-      - -0.00243256
-      - 0.0035019103
-      - 0.0011885893
-      - -0.006792187
-      - 0.0047011194
+      - 0.01290872
+      - 0.002254802
+      - 0.009316598
+      - 0.0026218654
+      - -0.00084925245
+      - 0.0035182354
+      - 0.0017022872
+      - -0.0015400039
+      - 0.0018481198
+      - 0.017172715
+      - 0.003663159
+      - 0.01346875
+      - 0.0027628825
+      - -0.000943989
+      - 0.0055811144
+      - 0.0024931417
+      - -0.0019523733
+      - 0.0022105633
+      - 0.024296511
+      - 0.0061658937
+      - 0.020450067
+      - 0.0030044306
+      - -0.0011907917
+      - 0.009157403
+      - 0.0037283208
+      - -0.0026023504
+      - 0.0026595527
     - coefficients:
-      - 0.026634384
-      - 0.0031125043
-      - 0.0014965624
-      - -0.0020806878
-      - -0.0014154515
-      - 0.0037142967
-      - 0.00072699843
-      - -0.0019459957
-      - 0.0022936144
-      - 0.035712074
-      - 0.0063678334
-      - 0.004444079
-      - -0.003375872
-      - -0.0021969853
-      - 0.0059895627
-      - 0.0007556291
-      - -0.0029484278
-      - 0.0030839525
-      - 0.051593486
-      - 0.012345579
-      - 0.0096759135
-      - -0.0056797513
-      - -0.0036808355
-      - 0.009637619
-      - 0.0006783386
-      - -0.0046200533
-      - 0.0039871284
+      - 0.009859507
+      - 0.00069286476
+      - 0.0054280157
+      - 0.003064934
+      - -0.0006952967
+      - 0.0019404186
+      - 0.0014285436
+      - 0.0011527736
+      - 0.0010750343
+      - 0.012948372
+      - 0.0011670097
+      - 0.0074853483
+      - 0.0034350548
+      - -0.0007333083
+      - 0.003048591
+      - 0.002114914
+      - 0.0013107465
+      - 0.0012297496
+      - 0.017851254
+      - 0.0018796587
+      - 0.010809752
+      - 0.0040141325
+      - -0.00082803814
+      - 0.0047898823
+      - 0.0031830277
+      - 0.0015485259
+      - 0.0014358546
     - coefficients:
-      - 0.025351422
-      - 0.004587823
-      - 0.0030417326
-      - -0.0016128453
-      - -0.0012460146
-      - 0.0018290984
-      - 0.0005879918
-      - -0.0028545407
-      - 0.0027464246
-      - 0.0351841
-      - 0.008277529
-      - 0.005830373
-      - -0.0026102883
-      - -0.0019634578
-      - 0.0034340343
-      - 0.0006122469
-      - -0.0042933533
-      - 0.0039688833
-      - 0.052380078
-      - 0.0149104465
-      - 0.010442032
-      - -0.004518673
-      - -0.0032981848
-      - 0.0061896574
-      - 0.00048300615
-      - -0.006377378
-      - 0.0053865463
+      - 0.010011507
+      - 0.00652736
+      - 0.0077695837
+      - 0.0021463414
+      - 0.0010010533
+      - 0.004180017
+      - 0.0013471197
+      - -0.0014915384
+      - 0.0013395099
+      - 0.0137941735
+      - 0.009117516
+      - 0.011755085
+      - 0.0022903276
+      - 0.001070738
+      - 0.006525182
+      - 0.0020758626
+      - -0.0018559282
+      - 0.0015974151
+      - 0.020081941
+      - 0.013770358
+      - 0.01832022
+      - 0.0025098138
+      - 0.0011262438
+      - 0.010799624
+      - 0.0031715906
+      - -0.0024466729
+      - 0.0018252562
     - coefficients:
-      - 0.025530342
-      - 0.0054177977
-      - 0.0033166574
-      - -0.0023969852
-      - -0.0013738433
-      - 0.0015529182
-      - 0.00081166066
-      - -0.0019957062
-      - 0.0021394982
-      - 0.034537155
-      - 0.008828885
-      - 0.006915442
-      - -0.0038954534
-      - -0.0022528823
-      - 0.0036690328
-      - 0.0010233165
-      - -0.0030273576
-      - 0.0031304879
-      - 0.050037514
-      - 0.014912322
-      - 0.012967215
-      - -0.006453501
-      - -0.0038845772
-      - 0.0074762586
-      - 0.0011825645
-      - -0.004722158
-      - 0.004314364
+      - 0.008499101
+      - 0.0038773606
+      - 0.0046276622
+      - 0.0027869206
+      - 0.00089748943
+      - 0.0033489387
+      - 0.0011792606
+      - 0.0008374434
+      - 0.00078055204
+      - 0.011550882
+      - 0.005306444
+      - 0.0067543625
+      - 0.003176144
+      - 0.0010091809
+      - 0.004900434
+      - 0.0018643823
+      - 0.0010020824
+      - 0.0008533562
+      - 0.016490817
+      - 0.0077358186
+      - 0.010179459
+      - 0.0037951332
+      - 0.0011920307
+      - 0.0076350635
+      - 0.0029257634
+      - 0.0012527141
+      - 0.00089132355
     hasRealtimeLights: 1
   - rendererInfos:
+    - renderer: {fileID: 1686871726}
+      lightmapIndex: 0
+      lightmapOffsetScale: {x: 0.11806087, y: 0.11806087, z: 0.48975554, w: -0.0004788273}
     - renderer: {fileID: 160949653}
       lightmapIndex: 0
-      lightmapOffsetScale: {x: 0.041992173, y: 0.041992173, z: 0.10253906, w: 0.029409856}
+      lightmapOffsetScale: {x: 0.041992173, y: 0.041992173, z: 0.49023438, w: 0.07854868}
     - renderer: {fileID: 462247091}
       lightmapIndex: 0
-      lightmapOffsetScale: {x: 0.041992173, y: 0.041992173, z: 0.10253906, w: 0}
+      lightmapOffsetScale: {x: 0.041992173, y: 0.041992173, z: 0.9169922, w: 0.045995567}
     - renderer: {fileID: 779719399}
       lightmapIndex: 0
-      lightmapOffsetScale: {x: 0.101335585, y: 0.101335585, z: -0.00041099347, w: -0.00041099347}
+      lightmapOffsetScale: {x: 0.101335585, y: 0.101335585, z: 0.7115031, w: -0.00041099347}
+    - renderer: {fileID: 943756090}
+      lightmapIndex: 0
+      lightmapOffsetScale: {x: 0.101335585, y: 0.101335585, z: 0.81404215, w: -0.00041099347}
+    - renderer: {fileID: 968237347}
+      lightmapIndex: 0
+      lightmapOffsetScale: {x: 0.067885004, y: 0.067885004, z: 0.9167169, w: -0.00027532573}
+    - renderer: {fileID: 1656405771}
+      lightmapIndex: 0
+      lightmapOffsetScale: {x: 0.101335585, y: 0.101335585, z: 0.608964, w: -0.00041099347}
     - renderer: {fileID: 1972097390}
       lightmapIndex: 0
-      lightmapOffsetScale: {x: 0.48828125, y: 0.48828125, z: 0, w: 0.06769764}
+      lightmapOffsetScale: {x: 0.48828125, y: 0.48828125, z: 0, w: 0}
     lightmaps:
     - {fileID: 2800000, guid: 1d57750f5cbc7e74584e142ff9230194, type: 3}
     lightmapsDir:
@@ -1630,454 +2017,454 @@ MonoBehaviour:
     lightmapsMode: 1
     lightProbes:
     - coefficients:
-      - 0.34424585
-      - 0.08638051
-      - 0.27399984
-      - 0.3663595
-      - 0.099166684
-      - 0.08981508
-      - 0.020206755
-      - 0.4552762
-      - 0.14373443
-      - 0.15379627
-      - 0.047558054
-      - -0.013138125
-      - 0.04144965
-      - 0.009530353
-      - 0.002726484
-      - 0.0028088281
-      - 0.06898622
-      - 0.04427427
-      - 0.28622332
-      - 0.095526844
-      - 0.08044661
-      - 0.1641699
-      - 0.044398937
-      - 0.03266985
-      - 0.007447427
-      - 0.21774971
-      - 0.08474658
+      - 0.10116755
+      - 0.0108058015
+      - -0.04347683
+      - 0.014479882
+      - -0.0068979324
+      - -0.0011991297
+      - 0.0012146161
+      - 0.020677077
+      - 0.026185317
+      - 0.12693512
+      - 0.031939786
+      - -0.04942956
+      - 0.011805891
+      - -0.0007534219
+      - -0.0150970705
+      - 0.00025682672
+      - 0.030324165
+      - 0.033410203
+      - 0.1764274
+      - 0.049715642
+      - -0.06505838
+      - 0.020949429
+      - -0.001329292
+      - -0.020407582
+      - -0.0018372644
+      - 0.037574854
+      - 0.036546126
     - coefficients:
-      - 0.35484242
-      - 0.08712144
-      - 0.28731787
-      - 0.36420172
-      - 0.10167898
-      - 0.09307403
-      - 0.022964247
-      - 0.45430166
-      - 0.14616728
-      - 0.16766761
-      - 0.04939165
-      - 0.0059739635
-      - 0.040609207
-      - 0.010037351
-      - 0.009661363
-      - 0.006248695
-      - 0.0709412
-      - 0.04633075
-      - 0.30559918
-      - 0.097403094
-      - 0.10623993
-      - 0.16325569
-      - 0.045796994
-      - 0.04283236
-      - 0.012150768
-      - 0.21923116
-      - 0.08674241
+      - 0.3504251
+      - 0.079233035
+      - 0.27120474
+      - 0.36723727
+      - 0.097962946
+      - 0.09391569
+      - 0.019854123
+      - 0.45521274
+      - 0.14395398
+      - 0.15742752
+      - 0.042947337
+      - -0.012058989
+      - 0.04156404
+      - 0.008990804
+      - 0.00074362825
+      - 0.0026365705
+      - 0.070226274
+      - 0.045448184
+      - 0.2911248
+      - 0.08552913
+      - 0.07810519
+      - 0.16611503
+      - 0.04310933
+      - 0.029798577
+      - 0.006449753
+      - 0.21959168
+      - 0.08561084
     - coefficients:
-      - 0.3313139
-      - 0.07357421
-      - 0.27393898
-      - 0.35850945
-      - 0.10097104
-      - 0.08527285
-      - 0.021014083
-      - 0.4563786
-      - 0.12965801
-      - 0.12910065
-      - 0.040716868
-      - -0.015827617
-      - 0.031699248
-      - 0.008749429
-      - -0.0044932337
-      - 0.005211114
-      - 0.06875138
-      - 0.028862057
-      - 0.26020208
-      - 0.07935781
-      - 0.07194835
-      - 0.15202142
-      - 0.043666445
-      - 0.019333119
-      - 0.009902737
-      - 0.21905707
-      - 0.06802695
+      - 0.084699094
+      - 0.022234332
+      - -0.040045965
+      - 0.010689041
+      - -0.0015422001
+      - -0.006194871
+      - 0.0008492989
+      - 0.01696359
+      - 0.022936875
+      - 0.11506542
+      - 0.036122434
+      - -0.049485236
+      - 0.010461846
+      - 0.00089125644
+      - -0.014950415
+      - -0.00049171713
+      - 0.026751427
+      - 0.029230539
+      - 0.16300575
+      - 0.056007273
+      - -0.065982684
+      - 0.018693155
+      - 0.002494714
+      - -0.02379061
+      - -0.0022412364
+      - 0.03360227
+      - 0.034082714
     - coefficients:
-      - 0.09623643
-      - 0.017737238
-      - -0.021813849
-      - 0.000085239655
-      - 0.005631245
-      - -0.009545579
-      - 0.0034259614
-      - 0.01832294
-      - 0.021531217
-      - 0.12610023
-      - 0.038306255
-      - -0.035046935
-      - 0.0050056526
-      - 0.00342817
-      - -0.0069829095
-      - 0.0030346147
-      - 0.0292603
-      - 0.026126092
-      - 0.18424122
-      - 0.06064472
-      - -0.038818516
-      - 0.009260159
-      - 0.008332142
-      - -0.01070414
-      - 0.002155005
-      - 0.037233867
-      - 0.02950169
+      - 0.3472572
+      - 0.0718054
+      - 0.27205735
+      - 0.3628567
+      - 0.10329418
+      - 0.087007076
+      - 0.018498043
+      - 0.45313144
+      - 0.13908508
+      - 0.14724661
+      - 0.041372236
+      - -0.015361502
+      - 0.03919603
+      - 0.01124272
+      - -0.0022555352
+      - 0.0012398392
+      - 0.06636509
+      - 0.04069297
+      - 0.28430712
+      - 0.07966187
+      - 0.07311117
+      - 0.16242447
+      - 0.04774513
+      - 0.022973571
+      - 0.0049484847
+      - 0.21581699
+      - 0.0822387
     - coefficients:
-      - 0.10145574
-      - 0.017172601
-      - -0.039353777
-      - 0.00021839824
-      - -0.005265264
-      - 0.0009788726
-      - 0.0007370187
-      - 0.00923573
-      - 0.02753406
-      - 0.1300175
-      - 0.04164137
-      - -0.04551253
-      - -0.0026732131
-      - -0.0016705348
-      - -0.005653769
-      - 0.0005981287
-      - 0.016086714
-      - 0.034313682
-      - 0.18339178
-      - 0.06719675
-      - -0.053835925
-      - 0.0029693583
-      - -0.0010339937
-      - -0.004687535
-      - -0.00094071525
-      - 0.021938069
-      - 0.037189443
+      - 0.0930458
+      - 0.015502853
+      - -0.046883192
+      - -0.00040089016
+      - -0.0067659137
+      - -0.0051308186
+      - 0.0016576716
+      - 0.007405036
+      - 0.026194487
+      - 0.11974524
+      - 0.03240884
+      - -0.056329403
+      - -0.006466788
+      - -0.004563171
+      - -0.017506924
+      - 0.0005631202
+      - 0.013566226
+      - 0.0322428
+      - 0.16524842
+      - 0.05173944
+      - -0.07369926
+      - -0.0029953837
+      - -0.0069937087
+      - -0.024938144
+      - -0.0011565338
+      - 0.016055213
+      - 0.03531898
     - coefficients:
-      - 0.35142782
-      - 0.088515
-      - 0.28245088
-      - 0.3560905
-      - 0.10064759
-      - 0.09404676
-      - 0.02175991
-      - 0.4438157
-      - 0.14620657
-      - 0.16451398
-      - 0.0499728
-      - 0.00044988908
-      - 0.03177555
-      - 0.008147721
-      - 0.008810174
-      - 0.0051704203
-      - 0.057098348
-      - 0.046827145
-      - 0.3009769
-      - 0.098799795
-      - 0.098862104
-      - 0.15356784
-      - 0.042897683
-      - 0.04234692
-      - 0.010734506
-      - 0.20394324
-      - 0.087353215
+      - 0.34373972
+      - 0.08519026
+      - 0.26618376
+      - 0.3580041
+      - 0.0956602
+      - 0.0936551
+      - 0.019958252
+      - 0.44047868
+      - 0.14542823
+      - 0.15292516
+      - 0.043471035
+      - -0.018326474
+      - 0.028980512
+      - 0.005366104
+      - -0.0013586567
+      - 0.0019284945
+      - 0.053054586
+      - 0.045663744
+      - 0.2834637
+      - 0.087941244
+      - 0.0692172
+      - 0.14998673
+      - 0.037479118
+      - 0.026863206
+      - 0.0058266525
+      - 0.19679669
+      - 0.08638197
     - coefficients:
-      - 0.07570441
-      - 0.020791803
-      - -0.03937547
-      - 0.0061126896
-      - -0.00209632
-      - -0.006200727
-      - 0.0034607465
-      - 0.0072029666
-      - 0.016047684
-      - 0.10280668
-      - 0.035545595
-      - -0.049078807
-      - 0.0034169229
-      - 0.0003477491
-      - -0.014511657
-      - 0.0034918902
-      - 0.01355264
-      - 0.019312834
-      - 0.1497224
-      - 0.05608921
-      - -0.06447727
-      - 0.008156677
-      - 0.00025447694
-      - -0.022237476
-      - 0.0025202348
-      - 0.016496275
-      - 0.022105701
+      - 0.07712902
+      - 0.023659464
+      - -0.040782697
+      - -0.0014490578
+      - -0.0021782122
+      - -0.011261832
+      - 0.0012222539
+      - 0.010755977
+      - 0.020897081
+      - 0.10814779
+      - 0.035704516
+      - -0.054569896
+      - -0.0038122446
+      - -0.0028669161
+      - -0.019571789
+      - 0.0006437271
+      - 0.01647947
+      - 0.02744358
+      - 0.1527428
+      - 0.05545057
+      - -0.0716588
+      - -0.0015224646
+      - -0.004161387
+      - -0.031461213
+      - -0.0006942963
+      - 0.019750739
+      - 0.031550705
     - coefficients:
-      - 0.3401709
-      - 0.074976645
-      - 0.27471974
-      - 0.35185397
-      - 0.102532096
-      - 0.084186316
-      - 0.020054314
-      - 0.4462192
-      - 0.13488668
-      - 0.14213577
-      - 0.043954335
-      - -0.016258916
-      - 0.026457122
-      - 0.008202403
-      - -0.0028100067
-      - 0.0038554769
-      - 0.054167245
-      - 0.036439296
-      - 0.27871513
-      - 0.08483809
-      - 0.0747958
-      - 0.14584583
-      - 0.04305293
-      - 0.02298637
-      - 0.008237425
-      - 0.19982263
-      - 0.07693333
+      - 0.33273318
+      - 0.08776174
+      - 0.26261762
+      - 0.35686243
+      - 0.0985844
+      - 0.091488756
+      - 0.020037267
+      - 0.44046998
+      - 0.14174183
+      - 0.14178279
+      - 0.043339793
+      - -0.02069783
+      - 0.027660746
+      - 0.006807259
+      - -0.006019927
+      - 0.0016038801
+      - 0.052744694
+      - 0.04135673
+      - 0.27309012
+      - 0.08658393
+      - 0.06400372
+      - 0.14742637
+      - 0.039511293
+      - 0.018799232
+      - 0.0059947753
+      - 0.19582774
+      - 0.08408207
     - coefficients:
-      - 0.38927296
-      - 0.059978664
-      - 0.29299423
-      - 0.35637787
-      - 0.10754113
-      - 0.10611015
-      - 0.030167975
-      - 0.44977546
-      - 0.1431692
-      - 0.1648148
-      - 0.04506109
-      - 0.061917923
-      - 0.048043456
-      - 0.011006504
-      - 0.01634946
-      - 0.0059014633
-      - 0.049675982
-      - 0.04454316
-      - 0.314991
-      - 0.08390343
-      - 0.15790975
-      - 0.16753528
-      - 0.047963414
-      - 0.052918382
-      - 0.014369866
-      - 0.2007197
-      - 0.08476385
+      - 0.0803964
+      - 0.002402263
+      - 0.043256324
+      - -0.041102294
+      - 0.0013052236
+      - 0.005316361
+      - 0.0052849916
+      - 0.011608047
+      - 0.02184554
+      - 0.059977096
+      - 0.0124212
+      - 0.062213864
+      - -0.011329759
+      - -0.00091327686
+      - 0.019452132
+      - 0.013220048
+      - 0.0025733293
+      - 0.009171202
+      - 0.0916949
+      - 0.01736562
+      - 0.083499774
+      - -0.024307558
+      - -0.0006499779
+      - 0.029322775
+      - 0.015409355
+      - 0.0068397666
+      - 0.014555798
     - coefficients:
-      - 0.42396066
-      - 0.054014985
-      - 0.25399855
-      - 0.35751545
-      - 0.1106794
-      - 0.10291848
-      - 0.031265378
-      - 0.44370225
-      - 0.13818793
-      - 0.14916864
-      - 0.03654831
-      - 0.07711763
-      - 0.05328843
-      - 0.01643342
-      - 0.028957477
-      - 0.005514613
-      - 0.048216674
-      - 0.037272073
-      - 0.30629095
-      - 0.06964792
-      - 0.16576724
-      - 0.17347562
-      - 0.0559159
-      - 0.0707575
-      - 0.013669941
-      - 0.19597921
-      - 0.077882804
+      - 0.060134914
+      - 0.0020825604
+      - 0.029390043
+      - -0.040346634
+      - 0.0011646398
+      - 0.0029764613
+      - 0.0041822703
+      - -0.018104807
+      - 0.015890732
+      - 0.03999229
+      - 0.0040459754
+      - 0.026720347
+      - -0.011630956
+      - -0.0007730644
+      - 0.008704232
+      - 0.010782297
+      - -0.0101666525
+      - 0.0036223645
+      - 0.060533777
+      - 0.00512317
+      - 0.039357398
+      - -0.024641147
+      - -0.00043807423
+      - 0.012985312
+      - 0.012590579
+      - -0.016167095
+      - 0.008294136
     - coefficients:
-      - 0.38252383
-      - 0.07660907
-      - 0.29558125
-      - 0.3557965
-      - 0.10322803
-      - 0.082302555
-      - 0.02786544
-      - 0.44906253
-      - 0.13983004
-      - 0.15177494
-      - 0.04385368
-      - 0.06698817
-      - 0.0463605
-      - 0.015378761
-      - 0.020690354
-      - 0.0031250184
-      - 0.04835146
-      - 0.040758405
-      - 0.30168226
-      - 0.08431015
-      - 0.1688561
-      - 0.16745129
-      - 0.05340246
-      - 0.054625653
-      - 0.01061007
-      - 0.19565283
-      - 0.08261796
+      - 0.07025211
+      - 0.023031462
+      - 0.03959561
+      - -0.03205126
+      - -0.01669712
+      - 0.0028209458
+      - 0.00513924
+      - 0.010535639
+      - 0.013334421
+      - 0.056164697
+      - 0.02336788
+      - 0.056260012
+      - -0.009547986
+      - -0.006150304
+      - 0.020120502
+      - 0.011550693
+      - 0.0034692886
+      - 0.0052300664
+      - 0.08702607
+      - 0.03646559
+      - 0.07805694
+      - -0.019309992
+      - -0.012739612
+      - 0.030978533
+      - 0.014074721
+      - 0.007371358
+      - 0.0078540435
     - coefficients:
-      - 0.41790152
-      - 0.086920306
-      - 0.25833654
-      - 0.35693803
-      - 0.10455478
-      - 0.07464557
-      - 0.029384939
-      - 0.4422226
-      - 0.13530844
-      - 0.13808589
-      - 0.041466285
-      - 0.07514453
-      - 0.052582193
-      - 0.018328879
-      - 0.02808586
-      - 0.004802639
-      - 0.046873108
-      - 0.03458336
-      - 0.29532963
-      - 0.08264341
-      - 0.16760805
-      - 0.17343502
-      - 0.057368193
-      - 0.06314596
-      - 0.012958574
-      - 0.19342324
-      - 0.07656784
+      - 0.05015121
+      - 0.022699919
+      - 0.02660495
+      - -0.03279771
+      - -0.015961157
+      - 0.010012692
+      - 0.0028734736
+      - -0.013066087
+      - 0.011468112
+      - 0.037330557
+      - 0.014825122
+      - 0.027661419
+      - -0.010878588
+      - -0.0042396584
+      - 0.011657174
+      - 0.009680063
+      - -0.008442976
+      - 0.0027297956
+      - 0.057506222
+      - 0.024447443
+      - 0.040895857
+      - -0.021786591
+      - -0.010416192
+      - 0.020925686
+      - 0.011523244
+      - -0.013321928
+      - 0.005681853
     - coefficients:
-      - 0.39058137
-      - 0.061891302
-      - 0.28924197
-      - 0.3635593
-      - 0.10113349
-      - 0.105525374
-      - 0.030976437
-      - 0.4413443
-      - 0.14428753
-      - 0.1658053
-      - 0.046048976
-      - 0.059940178
-      - 0.036915205
-      - 0.009170245
-      - 0.016011719
-      - 0.005790191
-      - 0.0640889
-      - 0.04584695
-      - 0.3154176
-      - 0.08585602
-      - 0.15544413
-      - 0.16073245
-      - 0.044305578
-      - 0.05245376
-      - 0.014463725
-      - 0.2097811
-      - 0.08614428
+      - 0.3507277
+      - 0.07961196
+      - 0.34138852
+      - 0.28090456
+      - 0.109767064
+      - 0.100397535
+      - 0.02263689
+      - 0.46050107
+      - 0.14915556
+      - 0.088089645
+      - 0.022572892
+      - 0.09216598
+      - 0.03487123
+      - 0.013543112
+      - 0.030882616
+      - 0.014671435
+      - 0.053370588
+      - 0.022489222
+      - 0.20917855
+      - 0.05415723
+      - 0.21079652
+      - 0.12715784
+      - 0.0517187
+      - 0.07304896
+      - 0.02234119
+      - 0.20530683
+      - 0.069912225
     - coefficients:
-      - 0.4262433
-      - 0.054125328
-      - 0.2523166
-      - 0.36932454
-      - 0.10380845
-      - 0.10257622
-      - 0.030952003
-      - 0.43762964
-      - 0.13949814
-      - 0.14858527
-      - 0.03624759
-      - 0.078179196
-      - 0.044275526
-      - 0.013117809
-      - 0.028492244
-      - 0.005537095
-      - 0.052936897
-      - 0.036778074
-      - 0.30564097
-      - 0.06968371
-      - 0.16645285
-      - 0.16832381
-      - 0.05050995
-      - 0.07041816
-      - 0.013773479
-      - 0.19876155
-      - 0.07756108
+      - 0.10059085
+      - -0.00019598892
+      - 0.043077916
+      - -0.06872212
+      - 0.0078320885
+      - 0.007645206
+      - 0.0047408305
+      - -0.013359131
+      - 0.023814173
+      - 0.053455655
+      - 0.0060355766
+      - 0.03432778
+      - -0.0006443933
+      - 0.0032977788
+      - 0.011917838
+      - 0.0143307345
+      - 0.010097625
+      - 0.005195047
+      - 0.08796341
+      - 0.007087581
+      - 0.051865492
+      - -0.022755029
+      - 0.0071063065
+      - 0.018901417
+      - 0.016436879
+      - 0.006317809
+      - 0.01250337
     - coefficients:
-      - 0.38687524
-      - 0.07981832
-      - 0.28963473
-      - 0.36254114
-      - 0.106390744
-      - 0.07872279
-      - 0.030019032
-      - 0.44042012
-      - 0.14154841
-      - 0.15476897
-      - 0.04682899
-      - 0.062230974
-      - 0.03486438
-      - 0.011436945
-      - 0.018459056
-      - 0.004712253
-      - 0.06324164
-      - 0.04254415
-      - 0.30551225
-      - 0.08880365
-      - 0.16334291
-      - 0.15731147
-      - 0.048053678
-      - 0.05096875
-      - 0.012989779
-      - 0.20944183
-      - 0.08483241
+      - 0.3238555
+      - 0.1288163
+      - 0.3329416
+      - 0.3013532
+      - 0.07381716
+      - 0.09579046
+      - 0.021295505
+      - 0.4556643
+      - 0.13872667
+      - 0.079403475
+      - 0.04117599
+      - 0.08340345
+      - 0.03684615
+      - 0.009908338
+      - 0.031138362
+      - 0.012233027
+      - 0.05337502
+      - 0.018483559
+      - 0.19226183
+      - 0.09239497
+      - 0.20049866
+      - 0.13644423
+      - 0.03655634
+      - 0.07407445
+      - 0.019790377
+      - 0.2039556
+      - 0.062680535
     - coefficients:
-      - 0.42009678
-      - 0.08979248
-      - 0.25902045
-      - 0.3672078
-      - 0.1084044
-      - 0.070996925
-      - 0.029803984
-      - 0.43671128
-      - 0.13684645
-      - 0.1364421
-      - 0.04391904
-      - 0.077638224
-      - 0.042338874
-      - 0.013922127
-      - 0.02630963
-      - 0.005590272
-      - 0.052215323
-      - 0.035280418
-      - 0.29351872
-      - 0.086571045
-      - 0.17120378
-      - 0.165438
-      - 0.05210701
-      - 0.060102876
-      - 0.014186983
-      - 0.19753037
-      - 0.07763331
-    hasRealtimeLights: 0
+      - 0.08053481
+      - 0.040451895
+      - 0.032229487
+      - -0.052027058
+      - -0.026900914
+      - 0.020272069
+      - 0.002617466
+      - -0.005545867
+      - 0.015969466
+      - 0.04746903
+      - 0.021132898
+      - 0.032063607
+      - 0.0022303758
+      - -0.00097642094
+      - 0.017848874
+      - 0.012495841
+      - 0.012664868
+      - 0.0035915608
+      - 0.07852298
+      - 0.03799868
+      - 0.047344644
+      - -0.013872421
+      - -0.008274904
+      - 0.032637738
+      - 0.0145223215
+      - 0.011944998
+      - 0.0080287075
+    hasRealtimeLights: 1
   lightingScenariosScenes:
   - {fileID: 102900000, guid: 64ac3b5e028386e479ce02ffa30c95c8, type: 3}
   - {fileID: 102900000, guid: 779a780af89a06449b833229a0498e76, type: 3}
@@ -2085,7 +2472,7 @@ MonoBehaviour:
   lightingScenesNames:
   - Lighting1
   - Lighting2
-  - 
+  - Lighting3
   currentLightingScenario: -1
   previousLightingScenario: -1
   lightingScenariosCount: 3
@@ -2130,6 +2517,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2145,6 +2533,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -2162,9 +2551,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 0
-  m_InflateMesh: 0
+  m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &1972097392
@@ -2258,19 +2647,19 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
 --- !u!4 &1981982354
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1981982349}
-  m_LocalRotation: {x: -0, y: 0.123657644, z: -0, w: 0.992325}
-  m_LocalPosition: {x: -2.41, y: 2.1057389, z: -10.22}
+  m_LocalRotation: {x: -0.01157262, y: 0.98834044, z: -0.113472365, w: -0.10086309}
+  m_LocalPosition: {x: 1.0783341, y: 4.149515, z: 14.019557}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
