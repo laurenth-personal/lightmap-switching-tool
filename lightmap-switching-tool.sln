@@ -1,9 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lightmap-switching-tool", "Assembly-CSharp.csproj", "{3F272554-A10D-0F08-7172-DD9FAE92245B}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lightmap-switching-tool", "lightmap-switching-tool.csproj", "{AAC0E4FD-A7CA-A50F-E8AC-ADBDC1665FFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lightmap-switching-tool", "Assembly-CSharp-Editor.csproj", "{DC2936F9-8BD8-BB68-DA20-DE785CF5D908}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lightmap-switching-tool.Editor", "lightmap-switching-tool.Editor.csproj", "{A436590C-1201-97E6-B4F3-3CFE6389D522}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,19 +11,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3F272554-A10D-0F08-7172-DD9FAE92245B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F272554-A10D-0F08-7172-DD9FAE92245B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F272554-A10D-0F08-7172-DD9FAE92245B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F272554-A10D-0F08-7172-DD9FAE92245B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC2936F9-8BD8-BB68-DA20-DE785CF5D908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC2936F9-8BD8-BB68-DA20-DE785CF5D908}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC2936F9-8BD8-BB68-DA20-DE785CF5D908}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC2936F9-8BD8-BB68-DA20-DE785CF5D908}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAC0E4FD-A7CA-A50F-E8AC-ADBDC1665FFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAC0E4FD-A7CA-A50F-E8AC-ADBDC1665FFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAC0E4FD-A7CA-A50F-E8AC-ADBDC1665FFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAC0E4FD-A7CA-A50F-E8AC-ADBDC1665FFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A436590C-1201-97E6-B4F3-3CFE6389D522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A436590C-1201-97E6-B4F3-3CFE6389D522}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A436590C-1201-97E6-B4F3-3CFE6389D522}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A436590C-1201-97E6-B4F3-3CFE6389D522}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal
