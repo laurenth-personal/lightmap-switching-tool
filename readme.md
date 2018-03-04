@@ -1,4 +1,5 @@
 Tool intended for switching pre-baked lightmaps and realtime lighting on a static scene at runtime.
+Depending on the platform or depending on the content the switch might not be instant but take some seconds, this script just allows you avoid duplicating your scene if you just want to change the lighting.
 
 This version is compatible with unity 2017.1 and above, check previous releases for unity 5.5 - 5.6 version.
 
@@ -23,3 +24,4 @@ How it works :
 NEW :
 
 - Mixed lighting mode are supported (tested only "baked indirect" and "shadowmask")
+- Reflection probes supported, they need to be placed in the lighting scenes.
