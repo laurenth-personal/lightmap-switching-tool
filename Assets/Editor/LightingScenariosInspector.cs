@@ -17,36 +17,33 @@ public class LightinScenariosInspector : Editor
 
 		LevelLightmapData lightmapData = (LevelLightmapData)target;
 
+        EditorGUI.BeginChangeCheck();
 		EditorGUILayout.PropertyField(lightingScenariosScenes, new GUIContent("Lighting Scenarios Scenes"), includeChildren:true);
-
+        if(EditorGUI.EndChangeCheck())
+        {
+            serializedObject.ApplyModifiedProperties();
+            lightmapData.updateNames();
+        }
         serializedObject.ApplyModifiedProperties();
 
         EditorGUILayout.Space();
 
-        var ScenariosCount = new int();
-
-        if ( lightmapData.lightingScenariosScenes != null )
+        for (int i = 0; i < lightmapData.lightingScenariosScenes.Count; i++)
         {
-            ScenariosCount = lightmapData.lightingScenariosScenes.Count;
-        }
-        else
-        {
-            ScenariosCount = 0;
-        }
-
-        for (int i = 0; i < ScenariosCount; i++)
-        {
+            EditorGUILayout.BeginHorizontal();
             if ( lightmapData.lightingScenariosScenes[i] != null )
             {
-                if (GUILayout.Button("Build " + lightmapData.lightingScenariosScenes[i].name.ToString()))
+                EditorGUILayout.LabelField(lightmapData.lightingScenariosScenes[i].name.ToString(), EditorStyles.boldLabel);
+                if (GUILayout.Button("Build "))
                 {
-                    lightmapData.BuildLightingScenario(lightmapData.lightingScenariosScenes[i].name.ToString());
+                    lightmapData.BuildLightingScenario(i);
                 }
-                if (GUILayout.Button("Store " + lightmapData.lightingScenariosScenes[i].name.ToString()))
+                if (GUILayout.Button("Store "))
                 {
                     lightmapData.StoreLightmapInfos(i);
                 }
             }
+            EditorGUILayout.EndHorizontal();
         }
     }
 }

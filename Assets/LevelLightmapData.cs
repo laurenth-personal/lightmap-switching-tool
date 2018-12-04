@@ -9,6 +9,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
 
+[ExecuteInEditMode]
 public class LevelLightmapData : MonoBehaviour
 {
     [System.Serializable]
@@ -46,7 +47,7 @@ public class LevelLightmapData : MonoBehaviour
 	public List<SceneAsset> lightingScenariosScenes;
 #endif
     [SerializeField]
-    public List<String> lightingScenesNames;
+    public String[] lightingScenesNames;
     public int currentLightingScenario = -1;
     public int previousLightingScenario = -1;
 
@@ -77,10 +78,16 @@ public class LevelLightmapData : MonoBehaviour
             ApplyRendererInfo(lightingScenariosData[index].rendererInfos);
 
             LightmapSettings.lightmaps = newLightmaps;
-
         }
-
     }
+
+#if UNITY_EDITOR
+    private void OnEnable()
+    {
+        if (lightingScenariosScenes == null)
+            lightingScenariosScenes = new List<SceneAsset>();
+    }
+#endif
 
     private void Start()
     {
@@ -118,6 +125,17 @@ public class LevelLightmapData : MonoBehaviour
         return sphericalHarmonicsArray;
     }
 
+#if UNITY_EDITOR
+    public void updateNames()
+    {
+        lightingScenesNames = new string[lightingScenariosScenes.Count];
+        for (int i = 0; i< lightingScenariosScenes.Count; i++)
+        {
+            lightingScenesNames[i] = lightingScenariosScenes[i] != null ? lightingScenariosScenes[i].name : "missing";
+        }
+    }
+#endif
+
     IEnumerator SwitchSceneCoroutine(string sceneToUnload, string sceneToLoad)
     {
         AsyncOperation unloadop = null;
@@ -142,7 +160,6 @@ public class LevelLightmapData : MonoBehaviour
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneToLoad));
         }
         LoadLightProbes(currentLightingScenario);
-        //MuteBakedLights();
     }
 
     LightmapData[] LoadLightmaps(int index)
@@ -284,13 +301,9 @@ public class LevelLightmapData : MonoBehaviour
 
         lightingScenariosCount = lightingScenariosData.Count;
 
-        if (lightingScenesNames == null || lightingScenesNames.Count< lightingScenariosCount)
+        if (lightingScenesNames == null || lightingScenesNames.Length< lightingScenariosCount)
         {
-            lightingScenesNames = new List<string>();
-            while(lightingScenesNames.Count<lightingScenariosCount)
-            {
-                lightingScenesNames.Add(null);
-            }
+            lightingScenesNames = new string[lightingScenariosCount];
         }
         if (latestBuildHasReltimeLights && lightingScenesNames[index] != null)
             lightingScenesNames[index] = lightingScenariosScenes[index].name;
@@ -307,6 +320,9 @@ public class LevelLightmapData : MonoBehaviour
 				RendererInfo info = new RendererInfo();
 				info.renderer = renderer;
 				info.lightmapOffsetScale = renderer.lightmapScaleOffset;
+
+                if (renderer.lightmapIndex == 65534)
+                    return;
 
 				Texture2D lightmaplight = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapColor;
                 info.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);
@@ -342,24 +358,33 @@ public class LevelLightmapData : MonoBehaviour
 
     }
 
-    public void BuildLightingScenario(string ScenarioName)
+    public void BuildLightingScenario(int ScenarioID)
     {
         //Remove reference to LightingDataAsset so that Unity doesn't delete the previous bake
         Lightmapping.lightingDataAsset = null;
 
-        Debug.Log("Baking" + ScenarioName);
+        Debug.Log("Loading " + lightingScenariosScenes[ScenarioID].name);
 
-        EditorSceneManager.OpenScene("Assets/Scenes/" + ScenarioName + ".unity", OpenSceneMode.Additive);
-        EditorSceneManager.SetActiveScene(EditorSceneManager.GetSceneByPath("Assets/Scenes/" + ScenarioName + ".unity"));
+        string lightingSceneGUID = AssetDatabase.FindAssets(lightingScenesNames[ScenarioID])[0];
+        string lightingScenePath = AssetDatabase.GUIDToAssetPath(lightingSceneGUID);
+        if (!lightingScenePath.EndsWith(".unity"))
+            lightingScenePath = lightingScenePath + ".unity";
+
+        EditorSceneManager.OpenScene(lightingScenePath, OpenSceneMode.Additive);
+
+        Scene lightingScene = SceneManager.GetSceneByName(lightingScenariosScenes[ScenarioID].name);
+        EditorSceneManager.SetActiveScene(lightingScene);
 
         SearchLightsNeededRealtime();
 
-        StartCoroutine(BuildLightingAsync(ScenarioName));
+        Debug.Log("Start baking");
+        StartCoroutine(BuildLightingAsync(lightingScene));
     }
 
     void SearchLightsNeededRealtime()
     {
         var lights = FindObjectsOfType<Light>();
+        var reflectionProbes = FindObjectsOfType<ReflectionProbe>();
         latestBuildHasReltimeLights = false;
 
         foreach (Light light in lights)
@@ -367,9 +392,11 @@ public class LevelLightmapData : MonoBehaviour
             if (light.lightmapBakeType == LightmapBakeType.Mixed || light.lightmapBakeType == LightmapBakeType.Realtime)
                 latestBuildHasReltimeLights = true;
         }
+        if (reflectionProbes.Length > 0)
+            latestBuildHasReltimeLights = true;
     }
 
-    private IEnumerator BuildLightingAsync(string ScenarioName)
+    private IEnumerator BuildLightingAsync(Scene lightingScene)
     {
         var newLightmapMode = new LightmapsMode();
         newLightmapMode = LightmapSettings.lightmapsMode;
@@ -377,8 +404,8 @@ public class LevelLightmapData : MonoBehaviour
         while (Lightmapping.isRunning) { yield return null; }
         //EditorSceneManager.SaveScene(EditorSceneManager.GetSceneByPath("Assets/Scenes/" + ScenarioName + ".unity"));
         //Lightmapping.lightingDataAsset = null;
-        EditorSceneManager.SaveScene(EditorSceneManager.GetSceneByPath("Assets/Scenes/" + ScenarioName + ".unity"));
-        EditorSceneManager.CloseScene(EditorSceneManager.GetSceneByPath("Assets/Scenes/" + ScenarioName + ".unity"), true);
+        EditorSceneManager.SaveScene(lightingScene);
+        EditorSceneManager.CloseScene(lightingScene, true);
         LightmapSettings.lightmapsMode = newLightmapMode;
     }
 #endif
