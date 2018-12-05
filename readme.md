@@ -38,4 +38,4 @@ This is just an example of asset that calls the LevelLightmapData in order to sw
 - update readme accordingly
 
 ### Contributions :
-- Thanks to Kretin1 for his effort on shadowmask support.
+- Thanks to [Kretin1](https://github.com/Kretin1) for his effort on shadowmask support.
