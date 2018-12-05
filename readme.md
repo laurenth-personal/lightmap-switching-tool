@@ -36,3 +36,6 @@ This is just an example of asset that calls the LevelLightmapData in order to sw
 - The UI of the level lightmap data is slightly nicer (not a big change)
 - Add note about scenes needing to be in the build settings scene list
 - update readme accordingly
+
+### Contributions :
+- Thanks to Kretin1 for his effort on shadowmask support.
