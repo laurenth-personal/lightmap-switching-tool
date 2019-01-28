@@ -122,7 +122,9 @@ public class LevelLightmapData : MonoBehaviour
 
             sphericalHarmonicsArray[i] = sphericalHarmonics;
         }
-        return sphericalHarmonicsArray;
+        
+	
+	sphericalHarmonicsArray;
     }
 
 #if UNITY_EDITOR
@@ -322,7 +324,7 @@ public class LevelLightmapData : MonoBehaviour
 				info.lightmapOffsetScale = renderer.lightmapScaleOffset;
 
                 if (renderer.lightmapIndex == 65534)
-                    return;
+                    continue;
 
 				Texture2D lightmaplight = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapColor;
                 info.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);
