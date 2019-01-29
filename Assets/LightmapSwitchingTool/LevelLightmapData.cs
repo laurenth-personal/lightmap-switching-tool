@@ -122,9 +122,7 @@ public class LevelLightmapData : MonoBehaviour
 
             sphericalHarmonicsArray[i] = sphericalHarmonics;
         }
-        
-	
-	sphericalHarmonicsArray;
+        return sphericalHarmonicsArray;
     }
 
 #if UNITY_EDITOR
