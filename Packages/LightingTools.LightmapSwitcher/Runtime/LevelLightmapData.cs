@@ -38,6 +38,7 @@ public class LevelLightmapData : MonoBehaviour
 	}
 
     public bool latestBuildHasReltimeLights;
+    public bool allowLoadingLightingScenes = true;
 
 	[SerializeField]
 	List<LightingScenarioData> lightingScenariosData;
@@ -71,13 +72,16 @@ public class LevelLightmapData : MonoBehaviour
 
             LightmapSettings.lightmapsMode = lightingScenariosData[index].lightmapsMode;
 
-            m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(lightingScenesNames[previousLightingScenario], lightingScenesNames[currentLightingScenario]));
+            if(allowLoadingLightingScenes)
+                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(lightingScenesNames[previousLightingScenario], lightingScenesNames[currentLightingScenario]));
 
             var newLightmaps = LoadLightmaps(index);
 
             ApplyRendererInfo(lightingScenariosData[index].rendererInfos);
 
             LightmapSettings.lightmaps = newLightmaps;
+
+            LoadLightProbes(currentLightingScenario);
         }
     }
 

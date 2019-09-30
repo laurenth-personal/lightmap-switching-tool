@@ -2,13 +2,17 @@
 using UnityEditor;
 
 [CustomEditor(typeof(LevelLightmapData))]
-public class LightinScenariosInspector : Editor
+public class LevelLightmapDataEditor : Editor
 {
 	public SerializedProperty lightingScenariosScenes;
+    public SerializedProperty allowLoadingLightingScenes;
+
+    GUIContent allowLoading = new GUIContent("Allow loading Lighting Scenes", "Allow the Level Lightmap Data script to load a lighting scene additively at runtime if the lighting scenario contains realtime lights.");
 
     public void OnEnable()
     {
 		lightingScenariosScenes = serializedObject.FindProperty("lightingScenariosScenes");
+        allowLoadingLightingScenes = serializedObject.FindProperty("allowLoadingLightingScenes");
     }
 
     public override void OnInspectorGUI()
@@ -24,6 +28,8 @@ public class LightinScenariosInspector : Editor
             serializedObject.ApplyModifiedProperties();
             lightmapData.updateNames();
         }
+        EditorGUILayout.PropertyField(allowLoadingLightingScenes, allowLoading);
+
         serializedObject.ApplyModifiedProperties();
 
         EditorGUILayout.Space();

@@ -1,0 +1,10 @@
+{
+    "name": "LightingTools.LightmapSwitcher.Editor",
+    "references": [
+    	"LightingTools.LightmapSwitcher"
+	],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

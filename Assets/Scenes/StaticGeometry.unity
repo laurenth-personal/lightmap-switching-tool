@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 8
+  serializedVersion: 9
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -38,7 +38,8 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.157644, g: 0.18763587, b: 0.2201299, a: 1}
+  m_IndirectSpecularColor: {r: 0.17005254, g: 0.20231228, b: 0.23788586, a: 1}
+  m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -49,20 +50,19 @@ LightmapSettings:
     m_BounceScale: 1
     m_IndirectOutputScale: 1
     m_AlbedoBoost: 1
-    m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 9
+    serializedVersion: 12
     m_Resolution: 2
     m_BakeResolution: 2
-    m_TextureWidth: 1024
-    m_TextureHeight: 1024
+    m_AtlasSize: 1024
     m_AO: 0
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
     m_CompAOExponentDirect: 0
+    m_ExtractAmbientOcclusion: 0
     m_Padding: 2
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
@@ -71,16 +71,22 @@ LightmapSettings:
     m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
-    m_MixedBakeMode: 2
-    m_BakeBackend: 0
+    m_MixedBakeMode: 0
+    m_BakeBackend: 1
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
+    m_PVREnvironmentSampleCount: 500
+    m_PVREnvironmentReferencePointCount: 2048
+    m_PVRFilteringMode: 0
+    m_PVRDenoiserTypeDirect: 0
+    m_PVRDenoiserTypeIndirect: 0
+    m_PVRDenoiserTypeAO: 0
     m_PVRFilterTypeDirect: 0
     m_PVRFilterTypeIndirect: 0
     m_PVRFilterTypeAO: 0
-    m_PVRFilteringMode: 0
+    m_PVREnvironmentMIS: 0
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
@@ -88,10 +94,12 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
-    m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000006, guid: e5c40ec1acd28d042847fc65e0f34a0a,
+    m_ExportTrainingData: 0
+    m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
+  m_LightingDataAsset: {fileID: 112000004, guid: e5c40ec1acd28d042847fc65e0f34a0a,
     type: 2}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -117,9 +125,10 @@ NavMeshSettings:
 --- !u!1 &79560294
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 79560296}
   - component: {fileID: 79560295}
@@ -133,8 +142,9 @@ GameObject:
 --- !u!220 &79560295
 LightProbeGroup:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 79560294}
   m_Enabled: 1
   m_SourcePositions:
@@ -154,25 +164,28 @@ LightProbeGroup:
   - {x: -1, y: 1, z: -1}
   - {x: -1, y: -1, z: 1}
   - {x: -1, y: -1, z: -1}
+  m_Dering: 1
 --- !u!4 &79560296
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 79560294}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.014883518, y: 1.55, z: 1.68}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &160949652
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 160949656}
   - component: {fileID: 160949655}
@@ -188,8 +201,9 @@ GameObject:
 --- !u!23 &160949653
 MeshRenderer:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 160949652}
   m_Enabled: 1
   m_CastShadows: 1
@@ -198,6 +212,9 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 2f2af3b41b54d5e428c4c26ee8f4b534, type: 2}
   m_StaticBatchInfo:
@@ -207,6 +224,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -222,8 +240,9 @@ MeshRenderer:
 --- !u!135 &160949654
 SphereCollider:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 160949652}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -234,15 +253,17 @@ SphereCollider:
 --- !u!33 &160949655
 MeshFilter:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 160949652}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &160949656
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 160949652}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.18, y: 0.93, z: -2.89}
@@ -251,12 +272,79 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &438744855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 438744857}
+  - component: {fileID: 438744856}
+  - component: {fileID: 438744858}
+  m_Layer: 0
+  m_Name: Even system
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &438744856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438744855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &438744857
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438744855}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -961.3908, y: -537.8944, z: -1.0988054}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3753461366065863009}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &438744858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438744855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!1 &462247090
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 462247094}
   - component: {fileID: 462247093}
@@ -272,8 +360,9 @@ GameObject:
 --- !u!23 &462247091
 MeshRenderer:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462247090}
   m_Enabled: 1
   m_CastShadows: 1
@@ -282,6 +371,9 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 2f2af3b41b54d5e428c4c26ee8f4b534, type: 2}
   m_StaticBatchInfo:
@@ -291,6 +383,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -306,8 +399,9 @@ MeshRenderer:
 --- !u!135 &462247092
 SphereCollider:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462247090}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -318,15 +412,17 @@ SphereCollider:
 --- !u!33 &462247093
 MeshFilter:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462247090}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &462247094
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462247090}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.91, y: 0.93, z: -2.89}
@@ -335,53 +431,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &544096286
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 544096288}
-  - component: {fileID: 544096287}
-  m_Layer: 0
-  m_Name: LightingSwitcher
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &544096287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 544096286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32fb19bd7611e374b9306152ac87a3c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultLightingScenario: 0
---- !u!4 &544096288
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 544096286}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.2737975, y: 4.0281725, z: -1.8313577}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &779719398
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 779719402}
   - component: {fileID: 779719401}
@@ -397,8 +453,9 @@ GameObject:
 --- !u!23 &779719399
 MeshRenderer:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 779719398}
   m_Enabled: 1
   m_CastShadows: 1
@@ -407,6 +464,9 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 2f2af3b41b54d5e428c4c26ee8f4b534, type: 2}
   m_StaticBatchInfo:
@@ -416,6 +476,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -431,8 +492,9 @@ MeshRenderer:
 --- !u!65 &779719400
 BoxCollider:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 779719398}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -443,15 +505,17 @@ BoxCollider:
 --- !u!33 &779719401
 MeshFilter:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 779719398}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &779719402
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 779719398}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.29400587, y: 1.1032724, z: -0.5168524}
@@ -463,9 +527,10 @@ Transform:
 --- !u!1 &1052615634
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 1052615638}
   - component: {fileID: 1052615637}
@@ -481,8 +546,9 @@ GameObject:
 --- !u!23 &1052615635
 MeshRenderer:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1052615634}
   m_Enabled: 1
   m_CastShadows: 1
@@ -491,6 +557,9 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
   m_Materials:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -500,6 +569,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -515,8 +585,9 @@ MeshRenderer:
 --- !u!135 &1052615636
 SphereCollider:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1052615634}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -527,15 +598,17 @@ SphereCollider:
 --- !u!33 &1052615637
 MeshFilter:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1052615634}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1052615638
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1052615634}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.122143745, y: 1.7693863, z: -2.59}
@@ -547,9 +620,10 @@ Transform:
 --- !u!1 &1160014395
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 1160014399}
   - component: {fileID: 1160014398}
@@ -565,8 +639,9 @@ GameObject:
 --- !u!23 &1160014396
 MeshRenderer:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160014395}
   m_Enabled: 1
   m_CastShadows: 1
@@ -575,6 +650,9 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
   m_Materials:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -584,6 +662,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -599,8 +678,9 @@ MeshRenderer:
 --- !u!135 &1160014397
 SphereCollider:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160014395}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -611,15 +691,17 @@ SphereCollider:
 --- !u!33 &1160014398
 MeshFilter:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160014395}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1160014399
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160014395}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.122143745, y: 1.7693863, z: 2.09}
@@ -631,13 +713,14 @@ Transform:
 --- !u!1 &1315805500
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 1315805501}
   m_Layer: 0
-  m_Name: '----Lighting-----'
+  m_Name: ----Lighting-----
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -646,8 +729,9 @@ GameObject:
 --- !u!4 &1315805501
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1315805500}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -659,9 +743,10 @@ Transform:
 --- !u!1 &1709437753
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 1709437755}
   - component: {fileID: 1709437754}
@@ -675,8 +760,9 @@ GameObject:
 --- !u!114 &1709437754
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1709437753}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -684,6 +770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   latestBuildHasReltimeLights: 0
+  allowLoadingLightingScenes: 1
   lightingScenariosData:
   - rendererInfos:
     - renderer: {fileID: 160949653}
@@ -706,923 +793,922 @@ MonoBehaviour:
     lightmapsMode: 1
     lightProbes:
     - coefficients:
-      - 0.5747607
-      - 0.096820846
-      - -0.33746454
-      - -0.04241528
-      - -0.026602386
-      - -0.41735497
-      - 0.10870994
-      - 0.027483707
-      - -0.04789289
-      - 0.5913758
-      - 0.10493507
-      - -0.3289639
-      - -0.034083042
-      - -0.025346378
-      - -0.3880163
-      - 0.10168302
-      - 0.030724488
-      - -0.03456686
-      - 0.58941543
-      - 0.11883104
-      - -0.28923652
-      - -0.018462786
-      - -0.021843843
-      - -0.3111096
-      - 0.08060193
-      - 0.033396784
-      - -0.015814459
+      - 0.5806388
+      - 0.06065802
+      - -0.25495797
+      - -0.03520285
+      - -0.011190918
+      - -0.18838555
+      - 0.052124754
+      - 0.00985253
+      - -0.02027901
+      - 0.59966016
+      - 0.06856805
+      - -0.24934067
+      - -0.029198788
+      - -0.010571734
+      - -0.17689258
+      - 0.049534675
+      - 0.012259801
+      - -0.01292063
+      - 0.5993435
+      - 0.08410409
+      - -0.22147714
+      - -0.016516587
+      - -0.0094740195
+      - -0.14499772
+      - 0.040173598
+      - 0.015276909
+      - -0.0033841871
     - coefficients:
-      - 0.5428628
-      - 0.10746703
-      - -0.37185386
-      - -0.029680993
-      - -0.030652903
-      - -0.42387247
-      - 0.102071285
-      - 0.041163247
-      - -0.044277564
-      - 0.56736875
-      - 0.1154234
-      - -0.35240424
-      - -0.02483529
-      - -0.028358443
-      - -0.392654
-      - 0.09652437
-      - 0.042024232
-      - -0.029980566
-      - 0.58137316
-      - 0.12770347
-      - -0.29180893
-      - -0.015656147
-      - -0.022808306
-      - -0.31190243
-      - 0.07848587
-      - 0.03879119
-      - -0.010542843
+      - 0.545614
+      - 0.066410094
+      - -0.27162
+      - -0.021610474
+      - -0.011334915
+      - -0.15232994
+      - 0.03900224
+      - 0.013630081
+      - -0.014588709
+      - 0.5713965
+      - 0.07366055
+      - -0.25917044
+      - -0.018648006
+      - -0.010468264
+      - -0.14135057
+      - 0.037554167
+      - 0.014313211
+      - -0.00859016
+      - 0.58616185
+      - 0.086711
+      - -0.21843949
+      - -0.013071082
+      - -0.008345604
+      - -0.11276985
+      - 0.03136353
+      - 0.013634176
+      - -0.0011458151
     - coefficients:
-      - 0.6078393
-      - 0.12851262
-      - -0.32254463
-      - -0.045964055
-      - -0.04075267
-      - -0.3580314
-      - 0.1111243
-      - 0.023914456
-      - -0.05060222
-      - 0.6151952
-      - 0.13059568
-      - -0.31843323
-      - -0.040147062
-      - -0.03702072
-      - -0.33630222
-      - 0.10469793
-      - 0.027817763
-      - -0.041050505
-      - 0.5987882
-      - 0.12933338
-      - -0.28832722
-      - -0.02744128
-      - -0.028146632
-      - -0.27878767
-      - 0.08418333
-      - 0.032036573
-      - -0.025947671
+      - 0.61532325
+      - 0.10267342
+      - -0.2804161
+      - -0.04236534
+      - -0.033460576
+      - -0.22775279
+      - 0.07975197
+      - 0.008898181
+      - -0.030774955
+      - 0.6240373
+      - 0.10798838
+      - -0.27850524
+      - -0.037498415
+      - -0.030715274
+      - -0.21513563
+      - 0.076101504
+      - 0.01342948
+      - -0.023390379
+      - 0.6077441
+      - 0.113641985
+      - -0.2548046
+      - -0.026096305
+      - -0.023830637
+      - -0.18276227
+      - 0.062164333
+      - 0.02029051
+      - -0.012880491
     - coefficients:
-      - 0.5619349
-      - 0.120594606
-      - -0.3649567
-      - -0.03367109
-      - -0.033311542
-      - -0.38915777
-      - 0.10670106
-      - 0.03443726
-      - -0.042546317
-      - 0.5796522
-      - 0.12440996
-      - -0.35394973
-      - -0.029638615
-      - -0.030340135
-      - -0.36251616
-      - 0.10069441
-      - 0.03443019
-      - -0.0317477
-      - 0.5839492
-      - 0.12758999
-      - -0.30791602
-      - -0.02109718
-      - -0.023086552
-      - -0.29329237
-      - 0.08119401
-      - 0.031452656
-      - -0.01589509
+      - 0.56539345
+      - 0.08238247
+      - -0.28724954
+      - -0.027772048
+      - -0.015203603
+      - -0.16649526
+      - 0.049808685
+      - 0.014316867
+      - -0.015995596
+      - 0.5848778
+      - 0.08729124
+      - -0.27963457
+      - -0.0238913
+      - -0.013781628
+      - -0.15666705
+      - 0.04768483
+      - 0.015391454
+      - -0.010034118
+      - 0.5903427
+      - 0.09413437
+      - -0.24447617
+      - -0.016109794
+      - -0.010344547
+      - -0.13053584
+      - 0.03931783
+      - 0.015845627
+      - -0.0024462102
     - coefficients:
-      - 0.5692135
-      - 0.10607138
-      - -0.3358786
-      - -0.01025962
-      - -0.04178434
-      - -0.41601345
-      - 0.110336676
-      - 0.059846345
-      - -0.046953667
-      - 0.58458793
-      - 0.11443551
-      - -0.32998452
-      - -0.011179714
-      - -0.03968588
-      - -0.3863257
-      - 0.10301919
-      - 0.052985273
-      - -0.03362645
-      - 0.5815403
-      - 0.1281353
-      - -0.29422337
-      - -0.010756166
-      - -0.03396406
-      - -0.3087379
-      - 0.08138478
-      - 0.038223915
-      - -0.014409018
+      - 0.5828866
+      - 0.065445215
+      - -0.25448945
+      - -0.0073941937
+      - -0.021714056
+      - -0.19311707
+      - 0.05480792
+      - 0.032392103
+      - -0.019483699
+      - 0.59999627
+      - 0.07335966
+      - -0.25074092
+      - -0.008397125
+      - -0.020839846
+      - -0.18136315
+      - 0.051872086
+      - 0.029240238
+      - -0.012082386
+      - 0.5966196
+      - 0.08890095
+      - -0.22578898
+      - -0.008284056
+      - -0.018512804
+      - -0.14901617
+      - 0.041809358
+      - 0.021791292
+      - -0.0024768035
     - coefficients:
-      - 0.5418402
-      - 0.10980133
-      - -0.3706457
-      - -0.021741552
-      - -0.03282139
-      - -0.42311645
-      - 0.102869146
-      - 0.053975
-      - -0.043977197
-      - 0.56529194
-      - 0.118197024
-      - -0.35276753
-      - -0.021339383
-      - -0.03054864
-      - -0.3913855
-      - 0.09707763
-      - 0.048155624
-      - -0.029827163
-      - 0.57747406
-      - 0.13155074
-      - -0.29503003
-      - -0.018321473
-      - -0.025004942
-      - -0.30939528
-      - 0.07855778
-      - 0.035631746
-      - -0.010351576
+      - 0.54620075
+      - 0.06720006
+      - -0.27174482
+      - -0.016898077
+      - -0.011947785
+      - -0.15268405
+      - 0.038930405
+      - 0.020300977
+      - -0.014134358
+      - 0.5712138
+      - 0.074578725
+      - -0.26075163
+      - -0.016228504
+      - -0.011300227
+      - -0.1414396
+      - 0.0373401
+      - 0.018430086
+      - -0.008068131
+      - 0.5848583
+      - 0.08796435
+      - -0.22223847
+      - -0.013157875
+      - -0.009659156
+      - -0.112252355
+      - 0.031015866
+      - 0.0144011285
+      - -0.0004969935
     - coefficients:
-      - 0.60185933
-      - 0.14230151
-      - -0.32192266
-      - -0.008350835
-      - -0.026820863
-      - -0.35088354
-      - 0.11211182
-      - 0.060298298
-      - -0.051643144
-      - 0.6075616
-      - 0.1434089
-      - -0.3203791
-      - -0.0061569028
-      - -0.024787914
-      - -0.32997617
-      - 0.10531079
-      - 0.053699005
-      - -0.04231203
-      - 0.58818847
-      - 0.14003529
-      - -0.2943922
-      - -0.0013560873
-      - -0.01991206
-      - -0.27484593
-      - 0.08409024
-      - 0.039207526
-      - -0.027111495
+      - 0.60736203
+      - 0.12008286
+      - -0.28290236
+      - -0.0042849155
+      - -0.019287866
+      - -0.23523982
+      - 0.085565634
+      - 0.04892607
+      - -0.035031307
+      - 0.6147406
+      - 0.12496821
+      - -0.28236687
+      - -0.0026203978
+      - -0.017736249
+      - -0.22334938
+      - 0.08170778
+      - 0.043503284
+      - -0.027042208
+      - 0.5953561
+      - 0.12941663
+      - -0.26161328
+      - 0.0012992078
+      - -0.014278172
+      - -0.19205897
+      - 0.06678073
+      - 0.031852912
+      - -0.015447822
     - coefficients:
-      - 0.5580474
-      - 0.12740055
-      - -0.36490977
-      - -0.022414433
-      - -0.028379165
-      - -0.38565302
-      - 0.107147545
-      - 0.054910444
-      - -0.042879514
-      - 0.57542455
-      - 0.13133734
-      - -0.354547
-      - -0.021000171
-      - -0.026474528
-      - -0.35955077
-      - 0.100577936
-      - 0.050204497
-      - -0.031500213
-      - 0.57879305
-      - 0.13440485
-      - -0.31008244
-      - -0.016926445
-      - -0.021819366
-      - -0.29160488
-      - 0.08010928
-      - 0.038055237
-      - -0.01480812
+      - 0.5586875
+      - 0.089754604
+      - -0.28721905
+      - -0.017923858
+      - -0.0139747895
+      - -0.16559856
+      - 0.049371894
+      - 0.028589986
+      - -0.015333868
+      - 0.57731193
+      - 0.09440704
+      - -0.2805455
+      - -0.016125781
+      - -0.012989296
+      - -0.15571727
+      - 0.046902075
+      - 0.027130168
+      - -0.009444027
+      - 0.5817935
+      - 0.10057895
+      - -0.24778643
+      - -0.011684453
+      - -0.010545582
+      - -0.12967627
+      - 0.038155504
+      - 0.022476919
+      - -0.0018867586
     - coefficients:
-      - 0.4495176
-      - 0.20155169
-      - -0.36571458
-      - 0.0074298778
-      - -0.0603888
-      - -0.4140735
-      - 0.092042394
-      - 0.028049767
-      - -0.022512684
-      - 0.48025438
-      - 0.1991402
-      - -0.32411796
-      - 0.010646736
-      - -0.055274095
-      - -0.37879527
-      - 0.08667519
-      - 0.021700602
-      - -0.010910545
-      - 0.51003635
-      - 0.18766108
-      - -0.23223993
-      - 0.015425341
-      - -0.043786243
-      - -0.2942485
-      - 0.06868532
-      - 0.009627994
-      - 0.0030362224
+      - 0.45180038
+      - 0.1351796
+      - -0.2514072
+      - 0.008105133
+      - -0.022888482
+      - -0.12847988
+      - 0.028716104
+      - 0.0072069536
+      - -0.002767141
+      - 0.48303294
+      - 0.1341375
+      - -0.22204661
+      - 0.0102404095
+      - -0.021216331
+      - -0.11765834
+      - 0.027252434
+      - 0.005090862
+      - 0.0014149508
+      - 0.5134847
+      - 0.1277847
+      - -0.15852977
+      - 0.013042896
+      - -0.017311234
+      - -0.092021614
+      - 0.021729337
+      - 0.0011248731
+      - 0.0056059384
     - coefficients:
-      - 0.19794498
-      - -0.041312058
-      - 0.041135244
-      - 0.03838666
-      - -0.034619126
-      - -0.018407792
-      - 0.0068061533
-      - 0.0005356064
-      - 0.029457634
-      - 0.24361148
-      - -0.026366143
-      - 0.054213088
-      - 0.039941076
-      - -0.032814026
-      - -0.0115569215
-      - 0.00872699
-      - -0.0005599234
-      - 0.03382979
-      - 0.31101373
-      - 0.006357153
-      - 0.07538819
-      - 0.040336218
-      - -0.028113766
-      - 0.0013058477
-      - 0.00865542
-      - -0.0025340808
-      - 0.03404799
+      - 0.19403785
+      - -0.0433821
+      - 0.054405067
+      - 0.035907615
+      - -0.032916
+      - -0.019755736
+      - 0.0052346773
+      - 0.0018410712
+      - 0.031495478
+      - 0.2393215
+      - -0.029739795
+      - 0.0692245
+      - 0.03656619
+      - -0.031163238
+      - -0.012602033
+      - 0.0066872747
+      - 0.00077951717
+      - 0.0357274
+      - 0.30722287
+      - 0.0016551072
+      - 0.09081467
+      - 0.03616285
+      - -0.027232714
+      - -0.000005144556
+      - 0.0063179946
+      - -0.0015058997
+      - 0.035593513
     - coefficients:
-      - 0.16261521
-      - 0.0006070165
-      - 0.016508285
-      - 0.026501369
-      - -0.01064003
-      - -0.004049064
-      - 0.0076974127
-      - -0.009227997
-      - 0.030989481
-      - 0.21607901
-      - 0.015175614
-      - 0.026735693
-      - 0.027813258
-      - -0.00927278
-      - -0.0029091996
-      - 0.00938833
-      - -0.012255388
-      - 0.036892068
-      - 0.30541527
-      - 0.04255416
-      - 0.0405651
-      - 0.029837264
-      - -0.0055216546
-      - 0.0005422686
-      - 0.009522712
-      - -0.018739183
-      - 0.03907106
+      - 0.16174242
+      - -0.004100874
+      - 0.023997046
+      - 0.029534992
+      - -0.010060729
+      - -0.0020770954
+      - 0.006182807
+      - -0.013089999
+      - 0.03145372
+      - 0.2155829
+      - 0.009001727
+      - 0.03574048
+      - 0.03211196
+      - -0.008651562
+      - -0.0008565655
+      - 0.0074174823
+      - -0.017126344
+      - 0.03757375
+      - 0.30547392
+      - 0.03484901
+      - 0.049919672
+      - 0.034895692
+      - -0.005375262
+      - 0.001919715
+      - 0.006856439
+      - -0.02382175
+      - 0.039361022
     - coefficients:
-      - 0.15263988
-      - -0.00078588503
-      - 0.033545513
-      - 0.031257957
-      - -0.011903285
-      - -0.0076889964
-      - 0.005036672
-      - 0.0021101972
-      - 0.023936661
-      - 0.1973768
-      - 0.012842869
-      - 0.049623273
-      - 0.033263054
-      - -0.010509849
-      - -0.0022949204
-      - 0.0074892584
-      - 0.0010288481
-      - 0.02947499
-      - 0.2677109
-      - 0.036092907
-      - 0.07667833
-      - 0.035685852
-      - -0.007121691
-      - 0.011918073
-      - 0.009116635
-      - -0.0013518595
-      - 0.033294067
+      - 0.15520354
+      - -0.008308203
+      - 0.03741672
+      - 0.033948474
+      - -0.01450519
+      - -0.002947692
+      - 0.0039048502
+      - 0.0012383464
+      - 0.026813049
+      - 0.20066969
+      - 0.0036304703
+      - 0.05502665
+      - 0.036728606
+      - -0.013321275
+      - 0.0033476364
+      - 0.006154426
+      - -0.00005079282
+      - 0.032308012
+      - 0.27210927
+      - 0.024972932
+      - 0.08237848
+      - 0.03944581
+      - -0.010113512
+      - 0.017381806
+      - 0.0073471437
+      - -0.0020976036
+      - 0.035217546
     - coefficients:
-      - 0.44103277
-      - 0.21365695
-      - -0.3588415
-      - -0.039594963
-      - -0.015543546
-      - -0.42050084
-      - 0.0919079
-      - 0.048232876
-      - -0.01869862
-      - 0.47118694
-      - 0.21082695
-      - -0.31602672
-      - -0.03702493
-      - -0.014824895
-      - -0.38467416
-      - 0.08624438
-      - 0.045951694
-      - -0.0072766594
-      - 0.50039965
-      - 0.19836648
-      - -0.22271557
-      - -0.029419467
-      - -0.013017131
-      - -0.2989485
-      - 0.06793102
-      - 0.038188316
-      - 0.0063732276
+      - 0.44405758
+      - 0.14608157
+      - -0.2497682
+      - -0.028182335
+      - -0.0045970925
+      - -0.13883655
+      - 0.029998206
+      - 0.017420478
+      - -0.0008860578
+      - 0.47521156
+      - 0.14497073
+      - -0.22005232
+      - -0.026592558
+      - -0.0046962015
+      - -0.12724939
+      - 0.028417509
+      - 0.017268967
+      - 0.0034705368
+      - 0.5057183
+      - 0.13864367
+      - -0.15617515
+      - -0.02146721
+      - -0.0047708834
+      - -0.10002776
+      - 0.022626573
+      - 0.015270152
+      - 0.007749427
     - coefficients:
-      - 0.1833176
-      - -0.025859622
-      - 0.04754004
-      - -0.008073372
-      - 0.005697263
-      - -0.01753244
-      - 0.008310764
-      - 0.0005035007
-      - 0.0326236
-      - 0.22905394
-      - -0.011659313
-      - 0.06098936
-      - -0.007869063
-      - 0.0042268774
-      - -0.010688801
-      - 0.010306696
-      - 0.0019465343
-      - 0.036495388
-      - 0.29708537
-      - 0.019360034
-      - 0.0826156
-      - -0.0062904917
-      - 0.0014008392
-      - 0.0020803409
-      - 0.010320649
-      - 0.0039468133
-      - 0.035935972
+      - 0.18144663
+      - -0.029252619
+      - 0.057202253
+      - -0.0028326542
+      - 0.003962866
+      - -0.017627185
+      - 0.0067699035
+      - -0.0034365018
+      - 0.033858947
+      - 0.22670603
+      - -0.016193599
+      - 0.07272099
+      - -0.0027825378
+      - 0.0022017201
+      - -0.0106127765
+      - 0.008407427
+      - -0.0017976107
+      - 0.037500575
+      - 0.29488355
+      - 0.014026936
+      - 0.0957476
+      - -0.0019013933
+      - -0.00078316237
+      - 0.0012925493
+      - 0.008185988
+      - 0.0009402861
+      - 0.036382124
     - coefficients:
-      - 0.14928664
-      - 0.012049906
-      - 0.025081465
-      - -0.009459484
-      - 0.0014698895
-      - -0.0059822337
-      - 0.0068247016
-      - 0.0028699308
-      - 0.03178207
-      - 0.20274514
-      - 0.026097823
-      - 0.03588275
-      - -0.010486843
-      - 0.000060897517
-      - -0.0047959993
-      - 0.008484785
-      - 0.0059035695
-      - 0.037839606
-      - 0.2917778
-      - 0.05265859
-      - 0.051248714
-      - -0.011391015
-      - -0.0031304245
-      - -0.0013154915
-      - 0.008469773
-      - 0.010913117
-      - 0.04022057
+      - 0.14942242
+      - 0.00992688
+      - 0.02637283
+      - -0.01149304
+      - 0.00036465473
+      - -0.004210248
+      - 0.005949923
+      - 0.005890762
+      - 0.03272393
+      - 0.2033305
+      - 0.023229621
+      - 0.038328636
+      - -0.012826026
+      - -0.0011018901
+      - -0.0026148953
+      - 0.007276927
+      - 0.009638385
+      - 0.03915163
+      - 0.2930529
+      - 0.049029864
+      - 0.053398583
+      - -0.013244506
+      - -0.0043500005
+      - 0.0013161516
+      - 0.006678484
+      - 0.014559592
+      - 0.041802283
     - coefficients:
-      - 0.13166486
-      - 0.018139647
-      - 0.035637137
-      - -0.005871925
-      - -0.0014727596
-      - -0.0044934927
-      - 0.00646645
-      - 0.0010898721
-      - 0.023823151
-      - 0.17582597
-      - 0.03148928
-      - 0.052256748
-      - -0.006499578
-      - -0.0022593818
-      - 0.001226153
-      - 0.00899824
-      - 0.0027770102
-      - 0.029267784
-      - 0.24525158
-      - 0.054049008
-      - 0.08022587
-      - -0.0063137556
-      - -0.0033514781
-      - 0.01611407
-      - 0.010744518
-      - 0.0049073505
-      - 0.03301867
+      - 0.13355689
+      - 0.012718054
+      - 0.040279746
+      - -0.006457701
+      - -0.003185108
+      - -0.00022477923
+      - 0.0057438496
+      - 0.001756909
+      - 0.024664668
+      - 0.17832233
+      - 0.02444123
+      - 0.057545263
+      - -0.006711021
+      - -0.0037202134
+      - 0.0068657575
+      - 0.0078045437
+      - 0.0024921813
+      - 0.030015433
+      - 0.24826044
+      - 0.045811795
+      - 0.08461209
+      - -0.0062405732
+      - -0.0050702435
+      - 0.021816054
+      - 0.00867352
+      - 0.003988747
+      - 0.03306413
     hasRealtimeLights: 1
   - rendererInfos:
     - renderer: {fileID: 160949653}
       lightmapIndex: 0
-      lightmapOffsetScale: {x: 0.062499978, y: 0.062499978, z: 0.171875, w: 0.05649083}
+      lightmapOffsetScale: {x: 0.062499978, y: 0.062499978, z: 0.875, w: 0.1177524}
     - renderer: {fileID: 462247091}
       lightmapIndex: 0
-      lightmapOffsetScale: {x: 0.062499978, y: 0.062499978, z: 0.171875, w: 0}
+      lightmapOffsetScale: {x: 0.062499978, y: 0.062499978, z: 0.796875, w: 0.1177524}
     - renderer: {fileID: 779719399}
       lightmapIndex: 0
-      lightmapOffsetScale: {x: 0.1574145, y: 0.1574145, z: -0.0006384364, w: -0.0006384364}
+      lightmapOffsetScale: {x: 0.1574145, y: 0.1574145, z: 0.7962366, w: -0.0006384364}
     - renderer: {fileID: 1972097390}
       lightmapIndex: 0
-      lightmapOffsetScale: {x: 0.78125, y: 0.78125, z: 0, w: 0.1177524}
+      lightmapOffsetScale: {x: 0.78125, y: 0.78125, z: 0, w: 0}
     lightmaps:
     - {fileID: 2800000, guid: abf36f84ebdd8c04ab53d0473c8b67ab, type: 3}
     lightmapsDir:
     - {fileID: 2800000, guid: 628624145bc0d5d4db393c4cbd34dbfb, type: 3}
-    shadowMasks:
-    - {fileID: 2800000, guid: e41ec1c15ca60c04f8a6f338db53a847, type: 3}
+    shadowMasks: []
     lightmapsMode: 1
     lightProbes:
     - coefficients:
-      - 0.029644128
-      - 0.0053553903
-      - -0.0029438653
-      - -0.00017686108
-      - 0.00025783805
-      - -0.00018995948
-      - 0.0005096131
-      - -0.001384144
-      - 0.003579162
-      - 0.043003194
-      - 0.009192438
-      - -0.0038454167
-      - -0.00032973549
-      - 0.00012402023
-      - -0.0004276904
-      - 0.0005652637
-      - -0.0023041414
-      - 0.0045710634
-      - 0.065992735
-      - 0.0159324
-      - -0.00532622
-      - -0.0008111191
-      - -0.0005135921
-      - -0.00018820768
-      - 0.00044018787
-      - -0.0035838806
-      - 0.0055518053
+      - 0.028911412
+      - 0.0044540334
+      - -0.007137701
+      - 0.0012599387
+      - -0.0002097178
+      - -0.000063248604
+      - 0.0010842885
+      - -0.0012807848
+      - 0.0067183813
+      - 0.04116552
+      - 0.007869556
+      - -0.009596414
+      - 0.001600881
+      - -0.0005722442
+      - -0.00017248481
+      - 0.0012759131
+      - -0.0020191215
+      - 0.008703965
+      - 0.059948727
+      - 0.01485893
+      - -0.012406085
+      - 0.0014399271
+      - -0.0015223243
+      - 0.00038219846
+      - 0.0010575647
+      - -0.0029916056
+      - 0.009808635
     - coefficients:
-      - 0.03162963
-      - 0.005677851
-      - -0.0011459952
-      - -0.0012942952
-      - -0.00042997507
-      - 0.0018838443
-      - 0.000770596
-      - -0.002779644
-      - 0.0034579316
-      - 0.045759782
-      - 0.009940079
-      - -0.00095580565
-      - -0.0019229141
-      - -0.00093109795
-      - 0.0024638954
-      - 0.00095588993
-      - -0.0042234403
-      - 0.004476424
-      - 0.07012186
-      - 0.017030817
-      - -0.00065022474
-      - -0.0031923093
-      - -0.0019778076
-      - 0.0038519206
-      - 0.0010249282
-      - -0.006350671
-      - 0.0055271015
+      - 0.031708583
+      - 0.0040123984
+      - -0.0046335477
+      - -0.0005481809
+      - -0.00042911439
+      - 0.0020322131
+      - 0.0013603129
+      - -0.0031972772
+      - 0.007014316
+      - 0.04515915
+      - 0.0075346623
+      - -0.005583702
+      - -0.0010403524
+      - -0.0009615693
+      - 0.0027219355
+      - 0.0017048152
+      - -0.0048274794
+      - 0.009186246
+      - 0.066157736
+      - 0.014412415
+      - -0.0059671723
+      - -0.0025111919
+      - -0.0020820268
+      - 0.004521172
+      - 0.0017549437
+      - -0.0072356933
+      - 0.010434954
     - coefficients:
-      - 0.02515553
-      - 0.005828019
-      - -0.0043376726
-      - -0.00016919861
-      - 0.00044610945
-      - -0.0018903976
-      - 0.00053210976
-      - -0.00064913963
-      - 0.0025777628
-      - 0.0373103
-      - 0.008843155
-      - -0.006592382
-      - -0.00019368803
-      - 0.000495862
-      - -0.0030808016
-      - 0.00063736626
-      - -0.0011326104
-      - 0.0034214584
-      - 0.058336336
-      - 0.013977031
-      - -0.010186496
-      - -0.0003750428
-      - 0.000339877
-      - -0.0047829337
-      - 0.0005999943
-      - -0.0016832419
-      - 0.00426656
+      - 0.022057818
+      - 0.0053623784
+      - -0.008276008
+      - 0.00058143015
+      - -0.000086712775
+      - -0.0006847868
+      - 0.0012493635
+      - -0.0007033189
+      - 0.0034754775
+      - 0.03245956
+      - 0.008168815
+      - -0.011781087
+      - 0.0007935088
+      - -0.00018002404
+      - -0.001423493
+      - 0.0015552889
+      - -0.0009892533
+      - 0.004616398
+      - 0.04934762
+      - 0.013293127
+      - -0.0163349
+      - 0.0007123366
+      - -0.000409911
+      - -0.0030921395
+      - 0.0014261438
+      - -0.0010688497
+      - 0.005301295
     - coefficients:
-      - 0.028949186
-      - 0.0048869546
-      - -0.0039606937
-      - -0.0012474832
-      - 0.00039474491
-      - 0.0001267789
-      - 0.00033535413
-      - -0.0022787927
-      - 0.002644826
-      - 0.042465013
-      - 0.008544365
-      - -0.0053638956
-      - -0.0014288252
-      - 0.00007404931
-      - -0.00022762171
-      - 0.00037416467
-      - -0.0032460757
-      - 0.0036559831
-      - 0.06597377
-      - 0.0145943975
-      - -0.0074028554
-      - -0.002001438
-      - -0.00067749876
-      - -0.00045188455
-      - 0.00023119486
-      - -0.0046474314
-      - 0.0046928
+      - 0.027561458
+      - 0.0031067894
+      - -0.008140245
+      - -0.00019834939
+      - 0.0006415398
+      - 0.0005979752
+      - 0.0009764747
+      - -0.002601675
+      - 0.004947468
+      - 0.03993436
+      - 0.005935049
+      - -0.0107707465
+      - -0.000094333416
+      - 0.00032913568
+      - 0.0002671773
+      - 0.0012142252
+      - -0.0036802397
+      - 0.006676403
+      - 0.059977762
+      - 0.011300282
+      - -0.013382975
+      - -0.0007352698
+      - -0.0003850714
+      - -0.00018525132
+      - 0.0010700425
+      - -0.0050395327
+      - 0.0077268137
     - coefficients:
-      - 0.030634644
-      - 0.004716492
-      - -0.0031803085
-      - -0.001589422
-      - -0.00004259281
-      - 0.0001851146
-      - 0.0005186606
-      - -0.0035752614
-      - 0.0037289097
-      - 0.044282008
-      - 0.008542673
-      - -0.00409614
-      - -0.0020225218
-      - -0.0005715537
-      - 0.00006234253
-      - 0.0005991572
-      - -0.005196719
-      - 0.0048816088
-      - 0.067596726
-      - 0.015316068
-      - -0.0055156434
-      - -0.0031771117
-      - -0.0015421172
-      - 0.00040163295
-      - 0.00046745015
-      - -0.0075883362
-      - 0.006071274
+      - 0.029286768
+      - 0.003999907
+      - -0.0071018506
+      - -0.0021205614
+      - -0.000257756
+      - 0.00022375917
+      - 0.0008699272
+      - -0.004729822
+      - 0.006655283
+      - 0.041636836
+      - 0.007381282
+      - -0.009457178
+      - -0.002940551
+      - -0.00081827067
+      - 0.00010547382
+      - 0.0010080511
+      - -0.0066473167
+      - 0.008722794
+      - 0.060624316
+      - 0.014284403
+      - -0.012043971
+      - -0.0044266637
+      - -0.00206662
+      - 0.0004889882
+      - 0.0007582639
+      - -0.0090987915
+      - 0.009950346
     - coefficients:
-      - 0.03216436
-      - 0.0051094056
-      - -0.0013603214
-      - -0.0017474286
-      - -0.000523307
-      - 0.0019367535
-      - 0.00096043386
-      - -0.0043568695
-      - 0.0035549984
-      - 0.046454005
-      - 0.009279071
-      - -0.0012445714
-      - -0.002425189
-      - -0.0010933266
-      - 0.002607263
-      - 0.0012359569
-      - -0.0063052126
-      - 0.0046543954
-      - 0.07099543
-      - 0.016286371
-      - -0.0009264401
-      - -0.003912056
-      - -0.0022107312
-      - 0.0040588244
-      - 0.0013966747
-      - -0.009174977
-      - 0.0057805106
+      - 0.032020666
+      - 0.0036755744
+      - -0.004586906
+      - -0.0021910367
+      - -0.000753261
+      - 0.0020836908
+      - 0.0012685102
+      - -0.0059011597
+      - 0.0070710527
+      - 0.045595072
+      - 0.0071230163
+      - -0.005660759
+      - -0.0031037147
+      - -0.0013550835
+      - 0.0029081984
+      - 0.0016167314
+      - -0.008268869
+      - 0.009265754
+      - 0.066798545
+      - 0.013857403
+      - -0.0062808003
+      - -0.0047125597
+      - -0.002617878
+      - 0.0048853154
+      - 0.0016994282
+      - -0.011102704
+      - 0.010519401
     - coefficients:
-      - 0.02706789
-      - 0.0043776706
-      - -0.004449795
-      - -0.0012110166
-      - 0.00042176477
-      - -0.0010803002
-      - 0.0002912062
-      - -0.003336085
-      - 0.0023266247
-      - 0.03947669
-      - 0.0076393783
-      - -0.0064422474
-      - -0.0013068186
-      - 0.00016750154
-      - -0.0020891065
-      - 0.00036185427
-      - -0.004719644
-      - 0.0031761706
-      - 0.060869135
-      - 0.013104949
-      - -0.009649587
-      - -0.0017649829
-      - -0.00049748056
-      - -0.0035361242
-      - 0.00026405018
-      - -0.006825289
-      - 0.00403834
+      - 0.024196357
+      - 0.003403423
+      - -0.007910419
+      - -0.0005194138
+      - 0.0008457598
+      - 0.00011910395
+      - 0.0010898452
+      - -0.0044434243
+      - 0.003131387
+      - 0.03480232
+      - 0.006155821
+      - -0.010982753
+      - -0.00037876313
+      - 0.00068983226
+      - -0.00059870654
+      - 0.0013864039
+      - -0.0061677485
+      - 0.004232137
+      - 0.05174275
+      - 0.011139806
+      - -0.015077879
+      - -0.0005582533
+      - 0.00022650196
+      - -0.0022056513
+      - 0.0012701652
+      - -0.008190432
+      - 0.0048849615
     - coefficients:
-      - 0.028837519
-      - 0.0052542863
-      - -0.0026082878
-      - -0.0002587174
-      - -0.001464077
-      - -0.0010365668
-      - 0.00042011304
-      - -0.0029100652
-      - 0.002745717
-      - 0.042384524
-      - 0.008897899
-      - -0.003946126
-      - -0.000625728
-      - -0.0019242667
-      - -0.0013530008
-      - 0.00047518875
-      - -0.004221792
-      - 0.0037706546
-      - 0.065946326
-      - 0.014916581
-      - -0.0058810525
-      - -0.001505993
-      - -0.0029129705
-      - -0.0015285566
-      - 0.0003561449
-      - -0.00621002
-      - 0.004824597
+      - 0.027169663
+      - 0.0038468759
+      - -0.0061481055
+      - 0.0009779066
+      - -0.0016317086
+      - -0.00094922434
+      - 0.0009563718
+      - -0.0031811865
+      - 0.0051433863
+      - 0.0394527
+      - 0.006737911
+      - -0.008755699
+      - 0.0008364739
+      - -0.002045445
+      - -0.0011717378
+      - 0.0011638477
+      - -0.0046195714
+      - 0.00682821
+      - 0.05937351
+      - 0.012208188
+      - -0.011565153
+      - 0.000045912904
+      - -0.0029919117
+      - -0.0014781763
+      - 0.0010147757
+      - -0.006598474
+      - 0.007832532
     - coefficients:
-      - 0.03615259
-      - 0.0015041416
-      - 0.00013102163
-      - -0.002499897
-      - -0.0005586295
-      - 0.0018377742
-      - 0.0014866374
-      - -0.0029637562
-      - 0.0030976213
-      - 0.05067141
-      - 0.005317851
-      - 0.001517347
-      - -0.003451792
-      - -0.0010660753
-      - 0.0025921406
-      - 0.0017777255
-      - -0.0048283846
-      - 0.0041666105
-      - 0.07565611
-      - 0.01176443
-      - 0.0040581943
-      - -0.005135779
-      - -0.002185589
-      - 0.0038748826
-      - 0.0019761864
-      - -0.007576398
-      - 0.005256939
+      - 0.035793968
+      - 0.0002675649
+      - 0.0032503747
+      - -0.0013003798
+      - -0.00083495537
+      - 0.0024354586
+      - 0.0018125669
+      - -0.005126627
+      - 0.006698602
+      - 0.04948368
+      - 0.0034104728
+      - 0.00587336
+      - -0.001835134
+      - -0.0014897669
+      - 0.003365032
+      - 0.0021574518
+      - -0.007670694
+      - 0.008891956
+      - 0.07084099
+      - 0.009657635
+      - 0.0096076075
+      - -0.003150737
+      - -0.0028658584
+      - 0.004669146
+      - 0.002165011
+      - -0.010807068
+      - 0.010217465
     - coefficients:
-      - 0.038429003
-      - -0.00014506262
-      - -0.0027269055
-      - -0.0027559453
-      - -0.0012748287
-      - 0.0034813154
-      - 0.0013281706
-      - -0.0022301741
-      - 0.0028509453
-      - 0.052042563
-      - 0.0025603774
-      - -0.00033832365
-      - -0.003737002
-      - -0.0020942285
-      - 0.0057846755
-      - 0.0014459639
-      - -0.0036178243
-      - 0.0038152179
-      - 0.07549126
-      - 0.0074443864
-      - 0.004027008
-      - -0.0054999106
-      - -0.003591904
-      - 0.0092605045
-      - 0.0014742673
-      - -0.0058002844
-      - 0.004830096
+      - 0.037027206
+      - -0.00053630385
+      - 0.0019889926
+      - -0.0026948478
+      - -0.0012855344
+      - 0.0026070673
+      - 0.0016911478
+      - -0.0033908635
+      - 0.0051397006
+      - 0.049397416
+      - 0.002031449
+      - 0.0060380544
+      - -0.003644279
+      - -0.0021420189
+      - 0.004478251
+      - 0.0019473182
+      - -0.005134268
+      - 0.0068467893
+      - 0.068300284
+      - 0.0073882914
+      - 0.012281151
+      - -0.005205751
+      - -0.0038362443
+      - 0.007670288
+      - 0.0018947253
+      - -0.007486592
+      - 0.007961402
     - coefficients:
-      - 0.035807118
-      - 0.0020552499
-      - 0.0012814564
-      - -0.0026760714
-      - -0.00097213424
-      - 0.00091381645
-      - 0.0011273639
-      - -0.0030298855
-      - 0.0032908048
-      - 0.050279193
-      - 0.005467085
-      - 0.0037035362
-      - -0.0036115283
-      - -0.0014092518
-      - 0.002257681
-      - 0.0012818165
-      - -0.0050342465
-      - 0.0046836683
-      - 0.07529137
-      - 0.01126812
-      - 0.007655704
-      - -0.0052130064
-      - -0.002441038
-      - 0.0045680916
-      - 0.0013117912
-      - -0.00804643
-      - 0.006211107
+      - 0.034454364
+      - 0.001477232
+      - 0.004072141
+      - -0.0014991437
+      - -0.0013388075
+      - 0.0004073344
+      - 0.001387159
+      - -0.005015518
+      - 0.0059923064
+      - 0.04775566
+      - 0.0044271885
+      - 0.007403751
+      - -0.0019192259
+      - -0.0019098058
+      - 0.0015672264
+      - 0.0015828867
+      - -0.0077633127
+      - 0.008140717
+      - 0.06893513
+      - 0.009913365
+      - 0.012102208
+      - -0.0028802508
+      - -0.003024892
+      - 0.0040002465
+      - 0.0014604289
+      - -0.011446109
+      - 0.009625668
     - coefficients:
-      - 0.037878055
-      - 0.003863701
-      - -0.0005991302
-      - -0.0027446211
-      - -0.0017294256
-      - -0.0004194169
-      - 0.0011900102
-      - -0.002972306
-      - 0.0026094841
-      - 0.05157259
-      - 0.007168922
-      - 0.002308904
-      - -0.003572254
-      - -0.0024638874
-      - 0.001425149
-      - 0.001445473
-      - -0.0047024637
-      - 0.003815203
-      - 0.07490442
-      - 0.012785883
-      - 0.0073282328
-      - -0.0050122873
-      - -0.00378617
-      - 0.0046406365
-      - 0.0016611525
-      - -0.0072867833
-      - 0.005193635
+      - 0.03581547
+      - 0.0029522318
+      - 0.0024840394
+      - -0.0022651611
+      - -0.001686989
+      - 0.00003687169
+      - 0.0016320383
+      - -0.0036297094
+      - 0.004753833
+      - 0.047765505
+      - 0.0060128905
+      - 0.0067386525
+      - -0.0028799325
+      - -0.0023813949
+      - 0.0018496158
+      - 0.0019823746
+      - -0.005439855
+      - 0.006547447
+      - 0.06621188
+      - 0.011330119
+      - 0.013300885
+      - -0.0040581245
+      - -0.003594843
+      - 0.0056576873
+      - 0.002082623
+      - -0.007830239
+      - 0.007923253
     - coefficients:
-      - 0.036133595
-      - 0.0013523649
-      - 0.000060894396
-      - -0.001599192
-      - -0.0011191159
-      - 0.0021386056
-      - 0.0015099766
-      - -0.0041036364
-      - 0.003033452
-      - 0.050590057
-      - 0.0051249824
-      - 0.0015424084
-      - -0.002608092
-      - -0.0017409602
-      - 0.00298566
-      - 0.0017796761
-      - -0.005832034
-      - 0.004085472
-      - 0.075505555
-      - 0.011499991
-      - 0.004206455
-      - -0.0044396194
-      - -0.0029557743
-      - 0.004408553
-      - 0.0019487925
-      - -0.008319707
-      - 0.005154346
+      - 0.03560045
+      - -0.00022873792
+      - 0.0037029432
+      - -0.0022869273
+      - -0.001280923
+      - 0.0028961722
+      - 0.0016752776
+      - -0.0040299953
+      - 0.0065029287
+      - 0.04910271
+      - 0.0028806615
+      - 0.0065320344
+      - -0.0035442645
+      - -0.0019631176
+      - 0.0039031391
+      - 0.001971257
+      - -0.005640267
+      - 0.0086363265
+      - 0.07029949
+      - 0.009187503
+      - 0.010275474
+      - -0.0055691237
+      - -0.0032593443
+      - 0.0052367966
+      - 0.0019849518
+      - -0.00792938
+      - 0.009908812
     - coefficients:
-      - 0.038507976
-      - -0.0002312212
-      - -0.0027587598
-      - -0.0022748176
-      - -0.0018254591
-      - 0.0036748555
-      - 0.001309447
-      - -0.0025087835
-      - 0.00276607
-      - 0.052042328
-      - 0.0024771832
-      - -0.00030179095
-      - -0.0037094366
-      - -0.0027415578
-      - 0.006036037
-      - 0.0014376657
-      - -0.0036567398
-      - 0.003689698
-      - 0.075382635
-      - 0.0073939255
-      - 0.004152998
-      - -0.0061847772
-      - -0.004408846
-      - 0.009584308
-      - 0.0014818122
-      - -0.0055062156
-      - 0.004674073
+      - 0.036915496
+      - -0.00094244984
+      - 0.002007619
+      - -0.0032407022
+      - -0.0021940505
+      - 0.0028871456
+      - 0.0017802451
+      - -0.003229335
+      - 0.004899816
+      - 0.04917666
+      - 0.0014811715
+      - 0.006211977
+      - -0.0049147788
+      - -0.0032435239
+      - 0.0048308196
+      - 0.0020957063
+      - -0.004561933
+      - 0.0064416137
+      - 0.067976706
+      - 0.006683649
+      - 0.012745109
+      - -0.0073208194
+      - -0.0050143464
+      - 0.008027841
+      - 0.0021036956
+      - -0.0063937763
+      - 0.0073776366
     - coefficients:
-      - 0.03553671
-      - 0.0016749387
-      - 0.001368333
-      - -0.001599568
-      - -0.0014536163
-      - 0.001271195
-      - 0.0011763957
-      - -0.0039260285
-      - 0.0033044904
-      - 0.049671635
-      - 0.004877266
-      - 0.004077344
-      - -0.0026628932
-      - -0.002262163
-      - 0.0028799176
-      - 0.0013036125
-      - -0.0056238524
-      - 0.004697503
-      - 0.07418079
-      - 0.010404929
-      - 0.008455297
-      - -0.0046409247
-      - -0.0037069055
-      - 0.0055558747
-      - 0.0012956872
-      - -0.008010365
-      - 0.0062076338
+      - 0.034197163
+      - 0.0015158303
+      - 0.004269413
+      - -0.0027466486
+      - -0.0010779884
+      - 0.00056081
+      - 0.0014644695
+      - -0.0036784206
+      - 0.0057539744
+      - 0.04729306
+      - 0.004459928
+      - 0.007800582
+      - -0.0041764905
+      - -0.0018642705
+      - 0.0019250666
+      - 0.0016618618
+      - -0.0051312395
+      - 0.00787282
+      - 0.06814125
+      - 0.009872975
+      - 0.012750864
+      - -0.0063004275
+      - -0.003463331
+      - 0.0048362114
+      - 0.0015193499
+      - -0.0071679405
+      - 0.00943183
     - coefficients:
-      - 0.03810308
-      - 0.0038951722
-      - -0.000063208565
-      - -0.0026098532
-      - -0.0015858366
-      - -0.0004724158
-      - 0.001330031
-      - -0.0025648023
-      - 0.0025581354
-      - 0.05171326
-      - 0.0072175544
-      - 0.0031560238
-      - -0.004257188
-      - -0.0025708242
-      - 0.0014061067
-      - 0.0016610982
-      - -0.003742219
-      - 0.0037056124
-      - 0.07486835
-      - 0.012929316
-      - 0.008542799
-      - -0.006979803
-      - -0.004342011
-      - 0.00473482
-      - 0.0019553564
-      - -0.005616067
-      - 0.005000664
+      - 0.035563324
+      - 0.0028573796
+      - 0.002597977
+      - -0.0035375522
+      - -0.0015970108
+      - 0.0002413515
+      - 0.0016067965
+      - -0.0033219813
+      - 0.0044749756
+      - 0.047240984
+      - 0.005947773
+      - 0.0069351075
+      - -0.005375031
+      - -0.0025636333
+      - 0.0021418578
+      - 0.0019448983
+      - -0.0046915445
+      - 0.0061337356
+      - 0.06524963
+      - 0.011456837
+      - 0.013634304
+      - -0.008064807
+      - -0.004450178
+      - 0.0059776157
+      - 0.0020261977
+      - -0.0064562806
+      - 0.007361884
     hasRealtimeLights: 1
   - rendererInfos:
     - renderer: {fileID: 160949653}
@@ -1645,453 +1731,453 @@ MonoBehaviour:
     lightmapsMode: 1
     lightProbes:
     - coefficients:
-      - 0.37526304
-      - 0.07438498
-      - 0.27222726
-      - 0.3708396
-      - 0.095985204
-      - 0.09110313
-      - 0.020506948
-      - 0.4595912
-      - 0.14504391
-      - 0.18392959
-      - 0.041134335
-      - -0.014983315
-      - 0.04268945
-      - 0.009243697
-      - 0.0033352831
-      - 0.002871806
-      - 0.07169798
-      - 0.04518436
-      - 0.32999197
-      - 0.08161246
-      - 0.076827094
-      - 0.16598979
-      - 0.04265073
-      - 0.03480101
-      - 0.0072729
-      - 0.22029343
-      - 0.08472938
+      - 0.3796958
+      - 0.04981059
+      - 0.1810612
+      - 0.24391383
+      - 0.025078723
+      - 0.023508303
+      - 0.0062761945
+      - 0.122735314
+      - 0.041149195
+      - 0.18970808
+      - 0.030145215
+      - -0.0074703656
+      - 0.027600268
+      - 0.0032018193
+      - 0.00019682126
+      - 0.0019753445
+      - 0.022098076
+      - 0.015936699
+      - 0.33413857
+      - 0.05844134
+      - 0.05243585
+      - 0.10999201
+      - 0.012056533
+      - 0.008905002
+      - 0.0029782641
+      - 0.062068526
+      - 0.026328806
     - coefficients:
-      - 0.3870185
-      - 0.07390624
-      - 0.28377718
-      - 0.36795634
-      - 0.099845625
-      - 0.09548767
-      - 0.022889106
-      - 0.45655087
-      - 0.14824598
-      - 0.1996659
-      - 0.040756308
-      - 0.0025562171
-      - 0.0420053
-      - 0.009574991
-      - 0.012052284
-      - 0.0055866074
-      - 0.07227206
-      - 0.04763595
-      - 0.3522273
-      - 0.07961146
-      - 0.10035487
-      - 0.16499923
-      - 0.044437066
-      - 0.046517238
-      - 0.010892475
-      - 0.21969429
-      - 0.08728709
+      - 0.38934958
+      - 0.05164532
+      - 0.1956823
+      - 0.25077328
+      - 0.029378027
+      - 0.028181104
+      - 0.007941832
+      - 0.13573438
+      - 0.04683677
+      - 0.2011914
+      - 0.03173929
+      - 0.0028716817
+      - 0.027091186
+      - 0.0038107352
+      - 0.0040431465
+      - 0.00309906
+      - 0.02430222
+      - 0.018229436
+      - 0.35253513
+      - 0.060041636
+      - 0.07027133
+      - 0.11097737
+      - 0.01441101
+      - 0.014876009
+      - 0.0046487227
+      - 0.06780541
+      - 0.02988438
     - coefficients:
-      - 0.36423057
-      - 0.05773918
-      - 0.27031103
-      - 0.36251125
-      - 0.099091955
-      - 0.08839902
-      - 0.020404037
-      - 0.46039924
-      - 0.12947962
-      - 0.1576567
-      - 0.03392164
-      - -0.019562192
-      - 0.032893978
-      - 0.008295302
-      - -0.0029895308
-      - 0.004836658
-      - 0.07041547
-      - 0.028909998
-      - 0.30420715
-      - 0.06379516
-      - 0.06681211
-      - 0.15380822
-      - 0.042534426
-      - 0.022877643
-      - 0.009054815
-      - 0.22094445
-      - 0.06678638
+      - 0.36771047
+      - 0.038345564
+      - 0.17186484
+      - 0.23053478
+      - 0.023695225
+      - 0.021920891
+      - 0.005690016
+      - 0.11168993
+      - 0.031850375
+      - 0.16142815
+      - 0.02624729
+      - -0.013600635
+      - 0.01933158
+      - 0.0025167435
+      - -0.0002642568
+      - 0.0023442786
+      - 0.019404553
+      - 0.008818244
+      - 0.30661717
+      - 0.045881085
+      - 0.04142846
+      - 0.09673068
+      - 0.010868825
+      - 0.00536709
+      - 0.0032196925
+      - 0.056073632
+      - 0.017830426
     - coefficients:
-      - 0.12550397
-      - 0.008660975
-      - -0.021233292
-      - -0.0010827248
-      - 0.0073741362
-      - -0.011482591
-      - 0.003917722
-      - 0.017935796
-      - 0.024089266
-      - 0.15748742
-      - 0.029127222
-      - -0.038451128
-      - 0.0047371536
-      - 0.0032365618
-      - -0.0066408077
-      - 0.0024329587
-      - 0.029080179
-      - 0.026829876
-      - 0.23042803
-      - 0.043691117
-      - -0.042278048
-      - 0.00806138
-      - 0.008767732
-      - -0.010586257
-      - 0.0013112267
-      - 0.036012344
-      - 0.029894372
+      - 0.12958856
+      - 0.012106127
+      - -0.018734911
+      - -0.0012847529
+      - 0.008481188
+      - -0.009575701
+      - 0.0062649935
+      - 0.01829671
+      - 0.026194148
+      - 0.16379996
+      - 0.0330694
+      - -0.033608153
+      - 0.0055220593
+      - 0.0048488826
+      - -0.0045023966
+      - 0.0055265324
+      - 0.030107394
+      - 0.02970095
+      - 0.23629859
+      - 0.048479006
+      - -0.035844836
+      - 0.009285463
+      - 0.010381995
+      - -0.008201229
+      - 0.0051006027
+      - 0.037066866
+      - 0.032403205
     - coefficients:
-      - 0.1310087
-      - 0.008190645
-      - -0.04203878
-      - 0.005240156
-      - -0.008896734
-      - 0.0037472465
-      - 0.0014072199
-      - 0.014133302
-      - 0.030419463
-      - 0.16095029
-      - 0.035438847
-      - -0.046664327
-      - 0.0011584947
-      - -0.0038420074
-      - -0.004693356
-      - 0.0011403922
-      - 0.02240299
-      - 0.03587241
-      - 0.22743161
-      - 0.05490732
-      - -0.057126872
-      - 0.00863318
-      - -0.005198731
-      - -0.0013784794
-      - -0.00052680523
-      - 0.028002964
-      - 0.03848527
+      - 0.13466854
+      - 0.009097774
+      - -0.03743636
+      - 0.00080884324
+      - -0.006261246
+      - 0.004675352
+      - 0.0033570088
+      - 0.011270873
+      - 0.030340001
+      - 0.16459464
+      - 0.036639746
+      - -0.041968804
+      - -0.0048727063
+      - 0.00024667865
+      - -0.0036195642
+      - 0.0031554853
+      - 0.017714875
+      - 0.03590169
+      - 0.23006913
+      - 0.05598965
+      - -0.05213009
+      - 0.001178389
+      - -0.00062986615
+      - -0.000538619
+      - 0.0015764193
+      - 0.021216566
+      - 0.0378616
     - coefficients:
-      - 0.38215876
-      - 0.077182226
-      - 0.27811542
-      - 0.35931972
-      - 0.098916985
-      - 0.098133214
-      - 0.021791976
-      - 0.44650224
-      - 0.1481598
-      - 0.19553556
-      - 0.043126963
-      - -0.0032181174
-      - 0.033813033
-      - 0.0075302217
-      - 0.012407327
-      - 0.004973756
-      - 0.059449136
-      - 0.048136428
-      - 0.3459839
-      - 0.08348493
-      - 0.09213837
-      - 0.1561627
-      - 0.041187722
-      - 0.04792632
-      - 0.0098924115
-      - 0.20596428
-      - 0.08784784
+      - 0.38317156
+      - 0.05394221
+      - 0.19141145
+      - 0.24671002
+      - 0.030405473
+      - 0.030182695
+      - 0.0073584854
+      - 0.13574496
+      - 0.04773964
+      - 0.19660881
+      - 0.03238893
+      - -0.0032739926
+      - 0.020833492
+      - 0.0037494462
+      - 0.004266003
+      - 0.0025138783
+      - 0.020072285
+      - 0.018566575
+      - 0.34668523
+      - 0.061454672
+      - 0.062393878
+      - 0.105084725
+      - 0.014490432
+      - 0.015947519
+      - 0.004027761
+      - 0.06473613
+      - 0.030420717
     - coefficients:
-      - 0.09930167
-      - 0.017415026
-      - -0.045068078
-      - 0.0108600855
-      - -0.0030700904
-      - -0.0028293142
-      - 0.0041160537
-      - 0.008259715
-      - 0.018024951
-      - 0.130133
-      - 0.031113802
-      - -0.053645823
-      - 0.005955475
-      - 0.00036515263
-      - -0.012443288
-      - 0.0037079665
-      - 0.015149802
-      - 0.019448726
-      - 0.18991882
-      - 0.04731215
-      - -0.070667215
-      - 0.012629258
-      - -0.00012725563
-      - -0.017913897
-      - 0.0025900658
-      - 0.017951347
-      - 0.022001646
+      - 0.103133395
+      - 0.020332266
+      - -0.039984316
+      - 0.008839486
+      - -0.0023811592
+      - 0.000032133918
+      - 0.0056470865
+      - 0.0062690545
+      - 0.017334897
+      - 0.13349657
+      - 0.033823654
+      - -0.04847509
+      - 0.0030059817
+      - 0.00091363885
+      - -0.009457845
+      - 0.0055892724
+      - 0.011278326
+      - 0.018699404
+      - 0.19136338
+      - 0.05006043
+      - -0.06424595
+      - 0.00949817
+      - 0.00090037694
+      - -0.015115712
+      - 0.0043911575
+      - 0.01319117
+      - 0.020862402
     - coefficients:
-      - 0.3746687
-      - 0.057661667
-      - 0.27182034
-      - 0.35450223
-      - 0.10178601
-      - 0.084967114
-      - 0.019659448
-      - 0.450271
-      - 0.13556348
-      - 0.17416528
-      - 0.035874497
-      - -0.019184416
-      - 0.028536933
-      - 0.007545595
-      - -0.0026097486
-      - 0.0037597108
-      - 0.055623516
-      - 0.038168263
-      - 0.32726124
-      - 0.066461615
-      - 0.07086969
-      - 0.14850424
-      - 0.041724138
-      - 0.024197651
-      - 0.007736419
-      - 0.20180678
-      - 0.07756959
+      - 0.37810916
+      - 0.037840232
+      - 0.18141355
+      - 0.2366027
+      - 0.028468546
+      - 0.023785703
+      - 0.005590665
+      - 0.12658729
+      - 0.039143078
+      - 0.17766282
+      - 0.025877446
+      - -0.014077003
+      - 0.018535163
+      - 0.0029177952
+      - -0.00022836831
+      - 0.0014403643
+      - 0.01850367
+      - 0.013362507
+      - 0.32980245
+      - 0.04642629
+      - 0.045639176
+      - 0.098330565
+      - 0.012879768
+      - 0.0069035836
+      - 0.0023370537
+      - 0.059339482
+      - 0.023967156
     - coefficients:
-      - 0.44615504
-      - 0.03443038
-      - 0.263285
-      - 0.3450789
-      - 0.114218235
-      - 0.11317704
-      - 0.03755398
-      - 0.4591671
-      - 0.14531717
-      - 0.20205069
-      - 0.03802369
-      - 0.054070286
-      - 0.04126368
-      - 0.014962281
-      - 0.014711051
-      - 0.009213607
-      - 0.052526988
-      - 0.046171654
-      - 0.37409425
-      - 0.06396531
-      - 0.14266424
-      - 0.15617973
-      - 0.05400027
-      - 0.051307134
-      - 0.019116357
-      - 0.20489761
-      - 0.08563844
+      - 0.4456193
+      - 0.021808486
+      - 0.18839131
+      - 0.24978845
+      - 0.038584482
+      - 0.040570874
+      - 0.01432681
+      - 0.15781893
+      - 0.052177187
+      - 0.20177615
+      - 0.027601758
+      - 0.042228673
+      - 0.03235243
+      - 0.005516896
+      - 0.0068838643
+      - 0.0032754699
+      - 0.020319052
+      - 0.020265652
+      - 0.3733128
+      - 0.04614072
+      - 0.104530916
+      - 0.11570663
+      - 0.019013198
+      - 0.020264259
+      - 0.006906635
+      - 0.072658025
+      - 0.03351136
     - coefficients:
-      - 0.5108314
-      - 0.027492534
-      - 0.19100887
-      - 0.34791282
-      - 0.11572448
-      - 0.10409178
-      - 0.039579764
-      - 0.4482005
-      - 0.14021271
-      - 0.1929973
-      - 0.028831122
-      - 0.061135747
-      - 0.05210237
-      - 0.017757442
-      - 0.02715895
-      - 0.009473586
-      - 0.046308696
-      - 0.038341105
-      - 0.38110903
-      - 0.050925087
-      - 0.1320032
-      - 0.16937432
-      - 0.05757432
-      - 0.06509213
-      - 0.019601159
-      - 0.19274767
-      - 0.07862477
+      - 0.5120403
+      - 0.015519789
+      - 0.13660334
+      - 0.26059276
+      - 0.044925988
+      - 0.04055922
+      - 0.016909024
+      - 0.17502154
+      - 0.055351954
+      - 0.19185969
+      - 0.021678763
+      - 0.050426606
+      - 0.039844397
+      - 0.007596068
+      - 0.013699472
+      - 0.0035236487
+      - 0.020742264
+      - 0.018621076
+      - 0.3794142
+      - 0.03746204
+      - 0.10070157
+      - 0.12764846
+      - 0.02359619
+      - 0.029574927
+      - 0.007811916
+      - 0.07821325
+      - 0.033664167
     - coefficients:
-      - 0.4436984
-      - 0.062693045
-      - 0.26810598
-      - 0.34657165
-      - 0.10209295
-      - 0.07272621
-      - 0.037004318
-      - 0.45772243
-      - 0.14290653
-      - 0.18985848
-      - 0.03970468
-      - 0.06183498
-      - 0.043216772
-      - 0.014226119
-      - 0.01584329
-      - 0.0074960836
-      - 0.051026292
-      - 0.04273727
-      - 0.3646181
-      - 0.070723854
-      - 0.15489253
-      - 0.16122347
-      - 0.050480086
-      - 0.045087382
-      - 0.017945582
-      - 0.20014805
-      - 0.08413151
+      - 0.44511878
+      - 0.043059878
+      - 0.199879
+      - 0.2606051
+      - 0.038208142
+      - 0.024335537
+      - 0.015044156
+      - 0.17739616
+      - 0.057662085
+      - 0.19024187
+      - 0.029402215
+      - 0.050794173
+      - 0.036115
+      - 0.0064704544
+      - 0.007980094
+      - 0.0024341682
+      - 0.020768352
+      - 0.021006556
+      - 0.364285
+      - 0.052188244
+      - 0.11911062
+      - 0.124425165
+      - 0.020769749
+      - 0.01904834
+      - 0.0063363453
+      - 0.07838585
+      - 0.03671656
     - coefficients:
-      - 0.51132
-      - 0.07876893
-      - 0.20677258
-      - 0.3494152
-      - 0.10444251
-      - 0.051788427
-      - 0.03754712
-      - 0.4443461
-      - 0.13617183
-      - 0.1791832
-      - 0.045806713
-      - 0.06530194
-      - 0.05538621
-      - 0.017477933
-      - 0.018597743
-      - 0.008911197
-      - 0.043316945
-      - 0.0356046
-      - 0.3697041
-      - 0.08056647
-      - 0.14197451
-      - 0.1734251
-      - 0.054668795
-      - 0.04423869
-      - 0.019744037
-      - 0.18935187
-      - 0.07720543
+      - 0.5131906
+      - 0.056866396
+      - 0.15298465
+      - 0.26783338
+      - 0.042785488
+      - 0.016417194
+      - 0.017189112
+      - 0.1890181
+      - 0.06022539
+      - 0.18134168
+      - 0.033173125
+      - 0.054175016
+      - 0.044523392
+      - 0.008296205
+      - 0.01119718
+      - 0.004123114
+      - 0.022424422
+      - 0.01990788
+      - 0.37145317
+      - 0.05943878
+      - 0.11066487
+      - 0.13429384
+      - 0.024588453
+      - 0.02179751
+      - 0.008692359
+      - 0.08488344
+      - 0.037221946
     - coefficients:
-      - 0.45077795
-      - 0.03106853
-      - 0.25668246
-      - 0.36242998
-      - 0.10579638
-      - 0.113884926
-      - 0.03790301
-      - 0.43768775
-      - 0.14390908
-      - 0.20530999
-      - 0.035376612
-      - 0.048910562
-      - 0.031492587
-      - 0.015025197
-      - 0.017159963
-      - 0.00845733
-      - 0.06368311
-      - 0.046435114
-      - 0.3787435
-      - 0.0601005
-      - 0.13466299
-      - 0.15378146
-      - 0.052415095
-      - 0.054552864
-      - 0.018480705
-      - 0.20642404
-      - 0.085260876
+      - 0.45104986
+      - 0.017821968
+      - 0.18244159
+      - 0.2618238
+      - 0.0331075
+      - 0.040331885
+      - 0.014067909
+      - 0.14352345
+      - 0.050445948
+      - 0.20474797
+      - 0.027245946
+      - 0.03825536
+      - 0.024649294
+      - 0.004598832
+      - 0.006808012
+      - 0.0032296279
+      - 0.024708655
+      - 0.020117456
+      - 0.37775007
+      - 0.044666912
+      - 0.098770514
+      - 0.11307047
+      - 0.016650066
+      - 0.019907063
+      - 0.006870268
+      - 0.071503334
+      - 0.032766595
     - coefficients:
-      - 0.51604795
-      - 0.024056634
-      - 0.18704206
-      - 0.36915755
-      - 0.1076533
-      - 0.10414054
-      - 0.038049694
-      - 0.4368304
-      - 0.14069754
-      - 0.19185312
-      - 0.028806409
-      - 0.059992462
-      - 0.04114834
-      - 0.016386425
-      - 0.02913481
-      - 0.008969245
-      - 0.051831618
-      - 0.03807382
-      - 0.38115475
-      - 0.049825482
-      - 0.12932208
-      - 0.16541135
-      - 0.05428561
-      - 0.06760641
-      - 0.01861412
-      - 0.19457285
-      - 0.07834057
+      - 0.51737696
+      - 0.01305437
+      - 0.13249058
+      - 0.27445003
+      - 0.036221772
+      - 0.03868786
+      - 0.015540967
+      - 0.15983227
+      - 0.054016083
+      - 0.19181275
+      - 0.02047206
+      - 0.050896186
+      - 0.03165353
+      - 0.005727051
+      - 0.012947816
+      - 0.003363671
+      - 0.022318434
+      - 0.01738892
+      - 0.38090977
+      - 0.035243623
+      - 0.10061516
+      - 0.12413837
+      - 0.019390563
+      - 0.027734922
+      - 0.0072815605
+      - 0.07489977
+      - 0.032016516
     - coefficients:
-      - 0.45014873
-      - 0.058474354
-      - 0.25968343
-      - 0.3620928
-      - 0.11303617
-      - 0.06803548
-      - 0.034939703
-      - 0.43653503
-      - 0.14095238
-      - 0.19366549
-      - 0.038159262
-      - 0.052611444
-      - 0.03225525
-      - 0.015799634
-      - 0.017238138
-      - 0.0054105464
-      - 0.061794892
-      - 0.043505166
-      - 0.37022886
-      - 0.06764326
-      - 0.14287618
-      - 0.15391625
-      - 0.054782357
-      - 0.045942318
-      - 0.01464091
-      - 0.20497184
-      - 0.0844052
+      - 0.45048636
+      - 0.044282872
+      - 0.19323772
+      - 0.26989073
+      - 0.042210028
+      - 0.022143312
+      - 0.015685385
+      - 0.16566803
+      - 0.05684444
+      - 0.19438577
+      - 0.031135395
+      - 0.045977425
+      - 0.02522208
+      - 0.0051867957
+      - 0.0068004276
+      - 0.0029469787
+      - 0.028833877
+      - 0.021461286
+      - 0.3702296
+      - 0.054313403
+      - 0.11250522
+      - 0.11696988
+      - 0.019996844
+      - 0.017181512
+      - 0.0070116166
+      - 0.082602605
+      - 0.037101578
     - coefficients:
-      - 0.5176678
-      - 0.07640561
-      - 0.1991934
-      - 0.36929214
-      - 0.11452378
-      - 0.052671544
-      - 0.034522016
-      - 0.43741897
-      - 0.13590626
-      - 0.18040952
-      - 0.043644313
-      - 0.060539074
-      - 0.04157452
-      - 0.018575026
-      - 0.02198129
-      - 0.0068611535
-      - 0.049470156
-      - 0.03550109
-      - 0.37276638
-      - 0.07659597
-      - 0.13448122
-      - 0.16428436
-      - 0.0584575
-      - 0.048820384
-      - 0.016555388
-      - 0.19358084
-      - 0.076916225
+      - 0.51973265
+      - 0.05632777
+      - 0.14744535
+      - 0.2811463
+      - 0.044370763
+      - 0.015169793
+      - 0.016280297
+      - 0.17589165
+      - 0.05805412
+      - 0.18153179
+      - 0.03327258
+      - 0.051474024
+      - 0.032540537
+      - 0.006945015
+      - 0.011483772
+      - 0.003703664
+      - 0.023540627
+      - 0.018846242
+      - 0.3730101
+      - 0.059871346
+      - 0.10616699
+      - 0.12638573
+      - 0.022737011
+      - 0.021261595
+      - 0.008119102
+      - 0.08192653
+      - 0.0354719
     hasRealtimeLights: 0
   lightingScenariosScenes:
   - {fileID: 102900000, guid: 64ac3b5e028386e479ce02ffa30c95c8, type: 3}
@@ -2108,8 +2194,9 @@ MonoBehaviour:
 --- !u!4 &1709437755
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1709437753}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.2737975, y: 4.0281725, z: -1.8313577}
@@ -2121,9 +2208,10 @@ Transform:
 --- !u!1 &1972097389
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 1972097393}
   - component: {fileID: 1972097392}
@@ -2139,8 +2227,9 @@ GameObject:
 --- !u!23 &1972097390
 MeshRenderer:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972097389}
   m_Enabled: 1
   m_CastShadows: 1
@@ -2149,6 +2238,9 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 2f2af3b41b54d5e428c4c26ee8f4b534, type: 2}
   m_StaticBatchInfo:
@@ -2158,6 +2250,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -2173,8 +2266,9 @@ MeshRenderer:
 --- !u!64 &1972097391
 MeshCollider:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972097389}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -2182,20 +2276,21 @@ MeshCollider:
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
-  m_SkinWidth: 0.01
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &1972097392
 MeshFilter:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972097389}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1972097393
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972097389}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -2207,14 +2302,13 @@ Transform:
 --- !u!1 &1981982349
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 1981982354}
   - component: {fileID: 1981982353}
-  - component: {fileID: 1981982352}
-  - component: {fileID: 1981982351}
   - component: {fileID: 1981982350}
   m_Layer: 0
   m_Name: Camera
@@ -2226,34 +2320,28 @@ GameObject:
 --- !u!81 &1981982350
 AudioListener:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1981982349}
-  m_Enabled: 1
---- !u!92 &1981982351
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1981982349}
-  m_Enabled: 1
---- !u!124 &1981982352
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1981982349}
   m_Enabled: 1
 --- !u!20 &1981982353
 Camera:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1981982349}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -2283,8 +2371,9 @@ Camera:
 --- !u!4 &1981982354
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1981982349}
   m_LocalRotation: {x: -0, y: 0.123657644, z: -0, w: 0.992325}
   m_LocalPosition: {x: -2.41, y: 2.1057389, z: -10.22}
@@ -2293,3 +2382,827 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 14.206, z: 0}
+--- !u!224 &3753461365354591656
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461365354591657}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3753461366745043872}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &3753461365354591657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3753461365354591656}
+  - component: {fileID: 3753461365354591662}
+  - component: {fileID: 3753461365354591663}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!222 &3753461365354591662
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461365354591657}
+  m_CullTransparentMesh: 0
+--- !u!114 &3753461365354591663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461365354591657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Lighting 1
+
+'
+--- !u!222 &3753461365509671243
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461365509671255}
+  m_CullTransparentMesh: 0
+--- !u!114 &3753461365509671252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461365509671255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 0.6745098}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3753461365509671253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461365509671255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 50
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+--- !u!224 &3753461365509671254
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461365509671255}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3753461366745043872}
+  - {fileID: 3753461365867351367}
+  - {fileID: 3753461366298221268}
+  m_Father: {fileID: 3753461366065863009}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 256, y: 0}
+  m_Pivot: {x: 0, y: 0.5}
+--- !u!1 &3753461365509671255
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3753461365509671254}
+  - component: {fileID: 3753461365509671243}
+  - component: {fileID: 3753461365509671252}
+  - component: {fileID: 3753461365509671253}
+  m_Layer: 5
+  m_Name: Panel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &3753461365867351360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3753461365867351367}
+  - component: {fileID: 3753461365867351364}
+  - component: {fileID: 3753461365867351365}
+  - component: {fileID: 3753461365867351366}
+  m_Layer: 5
+  m_Name: Button (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!222 &3753461365867351364
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461365867351360}
+  m_CullTransparentMesh: 0
+--- !u!114 &3753461365867351365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461365867351360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3753461365867351366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461365867351360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.5518868, b: 0.5518868, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 3753461365867351365}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1709437754}
+        m_MethodName: LoadLightingScenario
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+--- !u!224 &3753461365867351367
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461365867351360}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3753461366533115294}
+  m_Father: {fileID: 3753461365509671254}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &3753461366065863009
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366065863021}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_Children:
+  - {fileID: 3753461365509671254}
+  - {fileID: 438744857}
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!223 &3753461366065863010
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366065863021}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &3753461366065863011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366065863021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+--- !u!114 &3753461366065863020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366065863021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!1 &3753461366065863021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3753461366065863009}
+  - component: {fileID: 3753461366065863010}
+  - component: {fileID: 3753461366065863011}
+  - component: {fileID: 3753461366065863020}
+  m_Layer: 5
+  m_Name: Canvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!222 &3753461366097832256
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366097832259}
+  m_CullTransparentMesh: 0
+--- !u!114 &3753461366097832257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366097832259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Lighting 3
+--- !u!224 &3753461366097832258
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366097832259}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3753461366298221268}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &3753461366097832259
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3753461366097832258}
+  - component: {fileID: 3753461366097832256}
+  - component: {fileID: 3753461366097832257}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!222 &3753461366298221257
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366298221269}
+  m_CullTransparentMesh: 0
+--- !u!114 &3753461366298221258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366298221269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3753461366298221259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366298221269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.5518868, b: 0.5518868, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 3753461366298221258}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1709437754}
+        m_MethodName: LoadLightingScenario
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+--- !u!224 &3753461366298221268
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366298221269}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3753461366097832258}
+  m_Father: {fileID: 3753461365509671254}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &3753461366298221269
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3753461366298221268}
+  - component: {fileID: 3753461366298221257}
+  - component: {fileID: 3753461366298221258}
+  - component: {fileID: 3753461366298221259}
+  m_Layer: 5
+  m_Name: Button (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!222 &3753461366533115292
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366533115295}
+  m_CullTransparentMesh: 0
+--- !u!114 &3753461366533115293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366533115295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Lighting 2
+
+'
+--- !u!224 &3753461366533115294
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366533115295}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3753461365867351367}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &3753461366533115295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3753461366533115294}
+  - component: {fileID: 3753461366533115292}
+  - component: {fileID: 3753461366533115293}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3753461366745043872
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366745043873}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3753461365354591656}
+  m_Father: {fileID: 3753461365509671254}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &3753461366745043873
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3753461366745043872}
+  - component: {fileID: 3753461366745043877}
+  - component: {fileID: 3753461366745043878}
+  - component: {fileID: 3753461366745043879}
+  m_Layer: 5
+  m_Name: Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!222 &3753461366745043877
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366745043873}
+  m_CullTransparentMesh: 0
+--- !u!114 &3753461366745043878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366745043873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3753461366745043879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753461366745043873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.5518868, b: 0.5518868, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 3753461366745043878}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1709437754}
+        m_MethodName: LoadLightingScenario
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
