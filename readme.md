@@ -2,7 +2,7 @@ Tool intended for **switching pre-baked lightmaps** and realtime lighting on a s
 
 Depending on the platform or depending on the content the switch might not be instant but take some seconds, this script just allows you avoid duplicating your scene if you just want to change the lighting.
 
-This version is compatible with **unity 2017.4** and above, check previous releases for unity 5.5 - 5.6 version.
+This version is compatible with **unity 2019.3b4** and above, check previous releases for unity 5.5 - 5.6 version.
 
 If you want to use lightmaps of different resolutions in your different lighting scenarios you will probably need to **disable static batching** in the PlayerSettings (if you use the same lightmap resolution on all your lighting scenarios and the object packing in the lightmap atlas doesn't change accross lighting scenarios it's ok to keep static batching enabled).
 
