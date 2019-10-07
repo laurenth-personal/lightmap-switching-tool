@@ -6,7 +6,6 @@ using UnityEngine.Rendering;
 using System.Collections;
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.SceneManagement;
 #endif
 
 [ExecuteInEditMode]
@@ -48,7 +47,7 @@ public class LevelLightmapData : MonoBehaviour
 	public List<SceneAsset> lightingScenariosScenes;
 #endif
     [SerializeField]
-    public String[] lightingScenesNames;
+    public String[] lightingScenesNames = new string[1];
     public int currentLightingScenario = -1;
     public int previousLightingScenario = -1;
 
@@ -85,14 +84,6 @@ public class LevelLightmapData : MonoBehaviour
         }
     }
 
-#if UNITY_EDITOR
-    private void OnEnable()
-    {
-        if (lightingScenariosScenes == null)
-            lightingScenariosScenes = new List<SceneAsset>();
-    }
-#endif
-
     private void Start()
     {
         PrepareLightProbeArrays();
@@ -128,17 +119,6 @@ public class LevelLightmapData : MonoBehaviour
         }
         return sphericalHarmonicsArray;
     }
-
-#if UNITY_EDITOR
-    public void updateNames()
-    {
-        lightingScenesNames = new string[lightingScenariosScenes.Count];
-        for (int i = 0; i< lightingScenariosScenes.Count; i++)
-        {
-            lightingScenesNames[i] = lightingScenariosScenes[i] != null ? lightingScenariosScenes[i].name : "missing";
-        }
-    }
-#endif
 
     IEnumerator SwitchSceneCoroutine(string sceneToUnload, string sceneToLoad)
     {
@@ -195,19 +175,30 @@ public class LevelLightmapData : MonoBehaviour
         return newLightmaps;
     }
 
-    public void ApplyRendererInfo (RendererInfo[] infos)
-	{
+    public void ApplyRendererInfo(RendererInfo[] infos)
+    {
         try
         {
-            for (int i = 0; i < infos.Length; i++)
+            Terrain terrain = FindObjectOfType<Terrain>();
+            int i = 0;
+            if (terrain != null)
             {
-                var info = infos[i];
-                info.renderer.lightmapIndex = infos[i].lightmapIndex;
+                terrain.lightmapIndex = infos[i].lightmapIndex;
+                terrain.lightmapScaleOffset = infos[i].lightmapOffsetScale;
+                i++;
+            }
+
+            for (int j = i; j < infos.Length; j++)
+            {
+                RendererInfo info = infos[j];
+                //if (info.renderer == null)
+                    //continue;
+                info.renderer.lightmapIndex = infos[j].lightmapIndex;
                 if (!info.renderer.isPartOfStaticBatch)
                 {
-                    info.renderer.lightmapScaleOffset = infos[i].lightmapOffsetScale;
+                    info.renderer.lightmapScaleOffset = infos[j].lightmapOffsetScale;
                 }
-                if (info.renderer.isPartOfStaticBatch && verbose == true)
+                if (info.renderer.isPartOfStaticBatch && verbose == true && Application.isEditor)
                 {
                     Debug.Log("Object " + info.renderer.gameObject.name + " is part of static batch, skipping lightmap offset and scale.");
                 }
@@ -233,18 +224,9 @@ public class LevelLightmapData : MonoBehaviour
         catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + index); }
     }
 
-#if UNITY_EDITOR
-
     public void StoreLightmapInfos(int index)
     {
-        Debug.Log("Storing data for lighting scenario " + index);
-        if (UnityEditor.Lightmapping.giWorkflowMode != UnityEditor.Lightmapping.GIWorkflowMode.OnDemand)
-        {
-            Debug.LogError("ExtractLightmapData requires that you have baked you lightmaps and Auto mode is disabled.");
-            return;
-        }
-
-		var newLightingScenarioData = new LightingScenarioData ();
+        var newLightingScenarioData = new LightingScenarioData ();
         var newRendererInfos = new List<RendererInfo>();
         var newLightmapsTextures = new List<Texture2D>();
         var newLightmapsTexturesDir = new List<Texture2D>();
@@ -309,32 +291,70 @@ public class LevelLightmapData : MonoBehaviour
         {
             lightingScenesNames = new string[lightingScenariosCount];
         }
-        if (latestBuildHasReltimeLights && lightingScenesNames[index] != null)
-            lightingScenesNames[index] = lightingScenariosScenes[index].name;
     }
 
     static void GenerateLightmapInfo(GameObject root, List<RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, List<Texture2D> newLightmapsShadow, LightmapsMode newLightmapsMode)
     {
-		var renderers = FindObjectsOfType(typeof(MeshRenderer));
-        Debug.Log("stored info for "+renderers.Length+" meshrenderers");
-        foreach (MeshRenderer renderer in renderers)
-		{
-			if (renderer.lightmapIndex != -1)
-			{
-				RendererInfo info = new RendererInfo();
-				info.renderer = renderer;
-				info.lightmapOffsetScale = renderer.lightmapScaleOffset;
+        Terrain terrain = FindObjectOfType<Terrain>();
+        if (terrain != null && terrain.lightmapIndex != -1 && terrain.lightmapIndex != 65534)
+        {
+            RendererInfo terrainRendererInfo = new RendererInfo();
+            terrainRendererInfo.lightmapOffsetScale = terrain.lightmapScaleOffset;
 
-                if (renderer.lightmapIndex == 65534)
-                    continue;
+            Texture2D lightmaplight = LightmapSettings.lightmaps[terrain.lightmapIndex].lightmapColor;
+            terrainRendererInfo.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);
+            if (terrainRendererInfo.lightmapIndex == -1)
+            {
+                terrainRendererInfo.lightmapIndex = newLightmapsLight.Count;
+                newLightmapsLight.Add(lightmaplight);
+            }
 
-				Texture2D lightmaplight = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapColor;
+            if (newLightmapsMode != LightmapsMode.NonDirectional)
+            {
+                Texture2D lightmapdir = LightmapSettings.lightmaps[terrain.lightmapIndex].lightmapDir;
+                terrainRendererInfo.lightmapIndex = newLightmapsDir.IndexOf(lightmapdir);
+                if (terrainRendererInfo.lightmapIndex == -1)
+                {
+                    terrainRendererInfo.lightmapIndex = newLightmapsDir.Count;
+                    newLightmapsDir.Add(lightmapdir);
+                }
+            }
+            if (LightmapSettings.lightmaps[terrain.lightmapIndex].shadowMask != null)
+            {
+                Texture2D lightmapShadow = LightmapSettings.lightmaps[terrain.lightmapIndex].shadowMask;
+                terrainRendererInfo.lightmapIndex = newLightmapsShadow.IndexOf(lightmapShadow);
+                if (terrainRendererInfo.lightmapIndex == -1)
+                {
+                    terrainRendererInfo.lightmapIndex = newLightmapsShadow.Count;
+                    newLightmapsShadow.Add(lightmapShadow);
+                }
+            }
+            newRendererInfos.Add(terrainRendererInfo);
+
+            if (Application.isEditor)
+                Debug.Log("Terrain lightmap stored in" + terrainRendererInfo.lightmapIndex.ToString());
+        }
+
+        var renderers = FindObjectsOfType(typeof(Renderer));
+
+        if (Application.isEditor)
+            Debug.Log("stored info for " + renderers.Length + " meshrenderers");
+
+        foreach (Renderer renderer in renderers)
+        {
+            if (renderer.lightmapIndex != -1 && renderer.lightmapIndex != 65534)
+            {
+                RendererInfo info = new RendererInfo();
+                info.renderer = renderer;
+                info.lightmapOffsetScale = renderer.lightmapScaleOffset;
+
+                Texture2D lightmaplight = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapColor;
                 info.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);
                 if (info.lightmapIndex == -1)
-				{
-					info.lightmapIndex = newLightmapsLight.Count;
+                {
+                    info.lightmapIndex = newLightmapsLight.Count;
                     newLightmapsLight.Add(lightmaplight);
-				}
+                }
 
                 if (newLightmapsMode != LightmapsMode.NonDirectional)
                 {
@@ -352,65 +372,12 @@ public class LevelLightmapData : MonoBehaviour
                     info.lightmapIndex = newLightmapsShadow.IndexOf(lightmapShadow);
                     if (info.lightmapIndex == -1)
                     {
-                       info.lightmapIndex = newLightmapsShadow.Count;
-                       newLightmapsShadow.Add(lightmapShadow);
+                        info.lightmapIndex = newLightmapsShadow.Count;
+                        newLightmapsShadow.Add(lightmapShadow);
                     }
                 }
                 newRendererInfos.Add(info);
-			}
-		}
-
-    }
-
-    public void BuildLightingScenario(int ScenarioID)
-    {
-        //Remove reference to LightingDataAsset so that Unity doesn't delete the previous bake
-        Lightmapping.lightingDataAsset = null;
-
-        Debug.Log("Loading " + lightingScenariosScenes[ScenarioID].name);
-
-        string lightingSceneGUID = AssetDatabase.FindAssets(lightingScenesNames[ScenarioID])[0];
-        string lightingScenePath = AssetDatabase.GUIDToAssetPath(lightingSceneGUID);
-        if (!lightingScenePath.EndsWith(".unity"))
-            lightingScenePath = lightingScenePath + ".unity";
-
-        EditorSceneManager.OpenScene(lightingScenePath, OpenSceneMode.Additive);
-
-        Scene lightingScene = SceneManager.GetSceneByName(lightingScenariosScenes[ScenarioID].name);
-        EditorSceneManager.SetActiveScene(lightingScene);
-
-        SearchLightsNeededRealtime();
-
-        Debug.Log("Start baking");
-        StartCoroutine(BuildLightingAsync(lightingScene));
-    }
-
-    void SearchLightsNeededRealtime()
-    {
-        var lights = FindObjectsOfType<Light>();
-        var reflectionProbes = FindObjectsOfType<ReflectionProbe>();
-        latestBuildHasReltimeLights = false;
-
-        foreach (Light light in lights)
-        {
-            if (light.lightmapBakeType == LightmapBakeType.Mixed || light.lightmapBakeType == LightmapBakeType.Realtime)
-                latestBuildHasReltimeLights = true;
+            }
         }
-        if (reflectionProbes.Length > 0)
-            latestBuildHasReltimeLights = true;
     }
-
-    private IEnumerator BuildLightingAsync(Scene lightingScene)
-    {
-        var newLightmapMode = new LightmapsMode();
-        newLightmapMode = LightmapSettings.lightmapsMode;
-        Lightmapping.BakeAsync();
-        while (Lightmapping.isRunning) { yield return null; }
-        //EditorSceneManager.SaveScene(EditorSceneManager.GetSceneByPath("Assets/Scenes/" + ScenarioName + ".unity"));
-        //Lightmapping.lightingDataAsset = null;
-        EditorSceneManager.SaveScene(lightingScene);
-        EditorSceneManager.CloseScene(lightingScene, true);
-        LightmapSettings.lightmapsMode = newLightmapMode;
-    }
-#endif
 }
