@@ -20,10 +20,12 @@ public class LevelLightmapData : MonoBehaviour
 	[System.Serializable]
 	public class RendererInfo
 	{
-		public Renderer renderer;
+        public int hash;
 		public int lightmapIndex;
 		public Vector4 lightmapOffsetScale;
 	}
+
+    public SLightingScenarioData[] sLightingScenarioDatas;
 		
 	[System.Serializable]
 	public class LightingScenarioData {
@@ -54,9 +56,6 @@ public class LevelLightmapData : MonoBehaviour
     public int previousLightingScenario = -1;
 
     private Coroutine m_SwitchSceneCoroutine;
-
-    [SerializeField]
-    public int lightingScenariosCount;
 
     //TODO : enable logs only when verbose enabled
     public bool verbose = false;
@@ -96,7 +95,7 @@ public class LevelLightmapData : MonoBehaviour
 
     private void PrepareLightProbeArrays()
     {
-        for (int x = 0; x < lightingScenariosCount; x++)
+        for (int x = 0; x < sLightingScenarioDatas.Length; x++)
         {
             lightProbesRuntime.Add(DeserializeLightProbes(x));
         }
@@ -195,16 +194,16 @@ public class LevelLightmapData : MonoBehaviour
 
             for (int j = i; j < infos.Length; j++)
             {
-                RendererInfo info = infos[j];
-                info.renderer.lightmapIndex = infos[j].lightmapIndex;
-                if (!info.renderer.isPartOfStaticBatch)
-                {
-                    info.renderer.lightmapScaleOffset = infos[j].lightmapOffsetScale;
-                }
-                if (info.renderer.isPartOfStaticBatch && verbose == true && Application.isEditor)
-                {
-                    Debug.Log("Object " + info.renderer.gameObject.name + " is part of static batch, skipping lightmap offset and scale.");
-                }
+                //RendererInfo info = infos[j];
+                //info.renderer.lightmapIndex = infos[j].lightmapIndex;
+                //if (!info.renderer.isPartOfStaticBatch)
+                //{
+                //    info.renderer.lightmapScaleOffset = infos[j].lightmapOffsetScale;
+                //}
+                //if (info.renderer.isPartOfStaticBatch && verbose == true && Application.isEditor)
+                //{
+                //    Debug.Log("Object " + info.renderer.gameObject.name + " is part of static batch, skipping lightmap offset and scale.");
+                //}
             }
         }
         catch (Exception e)
@@ -229,33 +228,14 @@ public class LevelLightmapData : MonoBehaviour
 
     public void StoreLightmapInfos(int index)
     {
-        var newLightingScenarioData = new LightingScenarioData ();
         var newRendererInfos = new List<RendererInfo>();
         var newLightmapsTextures = new List<Texture2D>();
         var newLightmapsTexturesDir = new List<Texture2D>();
-		var newLightmapsMode = new LightmapsMode();
-		var newSphericalHarmonicsList = new List<SphericalHarmonics>();
+		var newLightmapsMode = LightmapSettings.lightmapsMode;
+        var newSphericalHarmonicsList = new List<SphericalHarmonics>();
         var newLightmapsShadowMasks = new List<Texture2D>();
 
-        newLightmapsMode = LightmapSettings.lightmapsMode;
-
         GenerateLightmapInfo(gameObject, newRendererInfos, newLightmapsTextures, newLightmapsTexturesDir, newLightmapsShadowMasks, newLightmapsMode);
-
-        newLightingScenarioData.lightmapsMode = newLightmapsMode;
-
-		newLightingScenarioData.lightmaps = newLightmapsTextures.ToArray();
-
-		if (newLightmapsMode != LightmapsMode.NonDirectional)
-        {
-			newLightingScenarioData.lightmapsDir = newLightmapsTexturesDir.ToArray();
-        }
-
-        //Mixed or realtime support
-        newLightingScenarioData.hasRealtimeLights = latestBuildHasReltimeLights;
-
-        newLightingScenarioData.shadowMasks = newLightmapsShadowMasks.ToArray();
-
-        newLightingScenarioData.rendererInfos = newRendererInfos.ToArray();
 
 		var scene_LightProbes = new SphericalHarmonicsL2[LightmapSettings.lightProbes.bakedProbes.Length];
 		scene_LightProbes = LightmapSettings.lightProbes.bakedProbes;
@@ -276,24 +256,15 @@ public class LevelLightmapData : MonoBehaviour
 
             newSphericalHarmonicsList.Add(SHCoeff);
         }
-
-		newLightingScenarioData.lightProbes = newSphericalHarmonicsList.ToArray ();
-
-        if (lightingScenariosData.Count < index + 1)
-        {
-            lightingScenariosData.Insert(index, newLightingScenarioData);
-        }
-        else
-        {
-            lightingScenariosData[index] = newLightingScenarioData;
-        }
-
-        lightingScenariosCount = lightingScenariosData.Count;
-
-        if (lightingScenesNames == null || lightingScenesNames.Length< lightingScenariosCount)
-        {
-            lightingScenesNames = new string[lightingScenariosCount];
-        }
+        sLightingScenarioDatas[index].sceneName = lightingScenesNames[index];
+        sLightingScenarioDatas[index].lightmaps = newLightmapsTextures.ToArray();
+        if (newLightmapsMode != LightmapsMode.NonDirectional)
+            sLightingScenarioDatas[index].lightmapsDir = newLightmapsTexturesDir.ToArray();
+        sLightingScenarioDatas[index].lightmapsMode = newLightmapsMode;
+        sLightingScenarioDatas[index].rendererInfos = newRendererInfos.ToArray();
+        sLightingScenarioDatas[index].hasRealtimeLights = latestBuildHasReltimeLights;
+        sLightingScenarioDatas[index].shadowMasks = newLightmapsShadowMasks.ToArray();
+        sLightingScenarioDatas[index].lightProbes = newSphericalHarmonicsList.ToArray();
     }
 
     static void GenerateLightmapInfo(GameObject root, List<RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, List<Texture2D> newLightmapsShadow, LightmapsMode newLightmapsMode)
@@ -348,7 +319,7 @@ public class LevelLightmapData : MonoBehaviour
             if (renderer.lightmapIndex != -1 && renderer.lightmapIndex != 65534)
             {
                 RendererInfo info = new RendererInfo();
-                info.renderer = renderer;
+                info.hash = renderer.GetHashCode();
                 info.lightmapOffsetScale = renderer.lightmapScaleOffset;
 
                 Texture2D lightmaplight = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapColor;

@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000004, guid: e5c40ec1acd28d042847fc65e0f34a0a,
+  m_LightingDataAsset: {fileID: 112000002, guid: 99847ebe4dd1cef4f96382247c204d22,
     type: 2}
   m_UseShadowmask: 0
 --- !u!196 &4
@@ -769,8 +769,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311c76c9ffea5554c82aa90000c874ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  latestBuildHasReltimeLights: 0
+  sLightingScenarioDatas:
+  - {fileID: 11400000, guid: ecee76a1ad279ec4b84ad2ca582b2cc5, type: 2}
+  - {fileID: 11400000, guid: ad3bd48a1a173324db1f8f5e99d518fd, type: 2}
+  - {fileID: 11400000, guid: 26c60a01bb691954994c36ecaba7ecfc, type: 2}
+  latestBuildHasReltimeLights: 1
   allowLoadingLightingScenes: 1
+  applyLightmapScaleAndOffset: 1
   lightingScenariosData:
   - rendererInfos:
     - renderer: {fileID: 160949653}

@@ -12,6 +12,7 @@ public class LevelLightmapDataEditor : Editor
     public SerializedProperty lightingScenesNames;
     public SerializedProperty allowLoadingLightingScenes;
     public SerializedProperty applyLightmapScaleAndOffset;
+    public SerializedProperty lightingScenarioDatas;
 
     GUIContent allowLoading = new GUIContent("Allow loading Lighting Scenes", "Allow the Level Lightmap Data script to load a lighting scene additively at runtime if the lighting scenario contains realtime lights.");
 
@@ -21,7 +22,8 @@ public class LevelLightmapDataEditor : Editor
         lightingScenesNames = serializedObject.FindProperty("lightingScenesNames");
         allowLoadingLightingScenes = serializedObject.FindProperty("allowLoadingLightingScenes");
         applyLightmapScaleAndOffset = serializedObject.FindProperty("applyLightmapScaleAndOffset");
-    }
+        lightingScenarioDatas = serializedObject.FindProperty("sLightingScenarioDatas");
+}
 
     public override void OnInspectorGUI()
     {
@@ -41,6 +43,7 @@ public class LevelLightmapDataEditor : Editor
             }
             serializedObject.ApplyModifiedProperties();
         }
+        EditorGUILayout.PropertyField(lightingScenarioDatas);
         EditorGUILayout.PropertyField(allowLoadingLightingScenes, allowLoading);
         EditorGUILayout.PropertyField(applyLightmapScaleAndOffset);
 
