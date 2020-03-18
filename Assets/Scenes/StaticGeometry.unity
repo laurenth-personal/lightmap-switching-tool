@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000002, guid: 99847ebe4dd1cef4f96382247c204d22,
+  m_LightingDataAsset: {fileID: 112000004, guid: e5c40ec1acd28d042847fc65e0f34a0a,
     type: 2}
   m_UseShadowmask: 0
 --- !u!196 &4
@@ -773,21 +773,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ecee76a1ad279ec4b84ad2ca582b2cc5, type: 2}
   - {fileID: 11400000, guid: ad3bd48a1a173324db1f8f5e99d518fd, type: 2}
   - {fileID: 11400000, guid: 26c60a01bb691954994c36ecaba7ecfc, type: 2}
-  latestBuildHasReltimeLights: 1
+  latestBuildHasReltimeLights: 0
   allowLoadingLightingScenes: 1
   applyLightmapScaleAndOffset: 1
   lightingScenariosData:
   - rendererInfos:
-    - renderer: {fileID: 160949653}
+    - hash: 0
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.062499978, y: 0.062499978, z: 0.875, w: 0.1177524}
-    - renderer: {fileID: 462247091}
+    - hash: 0
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.062499978, y: 0.062499978, z: 0.796875, w: 0.1177524}
-    - renderer: {fileID: 779719399}
+    - hash: 0
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.1574145, y: 0.1574145, z: 0.7962366, w: -0.0006384364}
-    - renderer: {fileID: 1972097390}
+    - hash: 0
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.78125, y: 0.78125, z: 0, w: 0}
     lightmaps:
@@ -1247,16 +1247,16 @@ MonoBehaviour:
       - 0.03306413
     hasRealtimeLights: 1
   - rendererInfos:
-    - renderer: {fileID: 160949653}
+    - hash: 0
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.062499978, y: 0.062499978, z: 0.875, w: 0.1177524}
-    - renderer: {fileID: 462247091}
+    - hash: 0
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.062499978, y: 0.062499978, z: 0.796875, w: 0.1177524}
-    - renderer: {fileID: 779719399}
+    - hash: 0
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.1574145, y: 0.1574145, z: 0.7962366, w: -0.0006384364}
-    - renderer: {fileID: 1972097390}
+    - hash: 0
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.78125, y: 0.78125, z: 0, w: 0}
     lightmaps:
@@ -1716,16 +1716,16 @@ MonoBehaviour:
       - 0.007361884
     hasRealtimeLights: 1
   - rendererInfos:
-    - renderer: {fileID: 160949653}
+    - hash: 0
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.041992173, y: 0.041992173, z: 0.59277344, w: 0.029409856}
-    - renderer: {fileID: 462247091}
+    - hash: 0
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.041992173, y: 0.041992173, z: 0.59277344, w: 0}
-    - renderer: {fileID: 779719399}
+    - hash: 0
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.101335585, y: 0.101335585, z: 0.48982337, w: -0.00041099347}
-    - renderer: {fileID: 1972097390}
+    - hash: 0
       lightmapIndex: 0
       lightmapOffsetScale: {x: 0.48828125, y: 0.48828125, z: 0, w: 0}
     lightmaps:
@@ -2194,7 +2194,6 @@ MonoBehaviour:
   - Lighting3
   currentLightingScenario: -1
   previousLightingScenario: -1
-  lightingScenariosCount: 3
   verbose: 0
 --- !u!4 &1709437755
 Transform:

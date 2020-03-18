@@ -43,9 +43,6 @@ public class LevelLightmapData : MonoBehaviour
     [Tooltip("Enable this if you want to use different lightmap resolutions in your different lighting scenarios. In that case you'll have to disable Static Batching in the Player Settings. When disabled, Static Batching can be used but all your lighting scenarios need to use the same lightmap resolution.")]
     public bool applyLightmapScaleAndOffset = true;
 
-	[SerializeField]
-	List<LightingScenarioData> lightingScenariosData;
-
 #if UNITY_EDITOR
     [SerializeField]
 	public List<SceneAsset> lightingScenariosScenes;
@@ -70,7 +67,7 @@ public class LevelLightmapData : MonoBehaviour
 
             currentLightingScenario = index;
 
-            LightmapSettings.lightmapsMode = lightingScenariosData[index].lightmapsMode;
+            LightmapSettings.lightmapsMode = sLightingScenarioDatas[index].lightmapsMode;
 
             if(allowLoadingLightingScenes)
                 m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(lightingScenesNames[previousLightingScenario], lightingScenesNames[currentLightingScenario]));
@@ -79,7 +76,7 @@ public class LevelLightmapData : MonoBehaviour
 
             if(applyLightmapScaleAndOffset)
             {
-                ApplyRendererInfo(lightingScenariosData[index].rendererInfos);
+                ApplyRendererInfo(sLightingScenarioDatas[index].rendererInfos);
             }
 
             LightmapSettings.lightmaps = newLightmaps;
@@ -103,9 +100,9 @@ public class LevelLightmapData : MonoBehaviour
 
     private SphericalHarmonicsL2[] DeserializeLightProbes(int index)
     {
-        var sphericalHarmonicsArray = new SphericalHarmonicsL2[lightingScenariosData[index].lightProbes.Length];
+        var sphericalHarmonicsArray = new SphericalHarmonicsL2[sLightingScenarioDatas[index].lightProbes.Length];
 
-        for (int i = 0; i < lightingScenariosData[index].lightProbes.Length; i++)
+        for (int i = 0; i < sLightingScenarioDatas[index].lightProbes.Length; i++)
         {
             var sphericalHarmonics = new SphericalHarmonicsL2();
 
@@ -115,7 +112,7 @@ public class LevelLightmapData : MonoBehaviour
                 //k is channel ( r g b )
                 for (int k = 0; k < 9; k++)
                 {
-                    sphericalHarmonics[j, k] = lightingScenariosData[index].lightProbes[i].coefficients[j * 9 + k];
+                    sphericalHarmonics[j, k] = sLightingScenarioDatas[index].lightProbes[i].coefficients[j * 9 + k];
                 }
             }
 
@@ -152,27 +149,27 @@ public class LevelLightmapData : MonoBehaviour
 
     LightmapData[] LoadLightmaps(int index)
     {
-        if (lightingScenariosData[index].lightmaps == null
-                || lightingScenariosData[index].lightmaps.Length == 0)
+        if (sLightingScenarioDatas[index].lightmaps == null
+                || sLightingScenarioDatas[index].lightmaps.Length == 0)
         {
             Debug.LogWarning("No lightmaps stored in scenario " + index);
             return null;
         }
 
-        var newLightmaps = new LightmapData[lightingScenariosData[index].lightmaps.Length];
+        var newLightmaps = new LightmapData[sLightingScenarioDatas[index].lightmaps.Length];
 
         for (int i = 0; i < newLightmaps.Length; i++)
         {
             newLightmaps[i] = new LightmapData();
-            newLightmaps[i].lightmapColor = lightingScenariosData[index].lightmaps[i];
+            newLightmaps[i].lightmapColor = sLightingScenarioDatas[index].lightmaps[i];
 
-            if (lightingScenariosData[index].lightmapsMode != LightmapsMode.NonDirectional)
+            if (sLightingScenarioDatas[index].lightmapsMode != LightmapsMode.NonDirectional)
             {
-                newLightmaps[i].lightmapDir = lightingScenariosData[index].lightmapsDir[i];
+                newLightmaps[i].lightmapDir = sLightingScenarioDatas[index].lightmapsDir[i];
             }
-            if (lightingScenariosData[index].shadowMasks.Length > 0)
+            if (sLightingScenarioDatas[index].shadowMasks.Length > 0)
             {
-                newLightmaps[i].shadowMask = lightingScenariosData[index].shadowMasks[i];
+                newLightmaps[i].shadowMask = sLightingScenarioDatas[index].shadowMasks[i];
             }
         }
 
@@ -256,6 +253,8 @@ public class LevelLightmapData : MonoBehaviour
 
             newSphericalHarmonicsList.Add(SHCoeff);
         }
+
+        //Save all to the scriptable object
         sLightingScenarioDatas[index].sceneName = lightingScenesNames[index];
         sLightingScenarioDatas[index].lightmaps = newLightmapsTextures.ToArray();
         if (newLightmapsMode != LightmapsMode.NonDirectional)
@@ -265,6 +264,7 @@ public class LevelLightmapData : MonoBehaviour
         sLightingScenarioDatas[index].hasRealtimeLights = latestBuildHasReltimeLights;
         sLightingScenarioDatas[index].shadowMasks = newLightmapsShadowMasks.ToArray();
         sLightingScenarioDatas[index].lightProbes = newSphericalHarmonicsList.ToArray();
+        EditorUtility.SetDirty(sLightingScenarioDatas[index]);
     }
 
     static void GenerateLightmapInfo(GameObject root, List<RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, List<Texture2D> newLightmapsShadow, LightmapsMode newLightmapsMode)
