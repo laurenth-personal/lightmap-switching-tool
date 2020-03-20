@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.Rendering;
 
 [CreateAssetMenu(fileName = "LightingScenario", menuName = "Lighting/Lighting Scenario Data")]
-public class SLightingScenarioData : ScriptableObject
+public class LightingScenarioData : ScriptableObject
 {
     public string sceneName;
     public LevelLightmapData.RendererInfo[] rendererInfos;
@@ -13,5 +11,4 @@ public class SLightingScenarioData : ScriptableObject
     public LightmapsMode lightmapsMode;
     public LevelLightmapData.SphericalHarmonics[] lightProbes;
     public bool hasRealtimeLights;
-
 }

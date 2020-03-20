@@ -4,9 +4,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
 using System.Collections;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 [ExecuteInEditMode]
 public class LevelLightmapData : MonoBehaviour
@@ -25,18 +22,8 @@ public class LevelLightmapData : MonoBehaviour
 		public Vector4 lightmapOffsetScale;
 	}
 
-    public SLightingScenarioData[] sLightingScenarioDatas;
-		
-	[System.Serializable]
-	public class LightingScenarioData {
-		public RendererInfo[] rendererInfos;
-		public Texture2D[] lightmaps;
-		public Texture2D[] lightmapsDir;
-        public Texture2D[] shadowMasks;
-        public LightmapsMode lightmapsMode;
-		public SphericalHarmonics[] lightProbes;
-        public bool hasRealtimeLights;
-	}
+    public LightingScenarioData[] lightingScenarioDatas;
+	
 
     public bool latestBuildHasReltimeLights;
     public bool allowLoadingLightingScenes = true;
@@ -45,64 +32,75 @@ public class LevelLightmapData : MonoBehaviour
 
 #if UNITY_EDITOR
     [SerializeField]
-	public List<SceneAsset> lightingScenariosScenes;
+	public List<UnityEditor.SceneAsset> lightingScenariosScenes;
 #endif
     [SerializeField]
     public String[] lightingScenesNames = new string[1];
-    public int currentLightingScenario = -1;
-    public int previousLightingScenario = -1;
+    public string currentLightingScenario;
+    public string previousLightingScenario;
 
     private Coroutine m_SwitchSceneCoroutine;
+
+    Dictionary<string, LightingScenarioData> dictionnary;
 
     //TODO : enable logs only when verbose enabled
     public bool verbose = false;
 
     private List<SphericalHarmonicsL2[]> lightProbesRuntime = new List<SphericalHarmonicsL2[]>();
 
-    public void LoadLightingScenario(int index)
+    public void LoadLightingScenario(string scenarioName)
     {
-        if(index != currentLightingScenario)
+        if(scenarioName != currentLightingScenario)
         {
-            previousLightingScenario = currentLightingScenario == -1 ? index : currentLightingScenario;
+            previousLightingScenario = currentLightingScenario == null ? scenarioName : currentLightingScenario;
 
-            currentLightingScenario = index;
+            currentLightingScenario = scenarioName;
 
-            LightmapSettings.lightmapsMode = sLightingScenarioDatas[index].lightmapsMode;
-
-            if(allowLoadingLightingScenes)
-                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(lightingScenesNames[previousLightingScenario], lightingScenesNames[currentLightingScenario]));
-
-            var newLightmaps = LoadLightmaps(index);
-
-            if(applyLightmapScaleAndOffset)
+            if(dictionnary == null)
             {
-                ApplyRendererInfo(sLightingScenarioDatas[index].rendererInfos);
+                Debug.Log("No lighting scenario found");
+                return;
             }
+
+            var lightingData = (LightingScenarioData)ScriptableObject.CreateInstance(typeof(LightingScenarioData));
+            var currentscenario = dictionnary.TryGetValue(scenarioName, out lightingData);
+
+            LightmapSettings.lightmapsMode = lightingData.lightmapsMode;
+
+            if (allowLoadingLightingScenes)
+                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(previousLightingScenario, currentLightingScenario, lightingData));
+
+            var newLightmaps = LoadLightmaps(lightingData);
+
+            //if(applyLightmapScaleAndOffset)
+            //{
+            //    ApplyRendererInfo(lightingScenarioDatas[index].rendererInfos);
+            //}
 
             LightmapSettings.lightmaps = newLightmaps;
 
-            LoadLightProbes(currentLightingScenario);
+            LoadLightProbes(lightingData);
         }
     }
 
     private void Start()
     {
-        PrepareLightProbeArrays();
-    }
+        dictionnary = new Dictionary<string,LightingScenarioData>();
 
-    private void PrepareLightProbeArrays()
-    {
-        for (int x = 0; x < sLightingScenarioDatas.Length; x++)
+        var scenarios = Resources.FindObjectsOfTypeAll<LightingScenarioData>();
+        foreach (var scenario in scenarios)
         {
-            lightProbesRuntime.Add(DeserializeLightProbes(x));
+            dictionnary.Add(scenario.sceneName, scenario);
         }
+        if (verbose && Application.isEditor)
+            Debug.Log("Loaded " + scenarios.Length + " lighting scenarios.");
     }
 
-    private SphericalHarmonicsL2[] DeserializeLightProbes(int index)
+    private SphericalHarmonicsL2[] DeserializeLightProbes(LightingScenarioData lightingData)
     {
-        var sphericalHarmonicsArray = new SphericalHarmonicsL2[sLightingScenarioDatas[index].lightProbes.Length];
+        var sphericalHarmonicsArray = new SphericalHarmonicsL2[lightingData.lightProbes.Length];
 
-        for (int i = 0; i < sLightingScenarioDatas[index].lightProbes.Length; i++)
+        for (int i = 0; i < lightingData.lightProbes.Length; i++)
         {
             var sphericalHarmonics = new SphericalHarmonicsL2();
 
@@ -112,7 +110,7 @@ public class LevelLightmapData : MonoBehaviour
                 //k is channel ( r g b )
                 for (int k = 0; k < 9; k++)
                 {
-                    sphericalHarmonics[j, k] = sLightingScenarioDatas[index].lightProbes[i].coefficients[j * 9 + k];
+                    sphericalHarmonics[j, k] = lightingData.lightProbes[i].coefficients[j * 9 + k];
                 }
             }
 
@@ -121,7 +119,7 @@ public class LevelLightmapData : MonoBehaviour
         return sphericalHarmonicsArray;
     }
 
-    IEnumerator SwitchSceneCoroutine(string sceneToUnload, string sceneToLoad)
+    IEnumerator SwitchSceneCoroutine(string sceneToUnload, string sceneToLoad, LightingScenarioData lightingData)
     {
         AsyncOperation unloadop = null;
         AsyncOperation loadop = null;
@@ -144,32 +142,33 @@ public class LevelLightmapData : MonoBehaviour
             }   
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneToLoad));
         }
-        LoadLightProbes(currentLightingScenario);
+        LoadLightProbes(lightingData);
     }
 
-    LightmapData[] LoadLightmaps(int index)
+    LightmapData[] LoadLightmaps(LightingScenarioData lightingData)
     {
-        if (sLightingScenarioDatas[index].lightmaps == null
-                || sLightingScenarioDatas[index].lightmaps.Length == 0)
+        if (lightingData.lightmaps == null
+                || lightingData.lightmaps.Length == 0)
         {
-            Debug.LogWarning("No lightmaps stored in scenario " + index);
+            if (verbose && Application.isEditor)
+                Debug.LogWarning("No lightmaps stored in scenario " + lightingData.sceneName);
             return null;
         }
 
-        var newLightmaps = new LightmapData[sLightingScenarioDatas[index].lightmaps.Length];
+        var newLightmaps = new LightmapData[lightingData.lightmaps.Length];
 
         for (int i = 0; i < newLightmaps.Length; i++)
         {
             newLightmaps[i] = new LightmapData();
-            newLightmaps[i].lightmapColor = sLightingScenarioDatas[index].lightmaps[i];
+            newLightmaps[i].lightmapColor = lightingData.lightmaps[i];
 
-            if (sLightingScenarioDatas[index].lightmapsMode != LightmapsMode.NonDirectional)
+            if (lightingData.lightmapsMode != LightmapsMode.NonDirectional)
             {
-                newLightmaps[i].lightmapDir = sLightingScenarioDatas[index].lightmapsDir[i];
+                newLightmaps[i].lightmapDir = lightingData.lightmapsDir[i];
             }
-            if (sLightingScenarioDatas[index].shadowMasks.Length > 0)
+            if (lightingData.shadowMasks.Length > 0)
             {
-                newLightmaps[i].shadowMask = sLightingScenarioDatas[index].shadowMasks[i];
+                newLightmaps[i].shadowMask = lightingData.shadowMasks[i];
             }
         }
 
@@ -205,22 +204,22 @@ public class LevelLightmapData : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError("Error in ApplyRendererInfo:" + e.GetType().ToString());
+            if(verbose && Application.isEditor)
+                Debug.LogError("Error in ApplyRendererInfo:" + e.GetType().ToString());
         }
     }
 
-    public void LoadLightProbes(int index)
+    public void LoadLightProbes(LightingScenarioData lightingData)
     {
-        if (Application.isEditor && !Application.isPlaying)
-        {
-            PrepareLightProbeArrays();
-        }
-
         try
         {
-            LightmapSettings.lightProbes.bakedProbes = lightProbesRuntime[index];
+            LightmapSettings.lightProbes.bakedProbes = DeserializeLightProbes(lightingData);
         }
-        catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + index); }
+        catch
+        {
+            if(verbose && Application.isEditor)
+                Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + lightingData.sceneName);
+        }
     }
 
     public void StoreLightmapInfos(int index)
@@ -255,16 +254,18 @@ public class LevelLightmapData : MonoBehaviour
         }
 
         //Save all to the scriptable object
-        sLightingScenarioDatas[index].sceneName = lightingScenesNames[index];
-        sLightingScenarioDatas[index].lightmaps = newLightmapsTextures.ToArray();
+        lightingScenarioDatas[index].sceneName = lightingScenesNames[index];
+        lightingScenarioDatas[index].lightmaps = newLightmapsTextures.ToArray();
         if (newLightmapsMode != LightmapsMode.NonDirectional)
-            sLightingScenarioDatas[index].lightmapsDir = newLightmapsTexturesDir.ToArray();
-        sLightingScenarioDatas[index].lightmapsMode = newLightmapsMode;
-        sLightingScenarioDatas[index].rendererInfos = newRendererInfos.ToArray();
-        sLightingScenarioDatas[index].hasRealtimeLights = latestBuildHasReltimeLights;
-        sLightingScenarioDatas[index].shadowMasks = newLightmapsShadowMasks.ToArray();
-        sLightingScenarioDatas[index].lightProbes = newSphericalHarmonicsList.ToArray();
-        EditorUtility.SetDirty(sLightingScenarioDatas[index]);
+            lightingScenarioDatas[index].lightmapsDir = newLightmapsTexturesDir.ToArray();
+        lightingScenarioDatas[index].lightmapsMode = newLightmapsMode;
+        lightingScenarioDatas[index].rendererInfos = newRendererInfos.ToArray();
+        lightingScenarioDatas[index].hasRealtimeLights = latestBuildHasReltimeLights;
+        lightingScenarioDatas[index].shadowMasks = newLightmapsShadowMasks.ToArray();
+        lightingScenarioDatas[index].lightProbes = newSphericalHarmonicsList.ToArray();
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(lightingScenarioDatas[index]);
+#endif
     }
 
     static void GenerateLightmapInfo(GameObject root, List<RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, List<Texture2D> newLightmapsShadow, LightmapsMode newLightmapsMode)

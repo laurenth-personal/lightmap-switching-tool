@@ -22,7 +22,7 @@ public class LevelLightmapDataEditor : Editor
         lightingScenesNames = serializedObject.FindProperty("lightingScenesNames");
         allowLoadingLightingScenes = serializedObject.FindProperty("allowLoadingLightingScenes");
         applyLightmapScaleAndOffset = serializedObject.FindProperty("applyLightmapScaleAndOffset");
-        lightingScenarioDatas = serializedObject.FindProperty("sLightingScenarioDatas");
+        lightingScenarioDatas = serializedObject.FindProperty("lightingScenarioDatas");
 }
 
     public override void OnInspectorGUI()
