@@ -50,20 +50,25 @@ public class LevelLightmapData : MonoBehaviour
 
     public void LoadLightingScenario(string scenarioName)
     {
-        if(scenarioName != currentLightingScenario)
+        if (dictionnary == null || dictionnary.Count == 0)
+        {
+            Debug.Log("No lighting scenario found");
+            return;
+        }
+
+        if (scenarioName != currentLightingScenario)
         {
             previousLightingScenario = currentLightingScenario == null ? scenarioName : currentLightingScenario;
 
             currentLightingScenario = scenarioName;
 
-            if(dictionnary == null)
-            {
-                Debug.Log("No lighting scenario found");
-                return;
-            }
-
             var lightingData = (LightingScenarioData)ScriptableObject.CreateInstance(typeof(LightingScenarioData));
-            var currentscenario = dictionnary.TryGetValue(scenarioName, out lightingData);
+
+            //Find the Lighting Scenario Data associated to the scene name.
+            bool scenarioFound = dictionnary.TryGetValue(scenarioName, out lightingData);
+
+            if (!scenarioFound)
+                return;
 
             LightmapSettings.lightmapsMode = lightingData.lightmapsMode;
 
@@ -85,15 +90,23 @@ public class LevelLightmapData : MonoBehaviour
 
     private void Start()
     {
-        dictionnary = new Dictionary<string,LightingScenarioData>();
+        FillDictionnary();
+    }
 
+    void FillDictionnary()
+    {
+        dictionnary = new Dictionary<string, LightingScenarioData>();
+
+        //Gather all Lighting scenario data assets found
         var scenarios = Resources.FindObjectsOfTypeAll<LightingScenarioData>();
         foreach (var scenario in scenarios)
         {
+            //Add them to the dictionnary so that one can load a scenario data by knowing the associated scene name.
             dictionnary.Add(scenario.sceneName, scenario);
         }
+
         if (verbose && Application.isEditor)
-            Debug.Log("Loaded " + scenarios.Length + " lighting scenarios.");
+            Debug.Log("Found " + scenarios.Length + " lighting scenarios.");
     }
 
     private SphericalHarmonicsL2[] DeserializeLightProbes(LightingScenarioData lightingData)
