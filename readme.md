@@ -1,5 +1,8 @@
 Tool intended for **switching pre-baked lightmaps** and realtime lighting on a static scene at runtime.
 
+**BRANCH Scriptable object specific :**
+The goal of this branch is to store all the lighting scenario data into a separate file. This could allow using asset bundles or addressables in order to add new lighting scenarios to already published scenes. This workflow is not tested yet.
+
 Depending on the platform or depending on the content the switch might not be instant but take some seconds, this script just allows you avoid duplicating your scene if you just want to change the lighting.
 
 This version is compatible with **unity 2019.3b4** and above, check previous releases for unity 5.5 - 5.6 version.
