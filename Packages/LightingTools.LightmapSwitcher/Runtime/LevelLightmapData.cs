@@ -2,28 +2,22 @@
 using UnityEngine.SceneManagement;
 using System;
 using System.Collections.Generic;
-using UnityEngine.Rendering;
 using System.Collections;
 
 [ExecuteInEditMode]
 public class LevelLightmapData : MonoBehaviour
 {
-    [System.Serializable]
-    public class SphericalHarmonics
-    {
-        public float[] coefficients = new float[27];
-    }
-
 	[System.Serializable]
 	public class RendererInfo
 	{
-        public int hash;
+        public int transformHash;
+        public int meshHash;
+        public string name;
 		public int lightmapIndex;
-		public Vector4 lightmapOffsetScale;
+		public Vector4 lightmapScaleOffset;
 	}
 
     public LightingScenarioData[] lightingScenarioDatas;
-	
 
     public bool latestBuildHasReltimeLights;
     public bool allowLoadingLightingScenes = true;
@@ -41,16 +35,15 @@ public class LevelLightmapData : MonoBehaviour
 
     private Coroutine m_SwitchSceneCoroutine;
 
-    Dictionary<string, LightingScenarioData> dictionnary;
+    Dictionary<string, LightingScenarioData> scenarioDictionnary;
+    Dictionary<int, RendererInfo> hashRendererPairs;
 
     //TODO : enable logs only when verbose enabled
     public bool verbose = false;
 
-    private List<SphericalHarmonicsL2[]> lightProbesRuntime = new List<SphericalHarmonicsL2[]>();
-
     public void LoadLightingScenario(string scenarioName)
     {
-        if (dictionnary == null || dictionnary.Count == 0)
+        if (scenarioDictionnary == null || scenarioDictionnary.Count == 0)
         {
             Debug.Log("No lighting scenario found");
             return;
@@ -65,7 +58,7 @@ public class LevelLightmapData : MonoBehaviour
             var lightingData = (LightingScenarioData)ScriptableObject.CreateInstance(typeof(LightingScenarioData));
 
             //Find the Lighting Scenario Data associated to the scene name.
-            bool scenarioFound = dictionnary.TryGetValue(scenarioName, out lightingData);
+            bool scenarioFound = scenarioDictionnary.TryGetValue(scenarioName, out lightingData);
 
             if (!scenarioFound)
                 return;
@@ -77,10 +70,10 @@ public class LevelLightmapData : MonoBehaviour
 
             var newLightmaps = LoadLightmaps(lightingData);
 
-            //if(applyLightmapScaleAndOffset)
-            //{
-            //    ApplyRendererInfo(lightingScenarioDatas[index].rendererInfos);
-            //}
+            if(applyLightmapScaleAndOffset)
+            {
+                ApplyRendererInfo(lightingData.rendererInfos);
+            }
 
             LightmapSettings.lightmaps = newLightmaps;
 
@@ -95,41 +88,18 @@ public class LevelLightmapData : MonoBehaviour
 
     void FillDictionnary()
     {
-        dictionnary = new Dictionary<string, LightingScenarioData>();
+        scenarioDictionnary = new Dictionary<string, LightingScenarioData>();
 
         //Gather all Lighting scenario data assets found
         var scenarios = Resources.FindObjectsOfTypeAll<LightingScenarioData>();
         foreach (var scenario in scenarios)
         {
             //Add them to the dictionnary so that one can load a scenario data by knowing the associated scene name.
-            dictionnary.Add(scenario.sceneName, scenario);
+            scenarioDictionnary.Add(scenario.sceneName, scenario);
         }
 
         if (verbose && Application.isEditor)
             Debug.Log("Found " + scenarios.Length + " lighting scenarios.");
-    }
-
-    private SphericalHarmonicsL2[] DeserializeLightProbes(LightingScenarioData lightingData)
-    {
-        var sphericalHarmonicsArray = new SphericalHarmonicsL2[lightingData.lightProbes.Length];
-
-        for (int i = 0; i < lightingData.lightProbes.Length; i++)
-        {
-            var sphericalHarmonics = new SphericalHarmonicsL2();
-
-            // j is coefficient
-            for (int j = 0; j < 3; j++)
-            {
-                //k is channel ( r g b )
-                for (int k = 0; k < 9; k++)
-                {
-                    sphericalHarmonics[j, k] = lightingData.lightProbes[i].coefficients[j * 9 + k];
-                }
-            }
-
-            sphericalHarmonicsArray[i] = sphericalHarmonics;
-        }
-        return sphericalHarmonicsArray;
     }
 
     IEnumerator SwitchSceneCoroutine(string sceneToUnload, string sceneToLoad, LightingScenarioData lightingData)
@@ -192,28 +162,42 @@ public class LevelLightmapData : MonoBehaviour
     {
         try
         {
+            //Dirty exception for terrain
             Terrain terrain = FindObjectOfType<Terrain>();
             int i = 0;
             if (terrain != null)
             {
                 terrain.lightmapIndex = infos[i].lightmapIndex;
-                terrain.lightmapScaleOffset = infos[i].lightmapOffsetScale;
+                terrain.lightmapScaleOffset = infos[i].lightmapScaleOffset;
                 i++;
             }
 
-            for (int j = i; j < infos.Length; j++)
+            hashRendererPairs = new Dictionary<int, RendererInfo>();
+
+            //Fill with lighting scenario to load renderer infos
+            foreach (var info in infos)
             {
-                //RendererInfo info = infos[j];
-                //info.renderer.lightmapIndex = infos[j].lightmapIndex;
-                //if (!info.renderer.isPartOfStaticBatch)
-                //{
-                //    info.renderer.lightmapScaleOffset = infos[j].lightmapOffsetScale;
-                //}
-                //if (info.renderer.isPartOfStaticBatch && verbose == true && Application.isEditor)
-                //{
-                //    Debug.Log("Object " + info.renderer.gameObject.name + " is part of static batch, skipping lightmap offset and scale.");
-                //}
+                hashRendererPairs.Add(info.transformHash, info);
             }
+
+            //Find all renderers
+            var renderers = FindObjectsOfType<Renderer>();
+            
+            //Apply stored scale and offset if transform and mesh hashes match
+            foreach (var render in renderers)
+            {
+                var infoToApply = new RendererInfo();
+
+                if (hashRendererPairs.TryGetValue(render.gameObject.transform.GetHashCode(),out infoToApply))
+                {
+                    if(render.GetComponent<MeshFilter>().GetHashCode() == infoToApply.meshHash)
+                    {
+                        render.lightmapIndex = infoToApply.lightmapIndex;
+                        render.lightmapScaleOffset = infoToApply.lightmapScaleOffset;
+                    }
+                }
+            }
+
         }
         catch (Exception e)
         {
@@ -226,7 +210,7 @@ public class LevelLightmapData : MonoBehaviour
     {
         try
         {
-            LightmapSettings.lightProbes.bakedProbes = DeserializeLightProbes(lightingData);
+            LightmapSettings.lightProbes.bakedProbes = lightingData.lightProbes;
         }
         catch
         {
@@ -241,30 +225,9 @@ public class LevelLightmapData : MonoBehaviour
         var newLightmapsTextures = new List<Texture2D>();
         var newLightmapsTexturesDir = new List<Texture2D>();
 		var newLightmapsMode = LightmapSettings.lightmapsMode;
-        var newSphericalHarmonicsList = new List<SphericalHarmonics>();
         var newLightmapsShadowMasks = new List<Texture2D>();
 
         GenerateLightmapInfo(gameObject, newRendererInfos, newLightmapsTextures, newLightmapsTexturesDir, newLightmapsShadowMasks, newLightmapsMode);
-
-		var scene_LightProbes = new SphericalHarmonicsL2[LightmapSettings.lightProbes.bakedProbes.Length];
-		scene_LightProbes = LightmapSettings.lightProbes.bakedProbes;
-
-        for (int i = 0; i < scene_LightProbes.Length; i++)
-        {
-            var SHCoeff = new SphericalHarmonics();
-
-            // j is coefficient
-            for (int j = 0; j < 3; j++)
-            {
-                //k is channel ( r g b )
-                for (int k = 0; k < 9; k++)
-                {
-                    SHCoeff.coefficients[j*9+k] = scene_LightProbes[i][j, k];
-                }
-            }
-
-            newSphericalHarmonicsList.Add(SHCoeff);
-        }
 
         //Save all to the scriptable object
         lightingScenarioDatas[index].sceneName = lightingScenesNames[index];
@@ -275,7 +238,8 @@ public class LevelLightmapData : MonoBehaviour
         lightingScenarioDatas[index].rendererInfos = newRendererInfos.ToArray();
         lightingScenarioDatas[index].hasRealtimeLights = latestBuildHasReltimeLights;
         lightingScenarioDatas[index].shadowMasks = newLightmapsShadowMasks.ToArray();
-        lightingScenarioDatas[index].lightProbes = newSphericalHarmonicsList.ToArray();
+        lightingScenarioDatas[index].lightProbes = LightmapSettings.lightProbes.bakedProbes;
+
 #if UNITY_EDITOR
         UnityEditor.EditorUtility.SetDirty(lightingScenarioDatas[index]);
 #endif
@@ -287,7 +251,7 @@ public class LevelLightmapData : MonoBehaviour
         if (terrain != null && terrain.lightmapIndex != -1 && terrain.lightmapIndex != 65534)
         {
             RendererInfo terrainRendererInfo = new RendererInfo();
-            terrainRendererInfo.lightmapOffsetScale = terrain.lightmapScaleOffset;
+            terrainRendererInfo.lightmapScaleOffset = terrain.lightmapScaleOffset;
 
             Texture2D lightmaplight = LightmapSettings.lightmaps[terrain.lightmapIndex].lightmapColor;
             terrainRendererInfo.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);
@@ -333,8 +297,10 @@ public class LevelLightmapData : MonoBehaviour
             if (renderer.lightmapIndex != -1 && renderer.lightmapIndex != 65534)
             {
                 RendererInfo info = new RendererInfo();
-                info.hash = renderer.GetHashCode();
-                info.lightmapOffsetScale = renderer.lightmapScaleOffset;
+                info.transformHash = renderer.gameObject.transform.GetHashCode();
+                info.meshHash = renderer.gameObject.GetComponent<MeshFilter>().GetHashCode();
+                info.name = renderer.gameObject.name;
+                info.lightmapScaleOffset = renderer.lightmapScaleOffset;
 
                 Texture2D lightmaplight = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapColor;
                 info.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);
