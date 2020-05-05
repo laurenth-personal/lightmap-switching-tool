@@ -30,8 +30,8 @@ public class LevelLightmapData : MonoBehaviour
 #endif
     [SerializeField]
     public String[] lightingScenesNames = new string[1];
-    public string currentLightingScenario;
-    public string previousLightingScenario;
+    public string currentLightingSceneName;
+    public string previousLightingSceneName;
 
     private Coroutine m_SwitchSceneCoroutine;
 
@@ -49,11 +49,11 @@ public class LevelLightmapData : MonoBehaviour
             return;
         }
 
-        if (scenarioName != currentLightingScenario)
+        if (scenarioName != currentLightingSceneName)
         {
-            previousLightingScenario = currentLightingScenario == null ? scenarioName : currentLightingScenario;
+            previousLightingSceneName = currentLightingSceneName == null ? scenarioName : currentLightingSceneName;
 
-            currentLightingScenario = scenarioName;
+            currentLightingSceneName = scenarioName;
 
             var lightingData = (LightingScenarioData)ScriptableObject.CreateInstance(typeof(LightingScenarioData));
 
@@ -66,7 +66,7 @@ public class LevelLightmapData : MonoBehaviour
             LightmapSettings.lightmapsMode = lightingData.lightmapsMode;
 
             if (allowLoadingLightingScenes)
-                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(previousLightingScenario, currentLightingScenario, lightingData));
+                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(previousLightingSceneName, lightingData.hasRealtimeLights ? currentLightingSceneName : null ));
 
             var newLightmaps = LoadLightmaps(lightingData);
 
@@ -102,21 +102,24 @@ public class LevelLightmapData : MonoBehaviour
             Debug.Log("Found " + scenarios.Length + " lighting scenarios.");
     }
 
-    IEnumerator SwitchSceneCoroutine(string sceneToUnload, string sceneToLoad, LightingScenarioData lightingData)
+    IEnumerator SwitchSceneCoroutine(string sceneToUnload, string sceneToLoad)
     {
         AsyncOperation unloadop = null;
         AsyncOperation loadop = null;
 
         if (sceneToUnload != null && sceneToUnload != string.Empty && sceneToUnload != sceneToLoad)
         {
-            unloadop = SceneManager.UnloadSceneAsync(sceneToUnload);
-            while (!unloadop.isDone)
+            if (SceneManager.GetSceneByName(sceneToUnload).name != null)
             {
-                yield return new WaitForEndOfFrame();
+                unloadop = SceneManager.UnloadSceneAsync(sceneToUnload);
+                while (!unloadop.isDone)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
             }
         }
 
-        if(sceneToLoad != null && sceneToLoad != string.Empty && sceneToLoad != "")
+        if(sceneToLoad != null && sceneToLoad != string.Empty && sceneToLoad != "" )
         {
             loadop = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
             while ((!loadop.isDone || loadop == null))
@@ -125,7 +128,6 @@ public class LevelLightmapData : MonoBehaviour
             }   
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneToLoad));
         }
-        LoadLightProbes(lightingData);
     }
 
     LightmapData[] LoadLightmaps(LightingScenarioData lightingData)
@@ -188,9 +190,11 @@ public class LevelLightmapData : MonoBehaviour
             {
                 var infoToApply = new RendererInfo();
 
-                if (hashRendererPairs.TryGetValue(render.gameObject.transform.GetHashCode(),out infoToApply))
+                //int transformHash = render.gameObject.transform.position
+
+                if (hashRendererPairs.TryGetValue(GetStableHash(render.gameObject.transform),out infoToApply))
                 {
-                    if(render.GetComponent<MeshFilter>().GetHashCode() == infoToApply.meshHash)
+                    if(render.gameObject.name == infoToApply.name)
                     {
                         render.lightmapIndex = infoToApply.lightmapIndex;
                         render.lightmapScaleOffset = infoToApply.lightmapScaleOffset;
@@ -204,6 +208,20 @@ public class LevelLightmapData : MonoBehaviour
             if(verbose && Application.isEditor)
                 Debug.LogError("Error in ApplyRendererInfo:" + e.GetType().ToString());
         }
+    }
+
+    //Too much precision makes hash unrealiable because transforms often change very slightly.
+    int GetStableHash(Transform transform)
+    {
+        Vector3 stablePos = new Vector3(LimitDecimals(transform.position.x,2), LimitDecimals(transform.position.y,2), LimitDecimals(transform.position.z,2));
+        Vector3 stableRot = new Vector3(LimitDecimals(transform.rotation.x,1), LimitDecimals(transform.rotation.y,1), LimitDecimals(transform.rotation.z,1));
+        return stablePos.GetHashCode() + stableRot.GetHashCode();
+    }
+
+    float LimitDecimals(float input, int decimalcount)
+    {
+        var multiplier = Mathf.Pow(10, decimalcount);
+        return Mathf.Floor(input * multiplier) / multiplier;
     }
 
     public void LoadLightProbes(LightingScenarioData lightingData)
@@ -245,7 +263,7 @@ public class LevelLightmapData : MonoBehaviour
 #endif
     }
 
-    static void GenerateLightmapInfo(GameObject root, List<RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, List<Texture2D> newLightmapsShadow, LightmapsMode newLightmapsMode)
+    void GenerateLightmapInfo(GameObject root, List<RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, List<Texture2D> newLightmapsShadow, LightmapsMode newLightmapsMode)
     {
         Terrain terrain = FindObjectOfType<Terrain>();
         if (terrain != null && terrain.lightmapIndex != -1 && terrain.lightmapIndex != 65534)
@@ -297,8 +315,8 @@ public class LevelLightmapData : MonoBehaviour
             if (renderer.lightmapIndex != -1 && renderer.lightmapIndex != 65534)
             {
                 RendererInfo info = new RendererInfo();
-                info.transformHash = renderer.gameObject.transform.GetHashCode();
-                info.meshHash = renderer.gameObject.GetComponent<MeshFilter>().GetHashCode();
+                info.transformHash = GetStableHash(renderer.gameObject.transform);
+                //info.meshHash = renderer.gameObject.GetComponent<MeshFilter>().GetHashCode();
                 info.name = renderer.gameObject.name;
                 info.lightmapScaleOffset = renderer.lightmapScaleOffset;
 

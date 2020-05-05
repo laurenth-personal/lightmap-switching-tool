@@ -14,23 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName: Lighting2
   rendererInfos:
-  - transformHash: 12524
-    meshHash: 12522
+  - transformHash: 1295195192
+    meshHash: 0
     name: Sphere (1)
     lightmapIndex: 0
     lightmapScaleOffset: {x: 0.062499978, y: 0.062499978, z: 0.875, w: 0.1177524}
-  - transformHash: 12542
-    meshHash: 12540
+  - transformHash: -842247699
+    meshHash: 0
     name: Sphere
     lightmapIndex: 0
     lightmapScaleOffset: {x: 0.062499978, y: 0.062499978, z: 0.796875, w: 0.1177524}
-  - transformHash: 12552
-    meshHash: 12550
+  - transformHash: -1351881472
+    meshHash: 0
     name: Cube
     lightmapIndex: 0
     lightmapScaleOffset: {x: 0.1574145, y: 0.1574145, z: 0.7962366, w: -0.0006384364}
-  - transformHash: 12592
-    meshHash: 12590
+  - transformHash: 0
+    meshHash: 0
     name: Plane
     lightmapIndex: 0
     lightmapScaleOffset: {x: 0.78125, y: 0.78125, z: 0, w: 0}

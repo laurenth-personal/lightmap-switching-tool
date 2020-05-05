@@ -7,3 +7,5 @@ Temp
 *.sln
 Logs
 obj
+Builds
+AssetBundles
