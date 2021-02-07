@@ -1,17 +1,17 @@
-Tool intended for **switching pre-baked lightmaps** and realtime lighting on a static scene at runtime.
+Tool intended for **switching pre-baked lightmaps**, light probes and realtime lighting on a static scene at runtime.
 
-Depending on the platform or depending on the content the switch might not be instant but take some seconds, this script just allows you avoid duplicating your scene if you just want to change the lighting.
+Depending on the platform or depending on the content, the switch might not be instant but take some seconds, this script just allows you avoid duplicating your scene if you just want to change the lighting.
 
-This version is compatible with **unity 2019.3b4** and above, check previous releases for unity 5.5 - 5.6 version.
+This version is compatible with **unity 2019.3** and above, check previous releases for unity 5.5 - 5.6 version.
 
 If you want to use lightmaps of different resolutions in your different lighting scenarios you will probably need to **disable static batching** in the PlayerSettings (if you use the same lightmap resolution on all your lighting scenarios and the object packing in the lightmap atlas doesn't change accross lighting scenarios it's ok to keep static batching enabled).
 
-The system relies on 2 components :
+The system relies on this component :
 
 **LevelLightmapData**
-References the different lighting scenarios, builds the lighting, and stores the dependencies to the lightmaps.
-**LightingScenarioSwitcher**
-This is just an example of asset that calls the LevelLightmapData in order to switch lightmaps at runtime. You could build other components that call the LevelLightmapData in the same way but on different events (like you could use a box trigger running the same script on OnTriggerEnter ).
+It references the different lighting scenes, builds the lighting, and stores the dependencies to the lightmaps.
+
+If your lighting scene contains Realtime/Mixed lights or Reflection probes, the script will consider it's necessary to load the lighting scene at runtime to replicate the full lighting. The lighting scene will thus need to be part of the "Scenes in Build" list in the Build settings (File/Build Settings).
 
 ### How it works :
 
@@ -31,11 +31,10 @@ This is just an example of asset that calls the LevelLightmapData in order to sw
 
 ### LATEST UPDATE :
 
-- Updated to 2017.4
+- Remove lightmap switcher script and use on screen Buttons to demonstrate the lighting switch in the project.
 - The path to the lighting scenes is no longer hardcoded
 - The UI of the level lightmap data is slightly nicer (not a big change)
 - Add note about scenes needing to be in the build settings scene list
-- update readme accordingly
 
 ### Contributions :
 - Thanks to [Kretin1](https://github.com/Kretin1) for his effort on shadowmask support.
