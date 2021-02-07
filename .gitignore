@@ -2,3 +2,8 @@ ProjectSettings/UnityConnectSettings.asset
 Library
 Temp
 
+.vs
+*.csproj
+*.sln
+Logs
+obj
