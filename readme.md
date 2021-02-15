@@ -31,6 +31,7 @@ If your lighting scene contains Realtime/Mixed lights or Reflection probes, the 
 
 ### LATEST UPDATE :
 
+- Add editor script in order to cache and restore light probes from your currently open scene. Avoids dirtying the currently open scene.
 - Remove lightmap switcher script and use on screen Buttons to demonstrate the lighting switch in the project.
 - The path to the lighting scenes is no longer hardcoded
 - The UI of the level lightmap data is slightly nicer (not a big change)
