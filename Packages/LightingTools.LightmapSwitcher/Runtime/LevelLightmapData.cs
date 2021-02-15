@@ -125,6 +125,30 @@ public class LevelLightmapData : MonoBehaviour
         return sphericalHarmonicsArray;
     }
 
+#if UNITY_EDITOR
+
+    // In editor only we cache the baked probe data when entering playmode, and reset it on exit
+    // This negates runtime changes that the LevelLightmapData library creates in the lighting asset loaded into the starting scene 
+
+    UnityEngine.Rendering.SphericalHarmonicsL2[] cachedBakedProbeData = null;
+
+    public void OnEnteredPlayMode_EditorOnly()
+    {
+        cachedBakedProbeData = LightmapSettings.lightProbes.bakedProbes;
+        Debug.Log("Lightmap swtching tool - Caching editor lightProbes");
+    }
+
+    public void OnExitingPlayMode_EditorOnly()
+    {
+        // Only do this cache restore if we have probe data of matching length
+        if (cachedBakedProbeData != null && LightmapSettings.lightProbes.bakedProbes.Length == cachedBakedProbeData.Length)
+        {
+            LightmapSettings.lightProbes.bakedProbes = cachedBakedProbeData;
+            Debug.Log("Lightmap swtching tool - Restoring editor lightProbes");
+        }
+    }
+#endif
+
     IEnumerator SwitchSceneCoroutine(string sceneToUnload, string sceneToLoad)
     {
         AsyncOperation unloadop = null;
