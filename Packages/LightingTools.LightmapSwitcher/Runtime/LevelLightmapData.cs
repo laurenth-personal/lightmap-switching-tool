@@ -11,11 +11,6 @@ using UnityEditor;
 [ExecuteInEditMode]
 public class LevelLightmapData : MonoBehaviour
 {
-    [System.Serializable]
-    public class SphericalHarmonics
-    {
-        public float[] coefficients = new float[27];
-    }
 
 	[System.Serializable]
 	public class RendererInfo
@@ -32,7 +27,7 @@ public class LevelLightmapData : MonoBehaviour
 		public Texture2D[] lightmapsDir;
         public Texture2D[] shadowMasks;
         public LightmapsMode lightmapsMode;
-		public SphericalHarmonics[] lightProbes;
+		public SphericalHarmonicsL2[] lightProbes;
         public bool hasRealtimeLights;
 	}
 
@@ -61,8 +56,6 @@ public class LevelLightmapData : MonoBehaviour
     //TODO : enable logs only when verbose enabled
     public bool verbose = false;
 
-    private List<SphericalHarmonicsL2[]> lightProbesRuntime = new List<SphericalHarmonicsL2[]>();
-
     public void LoadLightingScenario(int index)
     {
         if(index != currentLightingScenario)
@@ -87,42 +80,6 @@ public class LevelLightmapData : MonoBehaviour
 
             LoadLightProbes(currentLightingScenario);
         }
-    }
-
-    private void Start()
-    {
-        PrepareLightProbeArrays();
-    }
-
-    private void PrepareLightProbeArrays()
-    {
-        for (int x = 0; x < lightingScenariosCount; x++)
-        {
-            lightProbesRuntime.Add(DeserializeLightProbes(x));
-        }
-    }
-
-    private SphericalHarmonicsL2[] DeserializeLightProbes(int index)
-    {
-        var sphericalHarmonicsArray = new SphericalHarmonicsL2[lightingScenariosData[index].lightProbes.Length];
-
-        for (int i = 0; i < lightingScenariosData[index].lightProbes.Length; i++)
-        {
-            var sphericalHarmonics = new SphericalHarmonicsL2();
-
-            // j is coefficient
-            for (int j = 0; j < 3; j++)
-            {
-                //k is channel ( r g b )
-                for (int k = 0; k < 9; k++)
-                {
-                    sphericalHarmonics[j, k] = lightingScenariosData[index].lightProbes[i].coefficients[j * 9 + k];
-                }
-            }
-
-            sphericalHarmonicsArray[i] = sphericalHarmonics;
-        }
-        return sphericalHarmonicsArray;
     }
 
 #if UNITY_EDITOR
@@ -208,6 +165,7 @@ public class LevelLightmapData : MonoBehaviour
     {
         try
         {
+            //TODO : Fin better solution for terrain. This is not compatible with several terrains.
             Terrain terrain = FindObjectOfType<Terrain>();
             int i = 0;
             if (terrain != null)
@@ -239,17 +197,13 @@ public class LevelLightmapData : MonoBehaviour
 
     public void LoadLightProbes(int index)
     {
-        if (Application.isEditor && !Application.isPlaying)
-        {
-            PrepareLightProbeArrays();
-        }
-
         try
         {
-            LightmapSettings.lightProbes.bakedProbes = lightProbesRuntime[index];
+            LightmapSettings.lightProbes.bakedProbes = lightingScenariosData[index].lightProbes;
         }
         catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + index); }
     }
+
 
     public void StoreLightmapInfos(int index)
     {
@@ -258,7 +212,6 @@ public class LevelLightmapData : MonoBehaviour
         var newLightmapsTextures = new List<Texture2D>();
         var newLightmapsTexturesDir = new List<Texture2D>();
 		var newLightmapsMode = new LightmapsMode();
-		var newSphericalHarmonicsList = new List<SphericalHarmonics>();
         var newLightmapsShadowMasks = new List<Texture2D>();
 
         newLightmapsMode = LightmapSettings.lightmapsMode;
@@ -281,27 +234,7 @@ public class LevelLightmapData : MonoBehaviour
 
         newLightingScenarioData.rendererInfos = newRendererInfos.ToArray();
 
-		var scene_LightProbes = new SphericalHarmonicsL2[LightmapSettings.lightProbes.bakedProbes.Length];
-		scene_LightProbes = LightmapSettings.lightProbes.bakedProbes;
-
-        for (int i = 0; i < scene_LightProbes.Length; i++)
-        {
-            var SHCoeff = new SphericalHarmonics();
-
-            // j is coefficient
-            for (int j = 0; j < 3; j++)
-            {
-                //k is channel ( r g b )
-                for (int k = 0; k < 9; k++)
-                {
-                    SHCoeff.coefficients[j*9+k] = scene_LightProbes[i][j, k];
-                }
-            }
-
-            newSphericalHarmonicsList.Add(SHCoeff);
-        }
-
-		newLightingScenarioData.lightProbes = newSphericalHarmonicsList.ToArray ();
+        newLightingScenarioData.lightProbes = LightmapSettings.lightProbes.bakedProbes;
 
         if (lightingScenariosData.Count < index + 1)
         {
@@ -322,6 +255,7 @@ public class LevelLightmapData : MonoBehaviour
 
     static void GenerateLightmapInfo(GameObject root, List<RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, List<Texture2D> newLightmapsShadow, LightmapsMode newLightmapsMode)
     {
+        //TODO : Fin better solution for terrain. This is not compatible with several terrains.
         Terrain terrain = FindObjectOfType<Terrain>();
         if (terrain != null && terrain.lightmapIndex != -1 && terrain.lightmapIndex != 65534)
         {
