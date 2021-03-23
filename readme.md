@@ -21,7 +21,7 @@ If your lighting scene contains Realtime/Mixed lights or Reflection probes, the 
 - In your static geometry scene, add an empty gameObject and attach a **LevelLightmapData** component to it. 
 - Fill the "lighting scenarios size" with the count of lighting scenarios you want, and in the "element" fields, either drag and drop scenes from your Project view or click the little point on the right of the field to choose a scene from your project
 - One by one, you can now Build the lighting scenario, and when the bake is done Store it. You need to do these steps in the lighting scenario order ( you have to build and then store lighting scenario 1 before lighting scenario 2 according to the order in the list). The first time it is crucial to do it in the right order, if you misclicked I'd recommend redoing the whole setup (click the wheel in the top right corner of the component and hit "reset" and do the setup again).
-- Now add an empty Gameobject to your scene and add a **LightingScenarioSwitcher** for previewing the switch
+- Call the public method **LoadLightingScenario** using an integer argument that represents the index of the lighting scenario in the list of scenarios. The UI buttons in this sample project do this through the use of the button's **UnityEvent**.
 - The Default lighting scenario field is the ID of the lighting scenario you want to load when you start playing. The ID is the number associated to the lighting scenario in the LevelLightmapData ( ID of the first element in the list is 0, next one is 1, etc ... )
 - Start playing 
 -> When clicking ( left mouse button or Fire1 if you have changed the input assignments ) the lightmaps should switch between your different lighting scenarios.
@@ -31,6 +31,7 @@ If your lighting scene contains Realtime/Mixed lights or Reflection probes, the 
 
 ### LATEST UPDATE :
 
+- Use native SphericalHarmonicsL2 instead of old workaround to simplify the code and allow loading light probes before Start
 - Add editor script in order to cache and restore light probes from your currently open scene. Avoids dirtying the currently open scene.
 - Remove lightmap switcher script and use on screen Buttons to demonstrate the lighting switch in the project.
 - The path to the lighting scenes is no longer hardcoded
