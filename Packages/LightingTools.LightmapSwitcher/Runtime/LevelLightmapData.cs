@@ -237,9 +237,14 @@ public class LevelLightmapData : MonoBehaviour
 
         lightingScenariosCount = lightingScenariosData.Count;
 
-        if (lightingScenesNames == null || lightingScenesNames.Length< lightingScenariosCount)
+        if (lightingScenesNames == null || lightingScenesNames.Length < lightingScenariosCount)
         {
             lightingScenesNames = new string[lightingScenariosCount];
+        }
+        else
+        {
+            lightingScenariosData[index].sceneName = lightingScenesNames[index];
+            lightingScenariosData[index].name = lightingScenesNames[index];
         }
     }
 
