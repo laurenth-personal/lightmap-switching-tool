@@ -1,8 +1,8 @@
 {
-  "name": "li.lightingtools.lightmapswitcher",
+  "name": "com.laurenth.lightingtools-lightmapswitcher",
   "displayName": "Lightmap Switcher",
-  "version": "0.1.0-preview",
-  "unity": "2019.1",
+  "version": "2019.3.0",
+  "unity": "2019.3",
   "description": "Allows you to switch lightmaps at runtime.",
   "dependencies": {
     "com.unity.editorcoroutines": "0.1.0-preview.1"
