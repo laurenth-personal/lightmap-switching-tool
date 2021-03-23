@@ -19,17 +19,6 @@ public class LevelLightmapData : MonoBehaviour
 		public int lightmapIndex;
 		public Vector4 lightmapOffsetScale;
 	}
-		
-	[System.Serializable]
-	public class LightingScenarioData {
-		public RendererInfo[] rendererInfos;
-		public Texture2D[] lightmaps;
-		public Texture2D[] lightmapsDir;
-        public Texture2D[] shadowMasks;
-        public LightmapsMode lightmapsMode;
-		public SphericalHarmonicsL2[] lightProbes;
-        public bool hasRealtimeLights;
-	}
 
     public bool latestBuildHasReltimeLights;
     [Tooltip("Enable this if you want to allow the script to load a lighting scene additively. This is useful when the scene contains a light set to realtime or mixed mode or reflection probes. If you're managing the scenes loading yourself you should disable it.")]
