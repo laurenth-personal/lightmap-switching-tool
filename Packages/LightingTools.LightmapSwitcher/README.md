@@ -32,6 +32,14 @@ If your lighting scene contains Realtime/Mixed lights or Reflection probes, the 
 - Mixed lighting mode (tested only "baked indirect" and "shadowmask")
 - Reflection probes, they need to be placed in the lighting scenes.
 
+### Importing the sample :
+
+- Go to Window / Package manager
+- In the left panel select the Lightmap switcher
+- In the right panel you should see a "Samples" section
+- See the "Example scene" line and click the button "Import to Project"
+- Open ExampleScene.unity at Assets\Samples\Lightmap Switcher\VersionNumber\Example scene\Scenes
+
 ### Contributors :
 
 - Thanks to [Kretin1](https://github.com/Kretin1) for his help on shadowmask support.
