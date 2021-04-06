@@ -769,23 +769,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311c76c9ffea5554c82aa90000c874ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightingScenarioDatas:
-  - {fileID: 11400000, guid: 59a8660c9a76ea84e93bab79337370f2, type: 2}
-  - {fileID: 11400000, guid: 5d1ed53ecd6e47c428e99fad42bac044, type: 2}
-  - {fileID: 11400000, guid: 6f66b055a1d00e948b1ca05fff00b1c9, type: 2}
-  latestBuildHasReltimeLights: 0
   allowLoadingLightingScenes: 1
   applyLightmapScaleAndOffset: 1
-  lightingScenariosScenes:
-  - {fileID: 102900000, guid: 64ac3b5e028386e479ce02ffa30c95c8, type: 3}
-  - {fileID: 102900000, guid: 779a780af89a06449b833229a0498e76, type: 3}
-  - {fileID: 102900000, guid: e2ed25f3b78965546b0c2dc51cc60ab6, type: 3}
-  lightingScenesNames:
-  - Lighting1
-  - Lighting2
-  - Lighting3
-  currentLightingScenario: 
-  previousLightingScenario: 
   verbose: 1
 --- !u!4 &1709437755
 Transform:
@@ -1038,6 +1023,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1080,6 +1066,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 0.6745098}
   m_RaycastTarget: 0
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1201,6 +1188,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1265,7 +1253,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
           m_FloatArgument: 0
-          m_StringArgument: Lighting2
+          m_StringArgument: 02
           m_BoolArgument: 0
         m_CallState: 1
 --- !u!224 &3753461365867351367
@@ -1411,6 +1399,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1488,6 +1477,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1552,7 +1542,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 2
           m_FloatArgument: 0
-          m_StringArgument: Lighting3
+          m_StringArgument: 03
           m_BoolArgument: 0
         m_CallState: 1
 --- !u!224 &3753461366298221268
@@ -1617,6 +1607,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1735,6 +1726,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1799,6 +1791,6 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Lighting1
+          m_StringArgument: 01
           m_BoolArgument: 0
         m_CallState: 1
