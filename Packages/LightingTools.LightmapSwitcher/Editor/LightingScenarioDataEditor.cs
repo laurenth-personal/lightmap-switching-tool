@@ -65,6 +65,7 @@ public Scene testScene;
         EditorGUILayout.PropertyField(allowLoadingLightingScenes, allowLoading);
         EditorGUILayout.PropertyField(applyLightmapScaleAndOffset);
 */
+        serializedObject.ApplyModifiedProperties();
         if (GUILayout.Button("Generate lighting scenario data"))
         {
             if (UnityEditor.Lightmapping.giWorkflowMode != UnityEditor.Lightmapping.GIWorkflowMode.OnDemand)
@@ -75,7 +76,6 @@ public Scene testScene;
                 BuildLightingScenario();
         }
 
-        serializedObject.ApplyModifiedProperties();
     }
 
     public void BuildLightingScenario()
@@ -87,15 +87,16 @@ public Scene testScene;
 
         Debug.Log("Loading " + scenarioData.lightingSceneName);
 
+        string geometrySceneGUID = AssetDatabase.FindAssets(scenarioData.geometrySceneName)[0];
+        string geometryScenePath = AssetDatabase.GUIDToAssetPath(geometrySceneGUID);
+        if (!geometryScenePath.EndsWith(".unity"))
+            geometryScenePath = geometryScenePath + ".unity";
+
         string lightingSceneGUID = AssetDatabase.FindAssets(scenarioData.lightingSceneName)[0];
         string lightingScenePath = AssetDatabase.GUIDToAssetPath(lightingSceneGUID);
         if (!lightingScenePath.EndsWith(".unity"))
             lightingScenePath = lightingScenePath + ".unity";
 
-        string geometrySceneGUID = AssetDatabase.FindAssets(scenarioData.geometrySceneName)[0];
-        string geometryScenePath = AssetDatabase.GUIDToAssetPath(geometrySceneGUID);
-        if (!geometryScenePath.EndsWith(".unity"))
-            geometryScenePath = geometryScenePath + ".unity";
 
         EditorSceneManager.OpenScene(geometryScenePath);
         EditorSceneManager.OpenScene(lightingScenePath, OpenSceneMode.Additive);
@@ -110,16 +111,16 @@ public Scene testScene;
         SearchLightsNeededRealtime(scenarioData);
 
         Debug.Log("Lightmap switcher - Start baking");
-        EditorCoroutineUtility.StartCoroutine(BuildLightingAsync(lightingScene, geometryScene), this);
+        EditorCoroutineUtility.StartCoroutine(BuildLightingAsync(lightingScene, geometryScene, scenarioData), this);
     }
 
-    private IEnumerator BuildLightingAsync(Scene lightingScene, Scene geometryScene)
+    private IEnumerator BuildLightingAsync(Scene lightingScene, Scene geometryScene, LightingScenarioData scenarioData)
     {
         Lightmapping.BakeAsync();
         while (Lightmapping.isRunning) { yield return null; }
         EditorSceneManager.SaveScene(geometryScene);
         EditorSceneManager.SaveScene(lightingScene);
-        StoreLightmapInfos();
+        StoreLightmapInfos(scenarioData);
         AssetDatabase.SaveAssets();
         EditorSceneManager.CloseScene(lightingScene, true);
     }
@@ -142,10 +143,8 @@ public Scene testScene;
         data.hasRealtimeLights = latestBuildHasRealtimeLights;
     }
 
-    public void StoreLightmapInfos()
+    public void StoreLightmapInfos(LightingScenarioData scenarioData)
     {
-        LightingScenarioData scenarioData = (LightingScenarioData)target;
-
         var newRendererInfos = new List<LevelLightmapData.RendererInfo>();
         var newLightmapsTextures = new List<Texture2D>();
         var newLightmapsTexturesDir = new List<Texture2D>();
