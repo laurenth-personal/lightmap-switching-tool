@@ -57,7 +57,7 @@ public class LevelLightmapData : MonoBehaviour
             LightmapSettings.lightmapsMode = lightingScenariosData[index].lightmapsMode;
 
             if(allowLoadingLightingScenes)
-                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(lightingScenesNames[previousLightingScenario], lightingScenesNames[currentLightingScenario]));
+                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(lightingScenesNames[previousLightingScenario], lightingScenesNames[currentLightingScenario], lightingScenariosData[previousLightingScenario].hasRealtimeLights, lightingScenariosData[currentLightingScenario].hasRealtimeLights ));
 
             var newLightmaps = LoadLightmaps(index);
 
@@ -243,7 +243,7 @@ public class LevelLightmapData : MonoBehaviour
         }
         else
         {
-            lightingScenariosData[index].sceneName = lightingScenesNames[index];
+            lightingScenariosData[index].lightingSceneName = lightingScenesNames[index];
             lightingScenariosData[index].name = lightingScenesNames[index];
         }
     }
