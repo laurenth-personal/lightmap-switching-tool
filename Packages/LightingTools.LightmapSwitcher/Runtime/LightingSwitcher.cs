@@ -43,6 +43,11 @@ public class LightingSwitcher : MonoBehaviour
         if (scenarioName != currentLightingSceneName)
         {
             //Find the Lighting Scenario Data associated to the scene name.
+            if(!scenarioDictionnary.ContainsKey(scenarioName))
+            {
+                Debug.Log("Lighting switcher - scenario " + scenarioName+ " not found");
+                return;
+            }
             var lightingData = (LightingScenarioData)ScriptableObject.CreateInstance(typeof(LightingScenarioData));
             bool scenarioFound = scenarioDictionnary.TryGetValue(scenarioName, out lightingData);
             if (!scenarioFound)
@@ -70,25 +75,28 @@ public class LightingSwitcher : MonoBehaviour
 
     private void Start()
     {
-        FillDictionnary();
+        //On Start load all lighting scenarios in resource folder
+        Resources.LoadAll<LightingScenarioData>("");
+        FindLightingScenarios();
     }
 
-    void FillDictionnary()
+    public void FindLightingScenarios()
     {
         scenarioDictionnary = new Dictionary<string, LightingScenarioData>();
 
         //Gather all Lighting scenario data assets found
-        var scenarios = Resources.LoadAll<LightingScenarioData>("");
+        var scenarios = Resources.FindObjectsOfTypeAll<LightingScenarioData>();
 
         //var scenarios = Resources.FindObjectsOfTypeAll<LightingScenarioData>();
         foreach (var scenario in scenarios)
         {
             //Add them to the dictionnary so that one can load a scenario data by knowing the associated scene name.
-            scenarioDictionnary.Add(scenario.name, scenario);
+            if(scenario.name != null  && scenario.name != string.Empty)
+                scenarioDictionnary.Add(scenario.name, scenario);
         }
 
         if (verbose && Application.isEditor)
-            Debug.Log("Found " + scenarios.Length + " lighting scenarios.");
+            Debug.Log("Found " + scenarioDictionnary.Count + " lighting scenarios.");
     }
 
     IEnumerator SwitchSceneCoroutine(string sceneToUnload, string sceneToLoad)
