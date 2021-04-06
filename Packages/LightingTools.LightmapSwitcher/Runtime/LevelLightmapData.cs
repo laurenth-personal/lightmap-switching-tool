@@ -96,12 +96,12 @@ public class LevelLightmapData : MonoBehaviour
     }
 #endif
 
-    IEnumerator SwitchSceneCoroutine(string sceneToUnload, string sceneToLoad)
+    IEnumerator SwitchSceneCoroutine(string sceneToUnload, string sceneToLoad, bool unload, bool load)
     {
         AsyncOperation unloadop = null;
         AsyncOperation loadop = null;
 
-        if (sceneToUnload != null && sceneToUnload != string.Empty && sceneToUnload != sceneToLoad)
+        if (sceneToUnload != null && sceneToUnload != string.Empty && sceneToUnload != sceneToLoad && unload)
         {
             unloadop = SceneManager.UnloadSceneAsync(sceneToUnload);
             while (!unloadop.isDone)
@@ -110,7 +110,7 @@ public class LevelLightmapData : MonoBehaviour
             }
         }
 
-        if(sceneToLoad != null && sceneToLoad != string.Empty && sceneToLoad != "")
+        if(sceneToLoad != null && sceneToLoad != string.Empty && sceneToLoad != "" && load)
         {
             loadop = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
             while ((!loadop.isDone || loadop == null))
