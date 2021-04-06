@@ -16,7 +16,6 @@ public class LightingScenarioEditor : Editor
     public SerializedProperty lightmaps;
     public SerializedProperty lightProbes;
     public SerializedProperty hasRealtimeLights;
-public Scene testScene;
 
     public void OnEnable()
     {
@@ -146,7 +145,7 @@ public Scene testScene;
     {
         LightingScenarioData scenarioData = (LightingScenarioData)target;
 
-        var newRendererInfos = new List<LevelLightmapData.RendererInfo>();
+        var newRendererInfos = new List<LightingSwitcher.RendererInfo>();
         var newLightmapsTextures = new List<Texture2D>();
         var newLightmapsTexturesDir = new List<Texture2D>();
         var newLightmapsMode = new LightmapsMode();
@@ -177,14 +176,14 @@ public Scene testScene;
 
     }
 
-    static void GenerateLightmapInfo(List<LevelLightmapData.RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, List<Texture2D> newLightmapsShadow, LightmapsMode newLightmapsMode)
+    static void GenerateLightmapInfo(List<LightingSwitcher.RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, List<Texture2D> newLightmapsShadow, LightmapsMode newLightmapsMode)
     {
         //TODO : Fin better solution for terrain. This is not compatible with several terrains.
         Terrain terrain = FindObjectOfType<Terrain>();
         if (terrain != null && terrain.lightmapIndex != -1 && terrain.lightmapIndex != 65534)
         {
-            LevelLightmapData.RendererInfo terrainRendererInfo = new LevelLightmapData.RendererInfo();
-            terrainRendererInfo.lightmapOffsetScale = terrain.lightmapScaleOffset;
+            LightingSwitcher.RendererInfo terrainRendererInfo = new LightingSwitcher.RendererInfo();
+            terrainRendererInfo.lightmapScaleOffset = terrain.lightmapScaleOffset;
 
             Texture2D lightmaplight = LightmapSettings.lightmaps[terrain.lightmapIndex].lightmapColor;
             terrainRendererInfo.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);
@@ -229,9 +228,11 @@ public Scene testScene;
         {
             if (renderer.lightmapIndex != -1 && renderer.lightmapIndex != 65534)
             {
-                LevelLightmapData.RendererInfo info = new LevelLightmapData.RendererInfo();
-                info.renderer = renderer;
-                info.lightmapOffsetScale = renderer.lightmapScaleOffset;
+                LightingSwitcher.RendererInfo info = new LightingSwitcher.RendererInfo();
+                info.transformHash = LightingSwitcher.GetStableHash(renderer.gameObject.transform);
+                info.meshHash = renderer.gameObject.GetComponent<MeshFilter>().sharedMesh.vertexCount;
+                info.name = renderer.gameObject.name;
+                info.lightmapScaleOffset = renderer.lightmapScaleOffset;
 
                 Texture2D lightmaplight = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapColor;
                 info.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);

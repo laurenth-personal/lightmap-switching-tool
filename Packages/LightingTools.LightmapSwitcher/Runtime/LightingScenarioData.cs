@@ -5,7 +5,7 @@ public class LightingScenarioData : ScriptableObject
 {
     public string geometrySceneName;
     public string lightingSceneName;
-    public LevelLightmapData.RendererInfo[] rendererInfos;
+    public LightingSwitcher.RendererInfo[] rendererInfos;
     public Texture2D[] lightmaps;
     public Texture2D[] lightmapsDir;
     public Texture2D[] shadowMasks;
