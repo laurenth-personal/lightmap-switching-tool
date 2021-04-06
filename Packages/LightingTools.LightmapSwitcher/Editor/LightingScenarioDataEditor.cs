@@ -9,28 +9,42 @@ using System.Collections.Generic;
 [CustomEditor(typeof(LightingScenarioData))]
 public class LightingScenarioEditor : Editor
 {
-    /*
-    public SerializedProperty lightingScenariosScenes;
-    public SerializedProperty lightingScenesNames;
-    public SerializedProperty allowLoadingLightingScenes;
-    public SerializedProperty applyLightmapScaleAndOffset;
-
-    GUIContent allowLoading = new GUIContent("Allow loading Lighting Scenes", "Allow the Level Lightmap Data script to load a lighting scene additively at runtime if the lighting scenario contains realtime lights.");
-    */
+    
+    public SerializedProperty geometrySceneName;
+    public SerializedProperty lightingSceneName;
+    public SerializedProperty lightmapsMode;
+    public SerializedProperty lightmaps;
+    public SerializedProperty lightProbes;
+    public SerializedProperty hasRealtimeLights;
+public Scene testScene;
 
     public void OnEnable()
     {
-        //lightingScenariosScenes = serializedObject.FindProperty("lightingScenariosScenes");
-        //lightingScenesNames = serializedObject.FindProperty("lightingScenesNames");
-        //allowLoadingLightingScenes = serializedObject.FindProperty("allowLoadingLightingScenes");
-        //applyLightmapScaleAndOffset = serializedObject.FindProperty("applyLightmapScaleAndOffset");
+        geometrySceneName = serializedObject.FindProperty("geometrySceneName");
+        lightingSceneName = serializedObject.FindProperty("lightingSceneName");
+        lightmapsMode = serializedObject.FindProperty("lightmapsMode");
+        lightmaps = serializedObject.FindProperty("lightmaps");
+        lightProbes = serializedObject.FindProperty("lightProbes");
+        hasRealtimeLights = serializedObject.FindProperty("hasRealtimeLights");
     }
 
     public override void OnInspectorGUI()
     {
+        serializedObject.Update();
+        EditorGUILayout.PropertyField(geometrySceneName);
+        EditorGUILayout.PropertyField(lightingSceneName);
+        EditorGUILayout.BeginVertical("box");
+
+        EditorGUILayout.LabelField("Stored Data",EditorStyles.boldLabel);
+        //Begin disabled group as this is a data summary display
         EditorGUI.BeginDisabledGroup(true);
-        base.DrawDefaultInspector();
+        EditorGUILayout.PropertyField(lightmapsMode);
+        EditorGUILayout.LabelField("Lightmaps count : " + lightmaps.arraySize.ToString());
+        EditorGUILayout.LabelField("Light probes count : " + lightProbes.arraySize.ToString());
+        EditorGUILayout.PropertyField(hasRealtimeLights);
+
         EditorGUI.EndDisabledGroup();
+        EditorGUILayout.EndVertical();
         /*
         serializedObject.Update();
         LevelLightmapData lightmapData = (LevelLightmapData)target;
@@ -50,36 +64,8 @@ public class LightingScenarioEditor : Editor
         }
         EditorGUILayout.PropertyField(allowLoadingLightingScenes, allowLoading);
         EditorGUILayout.PropertyField(applyLightmapScaleAndOffset);
-
-        serializedObject.ApplyModifiedProperties();
-
-        EditorGUILayout.Space();
-
-        for (int i = 0; i < lightmapData.lightingScenariosScenes.Count; i++)
-        {
-            EditorGUILayout.BeginHorizontal();
-            if (lightmapData.lightingScenariosScenes[i] != null)
-            {
-                EditorGUILayout.LabelField(lightmapData.lightingScenariosScenes[i].name.ToString(), EditorStyles.boldLabel);
-                if (GUILayout.Button("Build "))
-                {
-                    if (UnityEditor.Lightmapping.giWorkflowMode != UnityEditor.Lightmapping.GIWorkflowMode.OnDemand)
-                    {
-                        Debug.LogError("ExtractLightmapData requires that you have baked you lightmaps and Auto mode is disabled.");
-                    }
-                    else
-                        BuildLightingScenario(i, lightmapData);
-                }
-                if (GUILayout.Button("Store "))
-                {
-                    lightmapData.StoreLightmapInfos(i);
-                }
-            }
-            EditorGUILayout.EndHorizontal();
-        }
-        */
-
-        if (GUILayout.Button("Build "))
+*/
+        if (GUILayout.Button("Generate lighting scenario data"))
         {
             if (UnityEditor.Lightmapping.giWorkflowMode != UnityEditor.Lightmapping.GIWorkflowMode.OnDemand)
             {
@@ -88,46 +74,53 @@ public class LightingScenarioEditor : Editor
             else
                 BuildLightingScenario();
         }
-        if (GUILayout.Button("Store "))
-        {
-            StoreLightmapInfos();
-        }
+
+        serializedObject.ApplyModifiedProperties();
     }
 
     public void BuildLightingScenario()
     {
-        //Remove reference to LightingDataAsset so that Unity doesn't delete the previous bake
-        Lightmapping.lightingDataAsset = null;
 
-        //
         LightingScenarioData scenarioData = (LightingScenarioData)target;
-
 
         //string currentBuildScenename = lightingScenariosScenes.GetArrayElementAtIndex(ScenarioID).objectReferenceValue.name;
 
-        Debug.Log("Loading " + scenarioData.sceneName);
+        Debug.Log("Loading " + scenarioData.lightingSceneName);
 
-        string lightingSceneGUID = AssetDatabase.FindAssets(scenarioData.sceneName)[0];
+        string lightingSceneGUID = AssetDatabase.FindAssets(scenarioData.lightingSceneName)[0];
         string lightingScenePath = AssetDatabase.GUIDToAssetPath(lightingSceneGUID);
         if (!lightingScenePath.EndsWith(".unity"))
             lightingScenePath = lightingScenePath + ".unity";
 
+        string geometrySceneGUID = AssetDatabase.FindAssets(scenarioData.geometrySceneName)[0];
+        string geometryScenePath = AssetDatabase.GUIDToAssetPath(geometrySceneGUID);
+        if (!geometryScenePath.EndsWith(".unity"))
+            geometryScenePath = geometryScenePath + ".unity";
+
+        EditorSceneManager.OpenScene(geometryScenePath);
         EditorSceneManager.OpenScene(lightingScenePath, OpenSceneMode.Additive);
 
-        Scene lightingScene = SceneManager.GetSceneByName(scenarioData.sceneName);
+        //Remove reference to LightingDataAsset so that Unity doesn't delete the previous bake
+        Lightmapping.lightingDataAsset = null;
+        Scene lightingScene = SceneManager.GetSceneByName(scenarioData.lightingSceneName);
+        Scene geometryScene = SceneManager.GetSceneByName(scenarioData.geometrySceneName);
         EditorSceneManager.SetActiveScene(lightingScene);
 
+        //Check if the lighting scene needs requires dynamic lighting ( if not, never try to load the lighting scene ).
         SearchLightsNeededRealtime(scenarioData);
 
         Debug.Log("Lightmap switcher - Start baking");
-        EditorCoroutineUtility.StartCoroutine(BuildLightingAsync(lightingScene), this);
+        EditorCoroutineUtility.StartCoroutine(BuildLightingAsync(lightingScene, geometryScene), this);
     }
 
-    private IEnumerator BuildLightingAsync(Scene lightingScene)
+    private IEnumerator BuildLightingAsync(Scene lightingScene, Scene geometryScene)
     {
         Lightmapping.BakeAsync();
         while (Lightmapping.isRunning) { yield return null; }
+        EditorSceneManager.SaveScene(geometryScene);
         EditorSceneManager.SaveScene(lightingScene);
+        StoreLightmapInfos();
+        AssetDatabase.SaveAssets();
         EditorSceneManager.CloseScene(lightingScene, true);
     }
 
@@ -172,14 +165,13 @@ public class LightingScenarioEditor : Editor
             scenarioData.lightmapsDir = newLightmapsTexturesDir.ToArray();
         }
 
-        //Mixed or realtime support
-        //scenarioData.hasRealtimeLights = latestBuildHasReltimeLights;
-
         scenarioData.shadowMasks = newLightmapsShadowMasks.ToArray();
 
         scenarioData.rendererInfos = newRendererInfos.ToArray();
 
         scenarioData.lightProbes = LightmapSettings.lightProbes.bakedProbes;
+
+        EditorUtility.SetDirty(scenarioData);
 
         AssetDatabase.SaveAssets();
 
