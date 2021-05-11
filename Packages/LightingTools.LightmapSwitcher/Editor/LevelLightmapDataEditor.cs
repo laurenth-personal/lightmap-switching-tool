@@ -47,7 +47,7 @@ public class LevelLightmapDataEditor : Editor
         serializedObject.ApplyModifiedProperties();
 
         EditorGUILayout.Space();
-        if (Event.current.type == EventType.Repaint || Event.current.type == EventType.Layout)
+        if (Event.current.type!= EventType.DragPerform)
         {
 
             for (int i = 0; i < lightmapData.lightingScenariosScenes.Count; i++)
