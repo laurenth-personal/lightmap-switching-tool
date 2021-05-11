@@ -47,31 +47,34 @@ public class LevelLightmapDataEditor : Editor
         serializedObject.ApplyModifiedProperties();
 
         EditorGUILayout.Space();
-
-        for (int i = 0; i < lightmapData.lightingScenariosScenes.Count; i++)
+        if (Event.current.type == EventType.Repaint || Event.current.type == EventType.Layout)
         {
-            EditorGUILayout.BeginHorizontal();
-            var scene = lightmapData.lightingScenariosScenes[i];
-            if (scene != null)
+
+            for (int i = 0; i < lightmapData.lightingScenariosScenes.Count; i++)
             {
-                EditorGUILayout.LabelField(scene.name, EditorStyles.boldLabel);
-                if (GUILayout.Button("Build "))
+                EditorGUILayout.BeginHorizontal();
+                var scene = lightmapData.lightingScenariosScenes[i];
+                if (scene != null)
                 {
-                    if (Lightmapping.giWorkflowMode != Lightmapping.GIWorkflowMode.OnDemand)
+                    EditorGUILayout.LabelField(scene.name, EditorStyles.boldLabel);
+                    if (GUILayout.Button("Build "))
                     {
-                        Debug.LogError("ExtractLightmapData requires that you have baked you lightmaps and Auto mode is disabled.");
+                        if (Lightmapping.giWorkflowMode != Lightmapping.GIWorkflowMode.OnDemand)
+                        {
+                            Debug.LogError("ExtractLightmapData requires that you have baked you lightmaps and Auto mode is disabled.");
+                        }
+                        else
+                        {
+                            BuildLightingScenario(scene);
+                        }
                     }
-                    else
+                    if (GUILayout.Button("Store "))
                     {
-                        BuildLightingScenario(scene);
+                        lightmapData.StoreLightmapInfos(i);
                     }
                 }
-                if (GUILayout.Button("Store "))
-                {
-                    lightmapData.StoreLightmapInfos(i);
-                }
+                EditorGUILayout.EndHorizontal();
             }
-            EditorGUILayout.EndHorizontal();
         }
     }
 
@@ -79,7 +82,7 @@ public class LevelLightmapDataEditor : Editor
     {
         //Remove reference to LightingDataAsset so that Unity doesn't delete the previous bake
         Lightmapping.lightingDataAsset = null;
-        
+
         Debug.Log("Loading " + scene.name);
 
         string lightingScenePath = AssetDatabase.GetAssetOrScenePath(scene);
@@ -94,7 +97,7 @@ public class LevelLightmapDataEditor : Editor
 
     private IEnumerator BuildLightingAsync(Scene lightingScene)
     {
-        var newLightmapMode  = LightmapSettings.lightmapsMode;
+        var newLightmapMode = LightmapSettings.lightmapsMode;
         Lightmapping.BakeAsync();
         while (Lightmapping.isRunning) { yield return null; }
         //Lightmapping.lightingDataAsset = null;
