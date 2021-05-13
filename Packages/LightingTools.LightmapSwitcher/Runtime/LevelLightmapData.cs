@@ -34,7 +34,7 @@ public class LevelLightmapData : MonoBehaviour
 	public List<SceneAsset> lightingScenariosScenes;
 #endif
     [SerializeField]
-    public String[] lightingScenesNames = new string[1];
+    public string[] lightingScenesNames = new string[1];
     public int currentLightingScenario = -1;
     public int previousLightingScenario = -1;
 
@@ -94,6 +94,7 @@ public class LevelLightmapData : MonoBehaviour
             Debug.Log("Lightmap swtching tool - Restoring editor lightProbes");
         }
     }
+
 #endif
 
     IEnumerator SwitchSceneCoroutine(string sceneToUnload, string sceneToLoad)
@@ -201,10 +202,10 @@ public class LevelLightmapData : MonoBehaviour
         var newRendererInfos = new List<RendererInfo>();
         var newLightmapsTextures = new List<Texture2D>();
         var newLightmapsTexturesDir = new List<Texture2D>();
-		var newLightmapsMode = new LightmapsMode();
+        var newLightmapsMode = LightmapSettings.lightmapsMode;
         var newLightmapsShadowMasks = new List<Texture2D>();
 
-        newLightmapsMode = LightmapSettings.lightmapsMode;
+       
 
         GenerateLightmapInfo(gameObject, newRendererInfos, newLightmapsTextures, newLightmapsTexturesDir, newLightmapsShadowMasks, newLightmapsMode);
 
@@ -336,4 +337,7 @@ public class LevelLightmapData : MonoBehaviour
             }
         }
     }
+
+
+
 }
