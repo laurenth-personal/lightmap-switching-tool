@@ -1,3 +1,5 @@
+[![openupm](https://img.shields.io/npm/v/com.laurenth.lightingtools-lightmapswitcher?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.laurenth.lightingtools-lightmapswitcher/) _click this badge to go to the open upm page for this package_
+
 Tool intended for **switching pre-baked lightmaps**, light probes and realtime lighting on a static scene at runtime.
 
 Depending on the platform or depending on the content, the switch might not be instant but take some seconds, this script just allows you avoid duplicating your scene if you just want to change the lighting.
