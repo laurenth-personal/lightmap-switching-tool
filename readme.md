@@ -1,3 +1,4 @@
+
 [![openupm](https://img.shields.io/npm/v/com.laurenth.lightingtools-lightmapswitcher?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.laurenth.lightingtools-lightmapswitcher/) _click this badge to go to the open upm page for this package_
 
 Tool intended for **switching pre-baked lightmaps**, light probes and realtime lighting on a static scene at runtime.
@@ -25,6 +26,9 @@ If your lighting scene contains Realtime/Mixed lights or Reflection probes, the 
 - One by one, you can now Build the lighting scenario, and when the bake is done Store it. You need to do these steps in the lighting scenario order ( you have to build and then store lighting scenario 1 before lighting scenario 2 according to the order in the list). The first time it is crucial to do it in the right order, if you misclicked I'd recommend redoing the whole setup (click the wheel in the top right corner of the component and hit "reset" and do the setup again).
 - Call the public method **LoadLightingScenario** using an integer argument that represents the index of the lighting scenario in the list of scenarios. The UI buttons in this sample project do this through the use of the button's **UnityEvent**.
 - Start playing -> In the sample project, click the different buttons on the screen to switch to a different lighting. In your own project, use script or UnityEvents to call the LoadLightingScenario method as described previously
+
+### Tutorial :
+- [Quick start video tutorial](https://drive.google.com/file/d/11InmKeKM6IMg445iYz4N89Zkerre_Mot/view?usp=sharing)
 
 ### Supports :
 
