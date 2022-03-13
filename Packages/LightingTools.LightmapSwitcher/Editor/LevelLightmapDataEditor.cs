@@ -46,7 +46,7 @@ public class LevelLightmapDataEditor : Editor
         }
         else
         {
-            EditorGUILayout.PropertyField(lightingScenariosScenes, new GUIContent("Lighting Scenarios Scenes"), includeChildren: true);
+            EditorGUILayout.PropertyField(lightingScenariosScenes, new GUIContent("Lighting Scenes"), includeChildren: true);
         }
         if (EditorGUI.EndChangeCheck())
         {

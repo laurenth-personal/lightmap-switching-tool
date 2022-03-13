@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 using System.Collections;
 #if UNITY_EDITOR
 using UnityEditor;
+using System.IO;
 #endif
 
 [ExecuteInEditMode]
@@ -373,7 +374,7 @@ public class LevelLightmapData : MonoBehaviour
     }
     public void StoreLightmapInfos(int index)
     {
-        var newLightingScenarioData = new LightingScenarioData ();
+        var newLightingScenarioData = ScriptableObject.CreateInstance<LightingScenarioData>();
         var newRendererInfos = new List<RendererInfo>();
         var newLightmapsTextures = new List<Texture2D>();
         var newLightmapsTexturesDir = new List<Texture2D>();
@@ -399,6 +400,12 @@ public class LevelLightmapData : MonoBehaviour
         newLightingScenarioData.shadowMasks = newLightmapsShadowMasks.ToArray();
 
         newLightingScenarioData.rendererInfos = newRendererInfos.ToArray();
+
+        if (newLightingScenarioData.lightProbesAsset == null)
+        {
+            var probes = ScriptableObject.CreateInstance<LightProbesAsset>();
+            newLightingScenarioData.lightProbesAsset = probes;
+        }
 
         newLightingScenarioData.lightProbesAsset.lightProbes = LightmapSettings.lightProbes.bakedProbes;
 
