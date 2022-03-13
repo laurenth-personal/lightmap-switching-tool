@@ -105,6 +105,20 @@ public class LevelLightmapData : MonoBehaviour
         }
     }
 
+    public void LoadLightingScenarioData(LightingScenarioData data)
+    {
+        LightmapSettings.lightmapsMode = data.lightmapsMode;
+
+        if (data.storeRendererInfos)
+        {
+            ApplyDataRendererInfo(data.rendererInfos);
+        }
+
+        LightmapSettings.lightmaps = LoadLightmaps(data);
+
+        LoadLightProbes(data);
+    }
+
     public void LoadLightingScenario(LightingScenarioData[] datas, int index)
     {
         if (index != currentLightingScenario)
@@ -330,18 +344,21 @@ public class LevelLightmapData : MonoBehaviour
     {
         try
         {
-            LightmapSettings.lightProbes.bakedProbes = lightingScenariosData[index].lightProbes;
+            LightmapSettings.lightProbes.bakedProbes = lightingScenariosData[index].lightProbesAsset.lightProbes;
         }
         catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + index); }
     }
 
     public void LoadLightProbes(LightingScenarioData data)
     {
-        try
+        if(data.lightProbesAsset.lightProbes.Length > 0)
         {
-            LightmapSettings.lightProbes.bakedProbes = data.lightProbes;
+            try
+            {
+                LightmapSettings.lightProbes.bakedProbes = data.lightProbesAsset.lightProbes;
+            }
+            catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + data.name); }
         }
-        catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + data.name); }
     }
     public static int GetStableHash(Transform transform)
     {
@@ -383,7 +400,7 @@ public class LevelLightmapData : MonoBehaviour
 
         newLightingScenarioData.rendererInfos = newRendererInfos.ToArray();
 
-        newLightingScenarioData.lightProbes = LightmapSettings.lightProbes.bakedProbes;
+        newLightingScenarioData.lightProbesAsset.lightProbes = LightmapSettings.lightProbes.bakedProbes;
 
         if (lightingScenariosData.Count < index + 1)
         {

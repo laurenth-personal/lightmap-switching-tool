@@ -17,6 +17,8 @@ public class LevelLightmapDataEditor : Editor
     LevelLightmapData lightmapData;
     GUIContent allowLoading = new GUIContent("Allow loading Lighting Scenes", "Allow the Level Lightmap Data script to load a lighting scene additively at runtime if the lighting scenario contains realtime lights.");
 
+    private Editor[] _editors;
+
     public void OnEnable()
     {
         lightmapData = target as LevelLightmapData;
@@ -25,6 +27,7 @@ public class LevelLightmapDataEditor : Editor
         lightingScenariosData = serializedObject.FindProperty("lightingScenariosData");
         allowLoadingLightingScenes = serializedObject.FindProperty("allowLoadingLightingScenes");
         applyLightmapScaleAndOffset = serializedObject.FindProperty("applyLightmapScaleAndOffset");
+        _editors = new Editor[lightingScenariosData.arraySize];
     }
 
     public override void OnInspectorGUI()
@@ -34,9 +37,12 @@ public class LevelLightmapDataEditor : Editor
         EditorGUI.BeginChangeCheck();
         //Temp switch between old and new mode
         usev2 = EditorGUILayout.Toggle(new GUIContent("Show scenario data"), usev2);
+        EditorGUILayout.PropertyField(allowLoadingLightingScenes, allowLoading);
+        if (!usev2)
+            EditorGUILayout.PropertyField(applyLightmapScaleAndOffset);
         if(usev2)
         {
-            EditorGUILayout.PropertyField(lightingScenariosData, new GUIContent("Lighting Scenario Datas"), includeChildren: true);
+            EditorGUILayout.PropertyField(lightingScenariosData, new GUIContent("Lighting Scenarios"), includeChildren: true);
         }
         else
         {
@@ -53,11 +59,26 @@ public class LevelLightmapDataEditor : Editor
             }
             serializedObject.ApplyModifiedProperties();
         }
-        EditorGUILayout.PropertyField(allowLoadingLightingScenes, allowLoading);
-        if(!usev2)
-            EditorGUILayout.PropertyField(applyLightmapScaleAndOffset);
+
+        if(usev2 )
+        {
+            EditorGUILayout.Space();
+            for (int i = 0; i < _editors.Length; i++)
+            {
+                var data = lightingScenariosData.GetArrayElementAtIndex(i).objectReferenceValue;
+                if (data != null)
+                {
+                    CreateCachedEditor(data, null, ref _editors[i]);
+                    EditorGUILayout.LabelField(data.name, EditorStyles.boldLabel);
+                    EditorGUI.indentLevel++;
+                    _editors[i].OnInspectorGUI();
+                    EditorGUI.indentLevel--;
+                }
+            }
+        }
 
         serializedObject.ApplyModifiedProperties();
+
 
         if(!usev2)
         {

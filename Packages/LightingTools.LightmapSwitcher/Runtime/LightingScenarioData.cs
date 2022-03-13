@@ -13,6 +13,6 @@ public class LightingScenarioData : ScriptableObject
     public Texture2D[] lightmapsDir;
     public Texture2D[] shadowMasks;
     public LightmapsMode lightmapsMode;
-    public UnityEngine.Rendering.SphericalHarmonicsL2[] lightProbes;
+    public LightProbesAsset lightProbesAsset;
     public bool hasRealtimeLights;
 }
