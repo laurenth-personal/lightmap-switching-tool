@@ -5,5 +5,8 @@ using UnityEngine.Serialization;
 public class LightProbesAsset : ScriptableObject
 {
     [SerializeField]
-    public UnityEngine.Rendering.SphericalHarmonicsL2[] lightProbes;
+    [FormerlySerializedAs("lightProbes")]
+    public UnityEngine.Rendering.SphericalHarmonicsL2[] coefficients;
+    [SerializeField]
+    public LightProbes lightprobes;
 }

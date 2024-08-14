@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
 using System.Collections;
+using System.Reflection;
 #if UNITY_EDITOR
 using UnityEditor;
 using System.IO;
@@ -157,8 +158,11 @@ public class LevelLightmapData : MonoBehaviour
 
     public void OnEnteredPlayMode_EditorOnly()
     {
-        cachedBakedProbeData = LightmapSettings.lightProbes.bakedProbes;
-        Debug.Log("Lightmap swtching tool - Caching editor lightProbes");
+        if(LightmapSettings.lightProbes != null)
+        {
+            cachedBakedProbeData = LightmapSettings.lightProbes.bakedProbes;
+            Debug.Log("Lightmap swtching tool - Caching editor lightProbes");
+        }
     }
 
     public void OnExitingPlayMode_EditorOnly()
@@ -343,20 +347,25 @@ public class LevelLightmapData : MonoBehaviour
 
     public void LoadLightProbes(int index)
     {
-        try
-        {
-            LightmapSettings.lightProbes.bakedProbes = lightingScenariosData[index].lightProbesAsset.lightProbes;
-        }
-        catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + index); }
+        LoadLightProbes(lightingScenariosData[index]);
     }
 
     public void LoadLightProbes(LightingScenarioData data)
     {
-        if(data.lightProbesAsset.lightProbes.Length > 0)
+        if(data.lightProbesAsset.coefficients.Length > 0)
         {
             try
             {
-                LightmapSettings.lightProbes.bakedProbes = data.lightProbesAsset.lightProbes;
+                if(LightmapSettings.lightProbes != null )
+                {
+                    LightmapSettings.lightProbes = data.lightProbesAsset.lightprobes;
+                    LightmapSettings.lightProbes.bakedProbes = data.lightProbesAsset.lightprobes.bakedProbes;
+                }
+                else
+                {
+                    LightmapSettings.lightProbes = data.lightProbesAsset.lightprobes;
+                    LightmapSettings.lightProbes.bakedProbes = data.lightProbesAsset.lightprobes.bakedProbes;
+                }
             }
             catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + data.name); }
         }
@@ -374,7 +383,12 @@ public class LevelLightmapData : MonoBehaviour
     }
     public void StoreLightmapInfos(int index)
     {
-        var newLightingScenarioData = ScriptableObject.CreateInstance<LightingScenarioData>();
+        LightingScenarioData newLightingScenarioData;
+        if (lightingScenariosData[index] != null)
+            newLightingScenarioData = lightingScenariosData[index];
+        else
+             newLightingScenarioData = ScriptableObject.CreateInstance<LightingScenarioData>();
+
         var newRendererInfos = new List<RendererInfo>();
         var newLightmapsTextures = new List<Texture2D>();
         var newLightmapsTexturesDir = new List<Texture2D>();
@@ -407,7 +421,8 @@ public class LevelLightmapData : MonoBehaviour
             newLightingScenarioData.lightProbesAsset = probes;
         }
 
-        newLightingScenarioData.lightProbesAsset.lightProbes = LightmapSettings.lightProbes.bakedProbes;
+        newLightingScenarioData.lightProbesAsset.coefficients = LightmapSettings.lightProbes.bakedProbes;
+        newLightingScenarioData.lightProbesAsset.lightprobes = LightmapSettings.lightProbes;
 
         if (lightingScenariosData.Count < index + 1)
         {
@@ -485,6 +500,9 @@ public class LevelLightmapData : MonoBehaviour
             {
                 RendererInfo info = new RendererInfo();
                 info.renderer = renderer;
+                info.name = renderer.gameObject.name;
+                info.meshHash = renderer.gameObject.GetComponent<MeshFilter>().sharedMesh.GetHashCode();
+                info.transformHash = GetStableHash(renderer.gameObject.transform);
                 info.lightmapScaleOffset = renderer.lightmapScaleOffset;
 
                 Texture2D lightmaplight = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapColor;

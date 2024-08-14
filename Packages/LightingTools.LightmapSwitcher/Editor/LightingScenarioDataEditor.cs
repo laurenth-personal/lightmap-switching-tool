@@ -168,7 +168,8 @@ public class LightingScenarioEditor : Editor
 
             scenarioData.lightProbesAsset = probes;
         }
-        scenarioData.lightProbesAsset.lightProbes = LightmapSettings.lightProbes.bakedProbes;
+        scenarioData.lightProbesAsset.coefficients = LightmapSettings.lightProbes.bakedProbes;
+        scenarioData.lightProbesAsset.lightprobes = LightmapSettings.lightProbes;
 
         EditorUtility.SetDirty(scenarioData.lightProbesAsset);
         EditorUtility.SetDirty(scenarioData);
