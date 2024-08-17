@@ -172,6 +172,8 @@ public class LightingScenarioEditor : Editor
         EditorUtility.SetDirty(scenarioData.lightProbesAsset);
         var probesCopy = LightProbes.Instantiate(LightmapSettings.lightProbes);
         probesCopy.name = scenarioData.lightingSceneName + "_probes";
+        if (scenarioData.lightProbesAsset.lightprobes != null)
+            AssetDatabase.RemoveObjectFromAsset(scenarioData.lightProbesAsset.lightprobes);
         AssetDatabase.AddObjectToAsset(probesCopy, scenarioData.lightProbesAsset);
         scenarioData.lightProbesAsset.lightprobes = probesCopy;
         EditorUtility.SetDirty(scenarioData.lightProbesAsset);
