@@ -79,7 +79,7 @@ public class LevelLightmapData : MonoBehaviour
 
     public void LoadLightingScenario(string name)
     {
-        var data = lightingScenariosData.Find(x => x.name.Equals("name"));
+        var data = lightingScenariosData.Find(x => x.name.Equals(name));
 
         LoadLightingScenario(data);
     }
@@ -88,15 +88,17 @@ public class LevelLightmapData : MonoBehaviour
     {
         //Assumes that the active scene is the lighting scene. This might not be true for all games.
         string previousLightingSceneName = SceneManager.GetActiveScene().name;
+        if (SceneManager.GetActiveScene().name == data.geometrySceneName)
+            previousLightingSceneName = null;
 
         if (data.lightingSceneName != previousLightingSceneName)
         {
             LightmapSettings.lightmapsMode = data.lightmapsMode;
 
             if (allowLoadingLightingScenes)
-                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(data.lightingSceneName, previousLightingSceneName));
+                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(previousLightingSceneName, data.lightingSceneName));
 
-            if (data.storeRendererInfos)
+            if (applyLightmapScaleAndOffset)
             {
                 ApplyDataRendererInfo(data.rendererInfos);
             }
@@ -200,7 +202,6 @@ public class LevelLightmapData : MonoBehaviour
             }   
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneToLoad));
         }
-        LoadLightProbes(currentLightingScenario);
     }
 
     LightmapData[] LoadLightmaps(int index)
