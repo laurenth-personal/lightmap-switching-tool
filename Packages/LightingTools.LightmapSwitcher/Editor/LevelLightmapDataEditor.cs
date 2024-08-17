@@ -83,9 +83,8 @@ public class LevelLightmapDataEditor : Editor
         if(!usev2)
         {
             EditorGUILayout.Space();
-            if (Event.current.type!= EventType.DragPerform)
+            if (Event.current.type!= EventType.DragPerform && lightmapData.lightingScenariosScenes != null)
             {
-
                 for (int i = 0; i < lightmapData.lightingScenariosScenes.Count; i++)
                 {
                     EditorGUILayout.BeginHorizontal();
