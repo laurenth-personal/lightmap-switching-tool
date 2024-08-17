@@ -80,7 +80,11 @@ public class LevelLightmapData : MonoBehaviour
     public void LoadLightingScenario(string name)
     {
         var data = lightingScenariosData.Find(x => x.name.Equals(name));
-
+        if(data == null)
+        {
+            Debug.LogError("Lightmap switching tool - Can't find lighting scenario with name (case sensitive) " + name);
+            return;
+        }
         LoadLightingScenario(data);
     }
 
