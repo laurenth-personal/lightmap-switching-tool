@@ -123,34 +123,6 @@ public class LevelLightmapData : MonoBehaviour
         LoadLightProbes(data);
     }
 
-    public void LoadLightingScenario(LightingScenarioData[] datas, int index)
-    {
-        if (index != currentLightingScenario)
-        {
-            previousLightingScenario = currentLightingScenario == -1 ? index : currentLightingScenario;
-
-            currentLightingScenario = index;
-
-            LightmapSettings.lightmapsMode = datas[index].lightmapsMode;
-
-            if (allowLoadingLightingScenes)
-                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(datas[previousLightingScenario].lightingSceneName, datas[currentLightingScenario].lightingSceneName));
-
-            var newLightmaps = LoadLightmaps(datas[index]);
-
-            if (applyLightmapScaleAndOffset)
-            {
-                ApplyDataRendererInfo(datas[index].rendererInfos);
-            }
-
-            LightmapSettings.lightmaps = newLightmaps;
-
-            LoadLightProbes(datas[index]);
-        }
-    }
-
-
-
 #if UNITY_EDITOR
 
     // In editor only we cache the baked probe data when entering playmode, and reset it on exit
