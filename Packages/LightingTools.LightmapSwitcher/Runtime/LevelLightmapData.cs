@@ -376,6 +376,8 @@ public class LevelLightmapData : MonoBehaviour
     public void StoreLightmapInfos(int index)
     {
         LightingScenarioData newLightingScenarioData;
+        while (lightingScenariosData.Count < index + 1)
+            lightingScenariosData.Add(null);
         if (lightingScenariosData[index] != null)
             newLightingScenarioData = lightingScenariosData[index];
         else
@@ -387,7 +389,9 @@ public class LevelLightmapData : MonoBehaviour
         var newLightmapsMode = LightmapSettings.lightmapsMode;
         var newLightmapsShadowMasks = new List<Texture2D>();
 
-       
+        newLightingScenarioData.lightingSceneName = lightingScenariosScenes[index].name;
+        newLightingScenarioData.geometrySceneName = gameObject.scene.name;
+        newLightingScenarioData.storeRendererInfos = applyLightmapScaleAndOffset;
 
         GenerateLightmapInfo(gameObject, newRendererInfos, newLightmapsTextures, newLightmapsTexturesDir, newLightmapsShadowMasks, newLightmapsMode);
 
