@@ -93,7 +93,7 @@ public class LightingScenarioEditor : Editor
             Debug.LogError("Lighting scene name cannot be null. Stopping generation.");
             return;
         }
-        string lightingSceneGUID = AssetDatabase.FindAssets(scenarioData.lightingSceneName)[0];
+        string lightingSceneGUID = AssetDatabase.FindAssets("t:scene " + scenarioData.lightingSceneName)[0];
         string lightingScenePath = AssetDatabase.GUIDToAssetPath(lightingSceneGUID);
         if (!lightingScenePath.EndsWith(".unity"))
             lightingScenePath = lightingScenePath + ".unity";
