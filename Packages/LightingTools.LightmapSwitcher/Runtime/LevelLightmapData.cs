@@ -366,7 +366,9 @@ public class LevelLightmapData : MonoBehaviour
         var newLightmapsMode = LightmapSettings.lightmapsMode;
         var newLightmapsShadowMasks = new List<Texture2D>();
 
+#if UNITY_EDITOR
         newLightingScenarioData.lightingSceneName = lightingScenariosScenes[index].name;
+#endif
         newLightingScenarioData.geometrySceneName = gameObject.scene.name;
         newLightingScenarioData.storeRendererInfos = applyLightmapScaleAndOffset;
 
