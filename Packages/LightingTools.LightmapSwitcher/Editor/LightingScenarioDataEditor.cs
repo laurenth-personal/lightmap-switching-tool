@@ -164,16 +164,21 @@ public class LightingScenarioEditor : Editor
             AssetDatabase.CreateAsset(probes, assetPathAndName);
 
             AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-
             scenarioData.lightProbesAsset = probes;
+            EditorUtility.SetDirty(scenarioData);
+            AssetDatabase.SaveAssets();
         }
         scenarioData.lightProbesAsset.coefficients = LightmapSettings.lightProbes.bakedProbes;
-        scenarioData.lightProbesAsset.lightprobes = LightmapSettings.lightProbes;
-
         EditorUtility.SetDirty(scenarioData.lightProbesAsset);
+        var probesCopy = LightProbes.Instantiate(LightmapSettings.lightProbes);
+        probesCopy.name = scenarioData.lightingSceneName + "_probes";
+        AssetDatabase.AddObjectToAsset(probesCopy, scenarioData.lightProbesAsset);
+        scenarioData.lightProbesAsset.lightprobes = probesCopy;
+        EditorUtility.SetDirty(scenarioData.lightProbesAsset);
+
         EditorUtility.SetDirty(scenarioData);
         AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
 
     static void GenerateLightingData(LightingScenarioData data)
