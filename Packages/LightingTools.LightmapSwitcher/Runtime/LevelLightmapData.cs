@@ -356,16 +356,8 @@ public class LevelLightmapData : MonoBehaviour
         {
             try
             {
-                if(LightmapSettings.lightProbes != null )
-                {
-                    LightmapSettings.lightProbes = data.lightProbesAsset.lightprobes;
-                    LightmapSettings.lightProbes.bakedProbes = data.lightProbesAsset.lightprobes.bakedProbes;
-                }
-                else
-                {
-                    LightmapSettings.lightProbes = data.lightProbesAsset.lightprobes;
-                    LightmapSettings.lightProbes.bakedProbes = data.lightProbesAsset.lightprobes.bakedProbes;
-                }
+                LightmapSettings.lightProbes = data.lightProbesAsset.lightprobes;
+                LightmapSettings.lightProbes.bakedProbes = data.lightProbesAsset.lightprobes.bakedProbes;
             }
             catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + data.name); }
         }
@@ -422,7 +414,8 @@ public class LevelLightmapData : MonoBehaviour
         }
 
         newLightingScenarioData.lightProbesAsset.coefficients = LightmapSettings.lightProbes.bakedProbes;
-        newLightingScenarioData.lightProbesAsset.lightprobes = LightmapSettings.lightProbes;
+        newLightingScenarioData.lightProbesAsset.lightprobes = LightProbes.Instantiate(LightmapSettings.lightProbes);
+        newLightingScenarioData.lightProbesAsset.lightprobes.name = newLightingScenarioData.lightingSceneName + "_probes";
 
         if (lightingScenariosData.Count < index + 1)
         {
