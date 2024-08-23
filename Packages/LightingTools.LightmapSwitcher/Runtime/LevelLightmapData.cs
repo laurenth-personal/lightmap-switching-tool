@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.Rendering;
 using System.Collections;
 using System.Reflection;
+using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor;
 using System.IO;
@@ -126,6 +127,24 @@ public class LevelLightmapData : MonoBehaviour
 
         LoadLightProbes(data);
     }
+
+    public void LoadAssetBundleByName(string name)
+    {
+        AssetBundle assetBundle = AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + name);
+        Debug.Log(assetBundle == null ? "Lightmap switching tool - Failed to load Asset Bundle" : "Lightmap switching tool - Asset bundle loaded succesfully");
+        assetBundle.LoadAllAssets();
+    }
+
+    public void RefreshLightingScenarios()
+    {
+        lightingScenariosData = Resources.FindObjectsOfTypeAll<LightingScenarioData>().Where(x => x.geometrySceneName == gameObject.scene.name).ToList();
+        Debug.Log("Lightmap switching tool - Loaded " + lightingScenariosData.Count + " suitable lighting scenarios.");
+        foreach (var scene in lightingScenariosData)
+        {
+            Debug.Log(scene.name);
+        }
+    }
+
 
 #if UNITY_EDITOR
 
