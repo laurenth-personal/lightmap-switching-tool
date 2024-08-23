@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2be71d7eb33e8e4691eccb42fe0a7e7, type: 3}
+  m_Name: Test03
+  m_EditorClassIdentifier: 
+  lightingSceneName: Lighting3
+  geometrySceneName: StaticGeometryScriptableObj
+  storeRendererInfos: 1
+  rendererInfos:
+  - renderer: {fileID: 0}
+    transformHash: 1295195192
+    meshHash: 515
+    name: Sphere (1)
+    lightmapIndex: 0
+    lightmapScaleOffset: {x: 0.041992173, y: 0.041992173, z: 0.59277344, w: 0.029409856}
+  - renderer: {fileID: 0}
+    transformHash: -842247699
+    meshHash: 515
+    name: Sphere
+    lightmapIndex: 0
+    lightmapScaleOffset: {x: 0.041992173, y: 0.041992173, z: 0.59277344, w: 0}
+  - renderer: {fileID: 0}
+    transformHash: -1351881472
+    meshHash: 24
+    name: Cube
+    lightmapIndex: 0
+    lightmapScaleOffset: {x: 0.101335585, y: 0.101335585, z: 0.48982337, w: -0.00041099347}
+  - renderer: {fileID: 0}
+    transformHash: 0
+    meshHash: 121
+    name: Plane
+    lightmapIndex: 0
+    lightmapScaleOffset: {x: 0.48828125, y: 0.48828125, z: 0, w: 0}
+  lightmaps:
+  - {fileID: 2800000, guid: 1d57750f5cbc7e74584e142ff9230194, type: 3}
+  lightmapsDir:
+  - {fileID: 2800000, guid: a44eaaedd1ebc4c41a7f168ab01a9c3e, type: 3}
+  shadowMasks: []
+  lightmapsMode: 1
+  lightProbesAsset: {fileID: 11400000, guid: e724968df07fab94d981ec683fb686b7, type: 2}
+  hasRealtimeLights: 0
