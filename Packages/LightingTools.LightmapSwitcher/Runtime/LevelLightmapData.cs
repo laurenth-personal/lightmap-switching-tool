@@ -4,8 +4,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
 using System.Collections;
+using System.Reflection;
+using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor;
+using System.IO;
 #endif
 
 [ExecuteInEditMode]
@@ -16,8 +19,11 @@ public class LevelLightmapData : MonoBehaviour
 	public class RendererInfo
 	{
 		public Renderer renderer;
-		public int lightmapIndex;
-		public Vector4 lightmapOffsetScale;
+        public int transformHash;
+        public int meshHash;
+        public string name;
+        public int lightmapIndex;
+		public Vector4 lightmapScaleOffset;
 	}
 
     public bool latestBuildHasReltimeLights;
@@ -57,13 +63,13 @@ public class LevelLightmapData : MonoBehaviour
             LightmapSettings.lightmapsMode = lightingScenariosData[index].lightmapsMode;
 
             if(allowLoadingLightingScenes)
-                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(lightingScenesNames[previousLightingScenario], lightingScenesNames[currentLightingScenario]));
+                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(lightingScenariosData[previousLightingScenario].lightingSceneName, lightingScenariosData[currentLightingScenario].lightingSceneName));
 
             var newLightmaps = LoadLightmaps(index);
 
             if(applyLightmapScaleAndOffset)
             {
-                ApplyRendererInfo(lightingScenariosData[index].rendererInfos);
+                ApplyDataRendererInfo(lightingScenariosData[index].rendererInfos);
             }
 
             LightmapSettings.lightmaps = newLightmaps;
@@ -71,6 +77,74 @@ public class LevelLightmapData : MonoBehaviour
             LoadLightProbes(currentLightingScenario);
         }
     }
+
+    public void LoadLightingScenario(string name)
+    {
+        var data = lightingScenariosData.Find(x => x.name.Equals(name));
+        if(data == null)
+        {
+            Debug.LogError("Lightmap switching tool - Can't find lighting scenario with name (case sensitive) " + name);
+            return;
+        }
+        LoadLightingScenario(data);
+    }
+
+    public void LoadLightingScenario(LightingScenarioData data)
+    {
+        //Assumes that the active scene is the lighting scene. This might not be true for all games.
+        string previousLightingSceneName = SceneManager.GetActiveScene().name;
+        if (SceneManager.GetActiveScene().name == data.geometrySceneName)
+            previousLightingSceneName = null;
+
+        if (data.lightingSceneName != previousLightingSceneName)
+        {
+            LightmapSettings.lightmapsMode = data.lightmapsMode;
+
+            if (allowLoadingLightingScenes)
+                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(previousLightingSceneName, data.lightingSceneName));
+
+            if (applyLightmapScaleAndOffset)
+            {
+                ApplyDataRendererInfo(data.rendererInfos);
+            }
+
+            LightmapSettings.lightmaps = LoadLightmaps(data);
+
+            LoadLightProbes(data);
+        }
+    }
+
+    public void LoadLightingScenarioData(LightingScenarioData data)
+    {
+        LightmapSettings.lightmapsMode = data.lightmapsMode;
+
+        if (data.storeRendererInfos)
+        {
+            ApplyDataRendererInfo(data.rendererInfos);
+        }
+
+        LightmapSettings.lightmaps = LoadLightmaps(data);
+
+        LoadLightProbes(data);
+    }
+
+    public void LoadAssetBundleByName(string name)
+    {
+        AssetBundle assetBundle = AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + name);
+        Debug.Log(assetBundle == null ? "Lightmap switching tool - Failed to load Asset Bundle" : "Lightmap switching tool - Asset bundle loaded succesfully");
+        assetBundle.LoadAllAssets();
+    }
+
+    public void RefreshLightingScenarios()
+    {
+        lightingScenariosData = Resources.FindObjectsOfTypeAll<LightingScenarioData>().Where(x => x.geometrySceneName == gameObject.scene.name).ToList();
+        Debug.Log("Lightmap switching tool - Loaded " + lightingScenariosData.Count + " suitable lighting scenarios.");
+        foreach (var scene in lightingScenariosData)
+        {
+            Debug.Log(scene.name);
+        }
+    }
+
 
 #if UNITY_EDITOR
 
@@ -81,8 +155,11 @@ public class LevelLightmapData : MonoBehaviour
 
     public void OnEnteredPlayMode_EditorOnly()
     {
-        cachedBakedProbeData = LightmapSettings.lightProbes.bakedProbes;
-        Debug.Log("Lightmap swtching tool - Caching editor lightProbes");
+        if(LightmapSettings.lightProbes != null)
+        {
+            cachedBakedProbeData = LightmapSettings.lightProbes.bakedProbes;
+            Debug.Log("Lightmap swtching tool - Caching editor lightProbes");
+        }
     }
 
     public void OnExitingPlayMode_EditorOnly()
@@ -120,7 +197,6 @@ public class LevelLightmapData : MonoBehaviour
             }   
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneToLoad));
         }
-        LoadLightProbes(currentLightingScenario);
     }
 
     LightmapData[] LoadLightmaps(int index)
@@ -152,6 +228,35 @@ public class LevelLightmapData : MonoBehaviour
         return newLightmaps;
     }
 
+    LightmapData[] LoadLightmaps(LightingScenarioData data)
+    {
+        if (data.lightmaps == null
+                || data.lightmaps.Length == 0)
+        {
+            Debug.LogWarning("No lightmaps stored in scenario " + data.name);
+            return null;
+        }
+
+        var newLightmaps = new LightmapData[data.lightmaps.Length];
+
+        for (int i = 0; i < newLightmaps.Length; i++)
+        {
+            newLightmaps[i] = new LightmapData();
+            newLightmaps[i].lightmapColor = data.lightmaps[i];
+
+            if (data.lightmapsMode != LightmapsMode.NonDirectional)
+            {
+                newLightmaps[i].lightmapDir = data.lightmapsDir[i];
+            }
+            if (data.shadowMasks.Length > 0)
+            {
+                newLightmaps[i].shadowMask = data.shadowMasks[i];
+            }
+        }
+
+        return newLightmaps;
+    }
+
     public void ApplyRendererInfo(RendererInfo[] infos)
     {
         try
@@ -162,7 +267,7 @@ public class LevelLightmapData : MonoBehaviour
             if (terrain != null)
             {
                 terrain.lightmapIndex = infos[i].lightmapIndex;
-                terrain.lightmapScaleOffset = infos[i].lightmapOffsetScale;
+                terrain.lightmapScaleOffset = infos[i].lightmapScaleOffset;
                 i++;
             }
 
@@ -172,7 +277,7 @@ public class LevelLightmapData : MonoBehaviour
                 info.renderer.lightmapIndex = infos[j].lightmapIndex;
                 if (!info.renderer.isPartOfStaticBatch)
                 {
-                    info.renderer.lightmapScaleOffset = infos[j].lightmapOffsetScale;
+                    info.renderer.lightmapScaleOffset = infos[j].lightmapScaleOffset;
                 }
                 if (info.renderer.isPartOfStaticBatch && verbose == true && Application.isEditor)
                 {
@@ -186,26 +291,105 @@ public class LevelLightmapData : MonoBehaviour
         }
     }
 
-    public void LoadLightProbes(int index)
+    public void ApplyDataRendererInfo(RendererInfo[] infos)
     {
         try
         {
-            LightmapSettings.lightProbes.bakedProbes = lightingScenariosData[index].lightProbes;
+            //TODO : find better way to handle terrain. This doesn't support multiple terrains.
+            Terrain terrain = FindObjectOfType<Terrain>();
+            int i = 0;
+            if (terrain != null)
+            {
+                terrain.lightmapIndex = infos[i].lightmapIndex;
+                terrain.lightmapScaleOffset = infos[i].lightmapScaleOffset;
+                i++;
+            }
+
+            var hashRendererPairs = new Dictionary<int, RendererInfo>();
+
+            //Fill with lighting scenario to load renderer infos
+            foreach (var info in infos)
+            {
+                hashRendererPairs.Add(info.transformHash, info);
+            }
+
+            //Find all renderers
+            var renderers = FindObjectsOfType<Renderer>();
+
+            //Apply stored scale and offset if transform and mesh hashes match
+            foreach (var render in renderers)
+            {
+                var infoToApply = new RendererInfo();
+
+                //int transformHash = render.gameObject.transform.position
+
+                if (hashRendererPairs.TryGetValue(GetStableHash(render.gameObject.transform), out infoToApply))
+                {
+                    if (render.gameObject.name == infoToApply.name)
+                    {
+                        render.lightmapIndex = infoToApply.lightmapIndex;
+                        render.lightmapScaleOffset = infoToApply.lightmapScaleOffset;
+                    }
+                }
+            }
+
         }
-        catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + index); }
+        catch (Exception e)
+        {
+            if (verbose && Application.isEditor)
+                Debug.LogError("Error in ApplyDataRendererInfo:" + e.GetType().ToString());
+        }
     }
 
+    public void LoadLightProbes(int index)
+    {
+        LoadLightProbes(lightingScenariosData[index]);
+    }
 
+    public void LoadLightProbes(LightingScenarioData data)
+    {
+        if(data.lightProbesAsset.coefficients.Length > 0)
+        {
+            try
+            {
+                LightmapSettings.lightProbes = data.lightProbesAsset.lightprobes;
+                LightmapSettings.lightProbes.bakedProbes = data.lightProbesAsset.lightprobes.bakedProbes;
+            }
+            catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + data.name); }
+        }
+    }
+    public static int GetStableHash(Transform transform)
+    {
+        Vector3 stablePos = new Vector3(LimitDecimals(transform.position.x, 2), LimitDecimals(transform.position.y, 2), LimitDecimals(transform.position.z, 2));
+        Vector3 stableRot = new Vector3(LimitDecimals(transform.rotation.x, 1), LimitDecimals(transform.rotation.y, 1), LimitDecimals(transform.rotation.z, 1));
+        return stablePos.GetHashCode() + stableRot.GetHashCode();
+    }
+    static float LimitDecimals(float input, int decimalcount)
+    {
+        var multiplier = Mathf.Pow(10, decimalcount);
+        return Mathf.Floor(input * multiplier) / multiplier;
+    }
     public void StoreLightmapInfos(int index)
     {
-        var newLightingScenarioData = new LightingScenarioData ();
+        LightingScenarioData newLightingScenarioData;
+        while (lightingScenariosData.Count < index + 1)
+            lightingScenariosData.Add(null);
+        if (lightingScenariosData[index] != null)
+            newLightingScenarioData = lightingScenariosData[index];
+        else
+             newLightingScenarioData = ScriptableObject.CreateInstance<LightingScenarioData>();
+
         var newRendererInfos = new List<RendererInfo>();
         var newLightmapsTextures = new List<Texture2D>();
         var newLightmapsTexturesDir = new List<Texture2D>();
         var newLightmapsMode = LightmapSettings.lightmapsMode;
         var newLightmapsShadowMasks = new List<Texture2D>();
 
-       
+#if UNITY_EDITOR
+        newLightingScenarioData.lightingSceneName = lightingScenariosScenes[index].name;
+#endif
+        newLightingScenarioData.geometrySceneName = gameObject.scene.name;
+        newLightingScenarioData.storeRendererInfos = applyLightmapScaleAndOffset;
 
         GenerateLightmapInfo(gameObject, newRendererInfos, newLightmapsTextures, newLightmapsTexturesDir, newLightmapsShadowMasks, newLightmapsMode);
 
@@ -225,7 +409,15 @@ public class LevelLightmapData : MonoBehaviour
 
         newLightingScenarioData.rendererInfos = newRendererInfos.ToArray();
 
-        newLightingScenarioData.lightProbes = LightmapSettings.lightProbes.bakedProbes;
+        if (newLightingScenarioData.lightProbesAsset == null)
+        {
+            var probes = ScriptableObject.CreateInstance<LightProbesAsset>();
+            newLightingScenarioData.lightProbesAsset = probes;
+        }
+
+        newLightingScenarioData.lightProbesAsset.coefficients = LightmapSettings.lightProbes.bakedProbes;
+        newLightingScenarioData.lightProbesAsset.lightprobes = LightProbes.Instantiate(LightmapSettings.lightProbes);
+        newLightingScenarioData.lightProbesAsset.lightprobes.name = newLightingScenarioData.lightingSceneName + "_probes";
 
         if (lightingScenariosData.Count < index + 1)
         {
@@ -244,7 +436,7 @@ public class LevelLightmapData : MonoBehaviour
         }
         else
         {
-            lightingScenariosData[index].sceneName = lightingScenesNames[index];
+            lightingScenariosData[index].lightingSceneName = lightingScenesNames[index];
             lightingScenariosData[index].name = lightingScenesNames[index];
         }
     }
@@ -256,7 +448,7 @@ public class LevelLightmapData : MonoBehaviour
         if (terrain != null && terrain.lightmapIndex != -1 && terrain.lightmapIndex != 65534)
         {
             RendererInfo terrainRendererInfo = new RendererInfo();
-            terrainRendererInfo.lightmapOffsetScale = terrain.lightmapScaleOffset;
+            terrainRendererInfo.lightmapScaleOffset = terrain.lightmapScaleOffset;
 
             Texture2D lightmaplight = LightmapSettings.lightmaps[terrain.lightmapIndex].lightmapColor;
             terrainRendererInfo.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);
@@ -303,7 +495,10 @@ public class LevelLightmapData : MonoBehaviour
             {
                 RendererInfo info = new RendererInfo();
                 info.renderer = renderer;
-                info.lightmapOffsetScale = renderer.lightmapScaleOffset;
+                info.name = renderer.gameObject.name;
+                info.meshHash = renderer.gameObject.GetComponent<MeshFilter>().sharedMesh.GetHashCode();
+                info.transformHash = GetStableHash(renderer.gameObject.transform);
+                info.lightmapScaleOffset = renderer.lightmapScaleOffset;
 
                 Texture2D lightmaplight = LightmapSettings.lightmaps[renderer.lightmapIndex].lightmapColor;
                 info.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);

@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/ExampleScene.unity
+    path: Assets/Scenes/StaticGeometry.unity
     guid: 1afd7d87555415b42b36219ce471010d
   - enabled: 1
     path: Assets/Scenes/Lighting1.unity
@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Lighting3.unity
     guid: e2ed25f3b78965546b0c2dc51cc60ab6
+  - enabled: 1
+    path: Assets/Scenes/StaticGeometryScriptableObj.unity
+    guid: 88d8e0d2fd1a1e14497a640ee20fede6
   m_configObjects: {}

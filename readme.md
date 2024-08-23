@@ -16,7 +16,7 @@ It references the different lighting scenes, builds the lighting, and stores the
 
 If your lighting scene contains Realtime/Mixed lights or Reflection probes, the script will consider it's necessary to load the lighting scene at runtime to replicate the full lighting. The lighting scene will thus need to be part of the "Scenes in Build" list in the Build settings (File/Build Settings).
 
-### How it works :
+### How it works
 
 - Make a scene with your static geometry only. Disable Auto baking (important). If you want to use lightprobes, also add a lightprobe group to the geometry scene.
 - Make several lighting scenes in your project. These scenes should not contain static geometry. The Lighting scene settings must not use auto baking.
@@ -27,15 +27,20 @@ If your lighting scene contains Realtime/Mixed lights or Reflection probes, the 
 - Call the public method **LoadLightingScenario** using an integer argument that represents the index of the lighting scenario in the list of scenarios. The UI buttons in this sample project do this through the use of the button's **UnityEvent**.
 - Start playing -> In the sample project, click the different buttons on the screen to switch to a different lighting. In your own project, use script or UnityEvents to call the LoadLightingScenario method as described previously
 
-### Tutorial :
+### Tutorial
 - [Quick start video tutorial](https://drive.google.com/file/d/11InmKeKM6IMg445iYz4N89Zkerre_Mot/view?usp=sharing)
 
-### Supports :
+### Supports
 
 - Lightmaps
 - Light Probes
 - Mixed lighting mode (tested only "baked indirect" and "shadowmask")
 - Reflection probes, they need to be placed in the lighting scenes.
+
+### FAQ
+
+- How do I select the default lighting scenario / fallback lighting scenario ?
+  - The LevelLightmapData script doesn't load any lighting scenario by default, your scene will load in the state you last saved it in. You need to explicitly call the LevelLightmapData from a script or a unity event OnEnable or OnAwake if you want to load a lighting scenario when you start your scene. This way you are in full control of when you want to load your lighting scenario.
 
 ### Contributors :
 
