@@ -1,8 +1,8 @@
 {
   "name": "com.laurenth.lightingtools-lightmapswitcher",
   "displayName": "Lightmap Switcher",
-  "version": "2019.3.1",
-  "unity": "2019.3",
+  "version": "2019.4.1",
+  "unity": "2019.4",
   "description": "Allows you to switch pre-baked lighting at runtime.",
   "dependencies": {
     "com.unity.editorcoroutines": "0.1.0-preview.1"

@@ -1,5 +1,6 @@
-
 [![openupm](https://img.shields.io/npm/v/com.laurenth.lightingtools-lightmapswitcher?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.laurenth.lightingtools-lightmapswitcher/) _click this badge to go to the open upm page for this package_
+
+# Lightmap switching tool
 
 Tool intended for **switching pre-baked lightmaps**, light probes and realtime lighting on a static scene at runtime.
 
@@ -9,9 +10,8 @@ This version is compatible with **unity 2019.3** and above, check previous relea
 
 If you want to use lightmaps of different resolutions in your different lighting scenarios you will probably need to **disable static batching** in the PlayerSettings (if you use the same lightmap resolution on all your lighting scenarios and the object packing in the lightmap atlas doesn't change accross lighting scenarios it's ok to keep static batching enabled).
 
-The system relies on this component :
+The system relies on the **LevelLightmapData** component :
 
-**LevelLightmapData**
 It references the different lighting scenes, builds the lighting, and stores the dependencies to the lightmaps.
 
 If your lighting scene contains Realtime/Mixed lights or Reflection probes, the script will consider it's necessary to load the lighting scene at runtime to replicate the full lighting. The lighting scene will thus need to be part of the "Scenes in Build" list in the Build settings (File/Build Settings).
@@ -36,6 +36,22 @@ If your lighting scene contains Realtime/Mixed lights or Reflection probes, the 
 - Light Probes
 - Mixed lighting mode (tested only "baked indirect" and "shadowmask")
 - Reflection probes, they need to be placed in the lighting scenes.
+
+### How to install (2020.2 and Newer)
+- In Unity, Open Project Settings Window (Edit/Project Settings) 
+- Select Package Manager
+- Add a new Scoped Registry that references the openupm registry: https://package.openupm.com
+- Add the following scope to the OpenUPM Scoped Registry : com.laurenth
+- Open the Package Manager window (Window/Package Manager) and Select Packages : My Registries in the toolbar
+- Select Ligthmap switcher in the list, then click the Install Button
+
+### Importing the sample :
+
+- Go to Window / Package manager
+- In the left panel select the Lightmap switcher
+- In the right panel you should see a "Samples" section
+- See the "Example scene" line and click the button "Import to Project"
+- Open ExampleScene.unity at Assets\Samples\Lightmap Switcher\VersionNumber\Example scene\Scenes
 
 ### FAQ
 
