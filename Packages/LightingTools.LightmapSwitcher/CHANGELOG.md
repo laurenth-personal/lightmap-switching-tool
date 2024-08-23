@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2019.4.1] - 2024-08-23
 
+- Optimizations by @Bian-Sh
 - Fix issues when applying lightmap scale and offset
 - Fix issues after deleting lighting data asset from the scene
 - Finish scriptable asset workflow. You can now Create a lighting data asset in the Project window and use it inside asset bundles.
