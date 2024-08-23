@@ -27,6 +27,22 @@ If your lighting scene contains Realtime/Mixed lights or Reflection probes, the 
 - Call the public method **LoadLightingScenario** using an integer argument that represents the index of the lighting scenario in the list of scenarios. The UI buttons in this sample project do this through the use of the button's **UnityEvent**.
 - Start playing -> In the sample project, click the different buttons on the screen to switch to a different lighting. In your own project, use script or UnityEvents to call the LoadLightingScenario method as described previously
 
+### Scriptable object workflow
+
+- Rigt click in the project window, Create / Lighting / Lighting Scenario Data
+- Name your asset
+- In the inspector type the geometry scene name and the lighting scene name
+- Choose if you want to store renderer infos (useful only if your lightmap scales and offsets change on the different scenes)
+- Click "Generate lighting scenario data"
+- Do this for all your lighting scenarios
+
+- In the Geometry scene, add a Gameobject and add the LevelLightmapData script on it
+- Click "Show scenario data"
+- In "Lighting scenarios" type the number of scenarios you have
+- Drag and drop the lighting scenarios in the slots
+- Call the method **LoadLightingScenario** using either an integer argument the represents the index in the list of lighting scenario datas, or you can use a string argument to load the lighting scenario by name
+- This example is illustrated by the Scene "GeometrySceneScriptableObj.unity"
+
 ### Tutorial
 - [Quick start video tutorial](https://drive.google.com/file/d/11InmKeKM6IMg445iYz4N89Zkerre_Mot/view?usp=sharing)
 
