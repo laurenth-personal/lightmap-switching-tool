@@ -52,6 +52,7 @@ If your lighting scene contains Realtime/Mixed lights or Reflection probes, the 
 - Light Probes
 - Mixed lighting mode (tested only "baked indirect" and "shadowmask")
 - Reflection probes, they need to be placed in the lighting scenes.
+- Terrain with lightmaps
 
 ### How to install (2020.2 and Newer)
 - In Unity, Open Project Settings Window (Edit/Project Settings) 
