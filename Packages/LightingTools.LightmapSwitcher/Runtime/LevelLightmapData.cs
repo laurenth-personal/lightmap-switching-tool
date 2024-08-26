@@ -52,6 +52,8 @@ public class LevelLightmapData : MonoBehaviour
     //TODO : enable logs only when verbose enabled
     public bool verbose = false;
 
+    static string messagePrefix = "Lightmap Switching Tool - ";
+
     public void LoadLightingScenario(int index)
     {
         if(index != currentLightingScenario)
@@ -83,7 +85,7 @@ public class LevelLightmapData : MonoBehaviour
         var data = lightingScenariosData.Find(x => x.name.Equals(name));
         if(data == null)
         {
-            Debug.LogError("Lightmap switching tool - Can't find lighting scenario with name (case sensitive) " + name);
+            Debug.LogError(messagePrefix+"Can't find lighting scenario with name (case sensitive) " + name);
             return;
         }
         LoadLightingScenario(data);
@@ -131,14 +133,14 @@ public class LevelLightmapData : MonoBehaviour
     public void LoadAssetBundleByName(string name)
     {
         AssetBundle assetBundle = AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + name);
-        Debug.Log(assetBundle == null ? "Lightmap switching tool - Failed to load Asset Bundle" : "Lightmap switching tool - Asset bundle loaded succesfully");
+        Debug.Log(assetBundle == null ? messagePrefix+"Failed to load Asset Bundle" : "Lightmap switching tool - Asset bundle loaded succesfully");
         assetBundle.LoadAllAssets();
     }
 
     public void RefreshLightingScenarios()
     {
         lightingScenariosData = Resources.FindObjectsOfTypeAll<LightingScenarioData>().Where(x => x.geometrySceneName == gameObject.scene.name).ToList();
-        Debug.Log("Lightmap switching tool - Loaded " + lightingScenariosData.Count + " suitable lighting scenarios.");
+        Debug.Log(messagePrefix + "Loaded " + lightingScenariosData.Count + " suitable lighting scenarios.");
         foreach (var scene in lightingScenariosData)
         {
             Debug.Log(scene.name);
@@ -158,7 +160,7 @@ public class LevelLightmapData : MonoBehaviour
         if(LightmapSettings.lightProbes != null)
         {
             cachedBakedProbeData = LightmapSettings.lightProbes.bakedProbes;
-            Debug.Log("Lightmap swtching tool - Caching editor lightProbes");
+            Debug.Log(messagePrefix+"Caching editor lightProbes");
         }
     }
 
@@ -168,7 +170,7 @@ public class LevelLightmapData : MonoBehaviour
         if (cachedBakedProbeData != null && LightmapSettings.lightProbes.bakedProbes.Length == cachedBakedProbeData.Length)
         {
             LightmapSettings.lightProbes.bakedProbes = cachedBakedProbeData;
-            Debug.Log("Lightmap swtching tool - Restoring editor lightProbes");
+            Debug.Log(messagePrefix+"Restoring editor lightProbes");
         }
     }
 
@@ -204,7 +206,7 @@ public class LevelLightmapData : MonoBehaviour
         if (lightingScenariosData[index].lightmaps == null
                 || lightingScenariosData[index].lightmaps.Length == 0)
         {
-            Debug.LogWarning("No lightmaps stored in scenario " + index);
+            Debug.LogWarning( messagePrefix + "No lightmaps stored in scenario " + index);
             return null;
         }
 
@@ -257,54 +259,10 @@ public class LevelLightmapData : MonoBehaviour
         return newLightmaps;
     }
 
-    public void ApplyRendererInfo(RendererInfo[] infos)
-    {
-        try
-        {
-            //TODO : Fin better solution for terrain. This is not compatible with several terrains.
-            Terrain terrain = FindObjectOfType<Terrain>();
-            int i = 0;
-            if (terrain != null)
-            {
-                terrain.lightmapIndex = infos[i].lightmapIndex;
-                terrain.lightmapScaleOffset = infos[i].lightmapScaleOffset;
-                i++;
-            }
-
-            for (int j = i; j < infos.Length; j++)
-            {
-                RendererInfo info = infos[j];
-                info.renderer.lightmapIndex = infos[j].lightmapIndex;
-                if (!info.renderer.isPartOfStaticBatch)
-                {
-                    info.renderer.lightmapScaleOffset = infos[j].lightmapScaleOffset;
-                }
-                if (info.renderer.isPartOfStaticBatch && verbose == true && Application.isEditor)
-                {
-                    Debug.Log("Object " + info.renderer.gameObject.name + " is part of static batch, skipping lightmap offset and scale.");
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Error in ApplyRendererInfo:" + e.GetType().ToString());
-        }
-    }
-
     public void ApplyDataRendererInfo(RendererInfo[] infos)
     {
         try
         {
-            //TODO : find better way to handle terrain. This doesn't support multiple terrains.
-            Terrain terrain = FindObjectOfType<Terrain>();
-            int i = 0;
-            if (terrain != null)
-            {
-                terrain.lightmapIndex = infos[i].lightmapIndex;
-                terrain.lightmapScaleOffset = infos[i].lightmapScaleOffset;
-                i++;
-            }
-
             var hashRendererPairs = new Dictionary<int, RendererInfo>();
 
             //Fill with lighting scenario to load renderer infos
@@ -321,14 +279,34 @@ public class LevelLightmapData : MonoBehaviour
             {
                 var infoToApply = new RendererInfo();
 
-                //int transformHash = render.gameObject.transform.position
-
                 if (hashRendererPairs.TryGetValue(GetStableHash(render.gameObject.transform), out infoToApply))
                 {
                     if (render.gameObject.name == infoToApply.name)
                     {
                         render.lightmapIndex = infoToApply.lightmapIndex;
-                        render.lightmapScaleOffset = infoToApply.lightmapScaleOffset;
+                        if(applyLightmapScaleAndOffset)
+                            render.lightmapScaleOffset = infoToApply.lightmapScaleOffset;
+                    }
+                }
+            }
+
+            //Find all renderers
+            var terrains = FindObjectsOfType<Terrain>();
+
+            //Apply stored scale and offset if transform and mesh hashes match
+            foreach (var terrain in terrains)
+            {
+                var infoToApply = new RendererInfo();
+
+                //int transformHash = render.gameObject.transform.position
+
+                if (hashRendererPairs.TryGetValue(GetStableHash(terrain.gameObject.transform), out infoToApply))
+                {
+                    if (terrain.gameObject.name == infoToApply.name)
+                    {
+                        terrain.lightmapIndex = infoToApply.lightmapIndex;
+                        if (applyLightmapScaleAndOffset)
+                            terrain.lightmapScaleOffset = infoToApply.lightmapScaleOffset;
                     }
                 }
             }
@@ -340,10 +318,20 @@ public class LevelLightmapData : MonoBehaviour
                 Debug.LogError("Error in ApplyDataRendererInfo:" + e.GetType().ToString());
         }
     }
+    public void ApplyDataRendererInfo(int index)
+    {
+        if (lightingScenariosData[index] != null)
+            ApplyDataRendererInfo(lightingScenariosData[index].rendererInfos);
+        else
+            Debug.LogWarning(messagePrefix + "Trying to load null lighting scenario data at index " + index);
+    }
 
     public void LoadLightProbes(int index)
     {
-        LoadLightProbes(lightingScenariosData[index]);
+        if (lightingScenariosData[index] != null)
+            LoadLightProbes(lightingScenariosData[index]);
+        else
+            Debug.LogWarning(messagePrefix + "Trying to load null lighting scenario data at index " + index);
     }
 
     public void LoadLightProbes(LightingScenarioData data)
@@ -389,7 +377,7 @@ public class LevelLightmapData : MonoBehaviour
         newLightingScenarioData.lightingSceneName = lightingScenariosScenes[index].name;
 #endif
         newLightingScenarioData.geometrySceneName = gameObject.scene.name;
-        newLightingScenarioData.storeRendererInfos = applyLightmapScaleAndOffset;
+        newLightingScenarioData.storeRendererInfos = true;
 
         GenerateLightmapInfo(gameObject, newRendererInfos, newLightmapsTextures, newLightmapsTexturesDir, newLightmapsShadowMasks, newLightmapsMode);
 
@@ -443,45 +431,49 @@ public class LevelLightmapData : MonoBehaviour
 
     static void GenerateLightmapInfo(GameObject root, List<RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, List<Texture2D> newLightmapsShadow, LightmapsMode newLightmapsMode)
     {
-        //TODO : Fin better solution for terrain. This is not compatible with several terrains.
-        Terrain terrain = FindObjectOfType<Terrain>();
-        if (terrain != null && terrain.lightmapIndex != -1 && terrain.lightmapIndex != 65534)
+        Terrain[] terrains = FindObjectsOfType<Terrain>();
+        foreach (Terrain terrain in terrains) 
         {
-            RendererInfo terrainRendererInfo = new RendererInfo();
-            terrainRendererInfo.lightmapScaleOffset = terrain.lightmapScaleOffset;
-
-            Texture2D lightmaplight = LightmapSettings.lightmaps[terrain.lightmapIndex].lightmapColor;
-            terrainRendererInfo.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);
-            if (terrainRendererInfo.lightmapIndex == -1)
+            if (terrain != null && terrain.lightmapIndex != -1 && terrain.lightmapIndex != 65534)
             {
-                terrainRendererInfo.lightmapIndex = newLightmapsLight.Count;
-                newLightmapsLight.Add(lightmaplight);
-            }
+                RendererInfo terrainRendererInfo = new RendererInfo();
+                terrainRendererInfo.name = terrain.gameObject.name;
+                terrainRendererInfo.lightmapScaleOffset = terrain.lightmapScaleOffset;
+                terrainRendererInfo.transformHash = GetStableHash(terrain.gameObject.transform);
 
-            if (newLightmapsMode != LightmapsMode.NonDirectional)
-            {
-                Texture2D lightmapdir = LightmapSettings.lightmaps[terrain.lightmapIndex].lightmapDir;
-                terrainRendererInfo.lightmapIndex = newLightmapsDir.IndexOf(lightmapdir);
+                Texture2D lightmaplight = LightmapSettings.lightmaps[terrain.lightmapIndex].lightmapColor;
+                terrainRendererInfo.lightmapIndex = newLightmapsLight.IndexOf(lightmaplight);
                 if (terrainRendererInfo.lightmapIndex == -1)
                 {
-                    terrainRendererInfo.lightmapIndex = newLightmapsDir.Count;
-                    newLightmapsDir.Add(lightmapdir);
+                    terrainRendererInfo.lightmapIndex = newLightmapsLight.Count;
+                    newLightmapsLight.Add(lightmaplight);
                 }
-            }
-            if (LightmapSettings.lightmaps[terrain.lightmapIndex].shadowMask != null)
-            {
-                Texture2D lightmapShadow = LightmapSettings.lightmaps[terrain.lightmapIndex].shadowMask;
-                terrainRendererInfo.lightmapIndex = newLightmapsShadow.IndexOf(lightmapShadow);
-                if (terrainRendererInfo.lightmapIndex == -1)
-                {
-                    terrainRendererInfo.lightmapIndex = newLightmapsShadow.Count;
-                    newLightmapsShadow.Add(lightmapShadow);
-                }
-            }
-            newRendererInfos.Add(terrainRendererInfo);
 
-            if (Application.isEditor)
-                Debug.Log("Terrain lightmap stored in" + terrainRendererInfo.lightmapIndex.ToString());
+                if (newLightmapsMode != LightmapsMode.NonDirectional)
+                {
+                    Texture2D lightmapdir = LightmapSettings.lightmaps[terrain.lightmapIndex].lightmapDir;
+                    terrainRendererInfo.lightmapIndex = newLightmapsDir.IndexOf(lightmapdir);
+                    if (terrainRendererInfo.lightmapIndex == -1)
+                    {
+                        terrainRendererInfo.lightmapIndex = newLightmapsDir.Count;
+                        newLightmapsDir.Add(lightmapdir);
+                    }
+                }
+                if (LightmapSettings.lightmaps[terrain.lightmapIndex].shadowMask != null)
+                {
+                    Texture2D lightmapShadow = LightmapSettings.lightmaps[terrain.lightmapIndex].shadowMask;
+                    terrainRendererInfo.lightmapIndex = newLightmapsShadow.IndexOf(lightmapShadow);
+                    if (terrainRendererInfo.lightmapIndex == -1)
+                    {
+                        terrainRendererInfo.lightmapIndex = newLightmapsShadow.Count;
+                        newLightmapsShadow.Add(lightmapShadow);
+                    }
+                }
+                newRendererInfos.Add(terrainRendererInfo);
+
+                if (Application.isEditor)
+                    Debug.Log(messagePrefix + "Terrain lightmap stored in RendererInfo index " + (newRendererInfos.Count - 1));
+            }
         }
 
         var renderers = FindObjectsOfType(typeof(Renderer));
