@@ -26,3 +26,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [2019.4.2] - 2024-08-26
 
 - Fix for terrain/multiple terrains
+
+## [2019.4.2] - 2024-08-31
+
+- Remove the need to manually store the lighting scenario data
+- Fix lightmap indices storage and application at runtime
