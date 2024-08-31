@@ -39,10 +39,8 @@ public class LevelLightmapData : MonoBehaviour
     [SerializeField]
 	public List<SceneAsset> lightingScenariosScenes;
 #endif
-    [SerializeField]
-    public string[] lightingScenesNames = new string[1];
-    public int currentLightingScenario = -1;
-    public int previousLightingScenario = -1;
+    public string currentLightingScenario = "";
+    public string previousLightingScenario = "";
 
     private Coroutine m_SwitchSceneCoroutine;
 
@@ -56,28 +54,9 @@ public class LevelLightmapData : MonoBehaviour
 
     public void LoadLightingScenario(int index)
     {
-        if(index != currentLightingScenario)
-        {
-            previousLightingScenario = currentLightingScenario == -1 ? index : currentLightingScenario;
+        var dataToLoad = lightingScenariosData[index];
 
-            currentLightingScenario = index;
-
-            LightmapSettings.lightmapsMode = lightingScenariosData[index].lightmapsMode;
-
-            if(allowLoadingLightingScenes)
-                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(lightingScenariosData[previousLightingScenario].lightingSceneName, lightingScenariosData[currentLightingScenario].lightingSceneName));
-
-            var newLightmaps = LoadLightmaps(index);
-
-            if(applyLightmapScaleAndOffset)
-            {
-                ApplyDataRendererInfo(lightingScenariosData[index].rendererInfos);
-            }
-
-            LightmapSettings.lightmaps = newLightmaps;
-
-            LoadLightProbes(currentLightingScenario);
-        }
+        LoadLightingScenarioData(dataToLoad);
     }
 
     public void LoadLightingScenario(string name)
@@ -93,24 +72,22 @@ public class LevelLightmapData : MonoBehaviour
 
     public void LoadLightingScenario(LightingScenarioData data)
     {
-        //Assumes that the active scene is the lighting scene. This might not be true for all games.
-        string previousLightingSceneName = SceneManager.GetActiveScene().name;
-        if (SceneManager.GetActiveScene().name == data.geometrySceneName)
-            previousLightingSceneName = null;
-
-        if (data.lightingSceneName != previousLightingSceneName)
+        if (data.name != currentLightingScenario)
         {
+            previousLightingScenario = currentLightingScenario;
+
+            currentLightingScenario = data.name;
+
             LightmapSettings.lightmapsMode = data.lightmapsMode;
 
             if (allowLoadingLightingScenes)
-                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(previousLightingSceneName, data.lightingSceneName));
+                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(lightingScenariosData.Find(x => x.name == previousLightingScenario)?.lightingSceneName, lightingScenariosData.Find(x => x.name == currentLightingScenario)?.lightingSceneName));
 
-            if (applyLightmapScaleAndOffset)
-            {
-                ApplyDataRendererInfo(data.rendererInfos);
-            }
+            var newLightmaps = LoadLightmaps(data);
 
-            LightmapSettings.lightmaps = LoadLightmaps(data);
+            ApplyDataRendererInfo(data.rendererInfos);
+
+            LightmapSettings.lightmaps = newLightmaps;
 
             LoadLightProbes(data);
         }
@@ -118,16 +95,7 @@ public class LevelLightmapData : MonoBehaviour
 
     public void LoadLightingScenarioData(LightingScenarioData data)
     {
-        LightmapSettings.lightmapsMode = data.lightmapsMode;
-
-        if (data.storeRendererInfos)
-        {
-            ApplyDataRendererInfo(data.rendererInfos);
-        }
-
-        LightmapSettings.lightmaps = LoadLightmaps(data);
-
-        LoadLightProbes(data);
+        LoadLightingScenario(data);
     }
 
     public void LoadAssetBundleByName(string name)
@@ -284,10 +252,12 @@ public class LevelLightmapData : MonoBehaviour
                     if (render.gameObject.name == infoToApply.name)
                     {
                         render.lightmapIndex = infoToApply.lightmapIndex;
-                        if(applyLightmapScaleAndOffset)
+                        if (applyLightmapScaleAndOffset)
                             render.lightmapScaleOffset = infoToApply.lightmapScaleOffset;
                     }
                 }
+                else
+                    Debug.LogWarning(messagePrefix + "Couldn't find renderer info for " + render.gameObject.name + ". This can be ignored if it's not supposed to receive any lightmap.");
             }
 
             //Find all renderers
@@ -417,20 +387,48 @@ public class LevelLightmapData : MonoBehaviour
         }
 
         lightingScenariosCount = lightingScenariosData.Count;
-
-        if (lightingScenesNames == null || lightingScenesNames.Length < lightingScenariosCount)
-        {
-            lightingScenesNames = new string[lightingScenariosCount];
-        }
-        else
-        {
-            lightingScenariosData[index].lightingSceneName = lightingScenesNames[index];
-            lightingScenariosData[index].name = lightingScenesNames[index];
-        }
     }
 
     static void GenerateLightmapInfo(GameObject root, List<RendererInfo> newRendererInfos, List<Texture2D> newLightmapsLight, List<Texture2D> newLightmapsDir, List<Texture2D> newLightmapsShadow, LightmapsMode newLightmapsMode)
     {
+        var gameObjects = FindObjectsOfType<GameObject>().Where(x => x.GetComponent<Renderer>() != null || x.GetComponent<Terrain>() != null);
+
+        newLightmapsMode = LightmapSettings.lightmapsMode;
+
+        foreach (var go in gameObjects)
+        {
+            Terrain t;
+            Renderer r;
+            MeshFilter m;
+            go.TryGetComponent<Renderer>(out r);
+            go.TryGetComponent<Terrain>(out t);
+            go.TryGetComponent<MeshFilter>(out m);
+
+            RendererInfo rendererInfo = new RendererInfo()
+            {
+                name = go.name,
+                transformHash = GetStableHash(go.transform),
+                lightmapScaleOffset = r ? r.lightmapScaleOffset : t.lightmapScaleOffset,
+                lightmapIndex = r ? r.lightmapIndex : t.lightmapIndex,
+                meshHash = r ? (m ? m.sharedMesh.GetHashCode() : 0) : t.terrainData.GetHashCode(),
+                renderer = r ? r : null,
+            };
+            newRendererInfos.Add(rendererInfo);
+        }
+        LightmapData[] datas = LightmapSettings.lightmaps;
+        foreach (var data in datas)
+        {
+            if (data.lightmapColor != null)
+                newLightmapsLight.Add(data.lightmapColor);
+            if(data.lightmapDir != null)
+                newLightmapsDir.Add(data.lightmapDir);
+            if(data.shadowMask != null)
+                newLightmapsShadow.Add(data.shadowMask);
+        }
+
+        if (Application.isEditor)
+            Debug.Log(messagePrefix + "Stored info for " + gameObjects.ToList().Count + " GameObjects.");
+        /*
         Terrain[] terrains = FindObjectsOfType<Terrain>();
         foreach (Terrain terrain in terrains) 
         {
@@ -506,7 +504,6 @@ public class LevelLightmapData : MonoBehaviour
                     info.lightmapIndex = newLightmapsDir.IndexOf(lightmapdir);
                     if (info.lightmapIndex == -1)
                     {
-                        info.lightmapIndex = newLightmapsDir.Count;
                         newLightmapsDir.Add(lightmapdir);
                     }
                 }
@@ -516,13 +513,13 @@ public class LevelLightmapData : MonoBehaviour
                     info.lightmapIndex = newLightmapsShadow.IndexOf(lightmapShadow);
                     if (info.lightmapIndex == -1)
                     {
-                        info.lightmapIndex = newLightmapsShadow.Count;
                         newLightmapsShadow.Add(lightmapShadow);
                     }
                 }
                 newRendererInfos.Add(info);
             }
         }
+        */
     }
 
 

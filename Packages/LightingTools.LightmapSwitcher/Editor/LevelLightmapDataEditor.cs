@@ -4,13 +4,13 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using System.Collections;
 using Unity.EditorCoroutines.Editor;
+using UnityEngine.UIElements;
 
 [CustomEditor(typeof(LevelLightmapData))]
 public class LevelLightmapDataEditor : Editor
 {
     public SerializedProperty lightingScenariosScenes;
     public SerializedProperty lightingScenariosData;
-    public SerializedProperty lightingScenesNames;
     public SerializedProperty allowLoadingLightingScenes;
     public SerializedProperty applyLightmapScaleAndOffset;
     public bool usev2;
@@ -23,7 +23,6 @@ public class LevelLightmapDataEditor : Editor
     {
         lightmapData = target as LevelLightmapData;
         lightingScenariosScenes = serializedObject.FindProperty("lightingScenariosScenes");
-        lightingScenesNames = serializedObject.FindProperty("lightingScenesNames");
         lightingScenariosData = serializedObject.FindProperty("lightingScenariosData");
         allowLoadingLightingScenes = serializedObject.FindProperty("allowLoadingLightingScenes");
         applyLightmapScaleAndOffset = serializedObject.FindProperty("applyLightmapScaleAndOffset");
@@ -51,13 +50,6 @@ public class LevelLightmapDataEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             serializedObject.ApplyModifiedProperties();
-            lightingScenesNames.arraySize = lightingScenariosScenes.arraySize;
-
-            for (int i = 0; i < lightingScenariosScenes.arraySize; i++) // Conside use onvalidate function to fill lightingSceneNames.
-            {
-                lightingScenesNames.GetArrayElementAtIndex(i).stringValue = lightingScenariosScenes.GetArrayElementAtIndex(i).objectReferenceValue == null ? "" : lightingScenariosScenes.GetArrayElementAtIndex(i).objectReferenceValue.name;
-            }
-            serializedObject.ApplyModifiedProperties();
         }
 
         if(usev2 )
@@ -79,42 +71,41 @@ public class LevelLightmapDataEditor : Editor
 
         serializedObject.ApplyModifiedProperties();
 
-
         if(!usev2)
         {
             EditorGUILayout.Space();
             if (Event.current.type!= EventType.DragPerform && lightmapData.lightingScenariosScenes != null)
             {
-                for (int i = 0; i < lightmapData.lightingScenariosScenes.Count; i++)
+                if (Lightmapping.giWorkflowMode == Lightmapping.GIWorkflowMode.OnDemand)
                 {
-                    EditorGUILayout.BeginHorizontal();
-                    var scene = lightmapData.lightingScenariosScenes[i];
-                    if (scene != null)
+                    for (int i = 0; i < lightmapData.lightingScenariosScenes.Count; i++)
                     {
-                        EditorGUILayout.LabelField(scene.name, EditorStyles.boldLabel);
-                        if (GUILayout.Button("Build "))
+                        var scene = lightmapData.lightingScenariosScenes[i];
+                        if (scene != null)
                         {
-                            if (Lightmapping.giWorkflowMode != Lightmapping.GIWorkflowMode.OnDemand)
-                            {
-                                Debug.LogError("ExtractLightmapData requires that you have baked you lightmaps and Auto mode is disabled.");
-                            }
-                            else
-                            {
-                                BuildLightingScenario(scene);
-                            }
-                        }
-                        if (GUILayout.Button("Store "))
-                        {
-                            lightmapData.StoreLightmapInfos(i);
+                            EditorGUILayout.BeginHorizontal();
+                            EditorGUILayout.LabelField(scene.name, EditorStyles.boldLabel);
+                                if (GUILayout.Button("Build"))
+                                {
+                                    {
+                                        BuildLightingScenario(scene, i);
+                                    }
+                                }
+                            //if (GUILayout.Button("Store "))
+                            //{
+                            //    lightmapData.StoreLightmapInfos(i);
+                            //}
+                            EditorGUILayout.EndHorizontal();
                         }
                     }
-                    EditorGUILayout.EndHorizontal();
                 }
+                else
+                    EditorGUILayout.LabelField("Disable Auto Generate in the Lighting window.");
             }
         }
     }
 
-    public void BuildLightingScenario(SceneAsset scene)
+    public void BuildLightingScenario(SceneAsset scene, int index)
     {
         //Remove reference to LightingDataAsset so that Unity doesn't delete the previous bake
         Lightmapping.lightingDataAsset = null;
@@ -128,19 +119,20 @@ public class LevelLightmapDataEditor : Editor
         SearchLightsNeededRealtime();
 
         Debug.Log("Start baking");
-        EditorCoroutineUtility.StartCoroutine(BuildLightingAsync(lightingScene), this);
+        EditorCoroutineUtility.StartCoroutine(BuildLightingAsync(lightingScene, index), this);
     }
 
-    private IEnumerator BuildLightingAsync(Scene lightingScene)
+    private IEnumerator BuildLightingAsync(Scene lightingScene, int index)
     {
         var newLightmapMode = LightmapSettings.lightmapsMode;
         Lightmapping.BakeAsync();
         while (Lightmapping.isRunning) { yield return null; }
         //Lightmapping.lightingDataAsset = null;
         EditorSceneManager.SaveScene(lightingScene);
-        EditorSceneManager.CloseScene(lightingScene, true);
-        LightmapSettings.lightmapsMode = newLightmapMode;
+        lightmapData.StoreLightmapInfos(index);
+        //LightmapSettings.lightmapsMode = newLightmapMode;
         Debug.Log("Bake Finished");
+        EditorSceneManager.CloseScene(lightingScene, true);
     }
 
     public void SearchLightsNeededRealtime()

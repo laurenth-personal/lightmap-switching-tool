@@ -23,7 +23,7 @@ If your lighting scene contains Realtime/Mixed lights or Reflection probes, the 
 - Add your lighting scenes and your static geometry scene to your Build Settings scene list.
 - In your static geometry scene, add an empty gameObject and attach a **LevelLightmapData** component to it. 
 - Fill the "lighting scenarios size" with the count of lighting scenarios you want, and in the "element" fields, either drag and drop scenes from your Project view or click the little point on the right of the field to choose a scene from your project
-- One by one, you can now Build the lighting scenario, and when the bake is done Store it. You need to do these steps in the lighting scenario order ( you have to build and then store lighting scenario 1 before lighting scenario 2 according to the order in the list). The first time it is crucial to do it in the right order, if you misclicked I'd recommend redoing the whole setup (click the wheel in the top right corner of the component and hit "reset" and do the setup again).
+- One by one, you can now Build the lighting scenario. At the end make sure to save your scene.
 - Call the public method **LoadLightingScenario** using an integer argument that represents the index of the lighting scenario in the list of scenarios. The UI buttons in this sample project do this through the use of the button's **UnityEvent**.
 - Start playing -> In the sample project, click the different buttons on the screen to switch to a different lighting. In your own project, use script or UnityEvents to call the LoadLightingScenario method as described previously
 
@@ -53,6 +53,10 @@ If your lighting scene contains Realtime/Mixed lights or Reflection probes, the 
 - Mixed lighting mode (tested only "baked indirect" and "shadowmask")
 - Reflection probes, they need to be placed in the lighting scenes.
 - Terrain with lightmaps
+
+### Static batching
+If you want to use static batching, lightmap scale and offset cannot be applied at runtime.
+Make sure your lightmap resolutions are the same in all lighting scenarios, and on the LevelLightmapData component make sure to disable "Apply Lightmap Scale and Offset".
 
 ### How to install (2020.2 and Newer)
 - In Unity, Open Project Settings Window (Edit/Project Settings) 

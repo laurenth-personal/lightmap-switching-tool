@@ -6,6 +6,8 @@ using System.Collections;
 using Unity.EditorCoroutines.Editor;
 using System.Collections.Generic;
 using System.IO;
+using static LevelLightmapData;
+using System.Linq;
 
 [CustomEditor(typeof(LightingScenarioData))]
 public class LightingScenarioEditor : Editor
@@ -69,6 +71,7 @@ public class LightingScenarioEditor : Editor
             LoadLightingScenarioScenes(scenarioData);
             GameObject.FindObjectOfType<LevelLightmapData>().LoadLightingScenarioData(scenarioData);
         }
+        EditorGUILayout.PropertyField(rendererInfos);
 
         serializedObject.ApplyModifiedProperties();
     }
@@ -120,7 +123,6 @@ public class LightingScenarioEditor : Editor
         EditorSceneManager.SaveScene(geometryScene);
         EditorSceneManager.SaveScene(lightingScene);
         StoreLightingData();
-        EditorSceneManager.CloseScene(lightingScene, true);
         AssetDatabase.SaveAssets();
     }
 
@@ -192,6 +194,42 @@ public class LightingScenarioEditor : Editor
 
         data.lightmapsMode = LightmapSettings.lightmapsMode;
 
+        var gameObjects = FindObjectsOfType<GameObject>().Where(x => x.GetComponent<Renderer>() != null || x.GetComponent<Terrain>() != null);
+
+        foreach (var go in gameObjects)
+        {
+            Terrain t;
+            Renderer r;
+            MeshFilter m;
+            go.TryGetComponent<Renderer>(out r);
+            go.TryGetComponent<Terrain>(out t);
+            go.TryGetComponent<MeshFilter>(out m);
+
+            RendererInfo rendererInfo = new RendererInfo()
+            {
+                name = go.name,
+                transformHash = GetStableHash(go.transform),
+                lightmapScaleOffset = r ? r.lightmapScaleOffset : t.lightmapScaleOffset,
+                lightmapIndex = r ? r.lightmapIndex : t.lightmapIndex,
+                meshHash = r ? (m ? m.sharedMesh.GetHashCode() : 0) : t.terrainData.GetHashCode(),
+                renderer = r ? r : null,
+            };
+            newRendererInfos.Add(rendererInfo);
+        }
+        LightmapData[] datas = LightmapSettings.lightmaps;
+        foreach (var datalight in datas)
+        {
+            if (datalight.lightmapColor != null)
+                newLightmapsLight.Add(datalight.lightmapColor);
+            if (datalight.lightmapDir != null)
+                newLightmapsDir.Add(datalight.lightmapDir);
+            if (datalight.shadowMask != null)
+                newLightmapsShadow.Add(datalight.shadowMask);
+        }
+
+        if (Application.isEditor)
+            Debug.Log("Lightmap switching tool - " + "Stored info for " + gameObjects.ToList().Count + " GameObjects.");
+        /*
         //TODO : Fin better solution for terrain. This is not compatible with several terrains.
         Terrain terrain = FindObjectOfType<Terrain>();
         if (terrain != null && terrain.lightmapIndex != -1 && terrain.lightmapIndex != 65534)
@@ -284,6 +322,7 @@ public class LightingScenarioEditor : Editor
                 }
             }
         }
+        */
         data.lightmaps = newLightmapsLight.ToArray();
         data.lightmapsDir = newLightmapsDir.ToArray();
         data.shadowMasks = newLightmapsShadow.ToArray();
