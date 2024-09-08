@@ -46,7 +46,7 @@ If your lighting scene contains Realtime/Mixed lights or Reflection probes, the 
 ### Tutorial
 - [Quick start video tutorial](https://drive.google.com/file/d/11InmKeKM6IMg445iYz4N89Zkerre_Mot/view?usp=sharing)
 - [Setup from scratch](https://drive.google.com/file/d/19YsWl-rD-s2akd87UENzj4woynY13-Yh/view?usp=drive_link)
-- [Scriptable object workflow (for asset bundles)](https://drive.google.com/file/d/1kSWHFYy_BN-1uIkYIcdwnXiTzX0R_wp/view?usp=sharing)
+- [Scriptable object workflow (for asset bundles)](https://drive.google.com/file/d/1kSKWHFYy_BN-1uIkYIcdwnXiTzX0R_wp/view?usp=drive_link)
 
 ### Supports
 
