@@ -236,7 +236,11 @@ public class LevelLightmapData : MonoBehaviour
             //Fill with lighting scenario to load renderer infos
             foreach (var info in infos)
             {
-                hashRendererPairs.Add(info.transformHash, info);
+                var uniquehash = info.transformHash + info.name.GetHashCode() + info.meshHash;
+                if (hashRendererPairs.ContainsKey(uniquehash))
+                    Debug.LogWarning(messagePrefix + "This renderer info could not be matched. Please check that you don't have 2 gameobjects with the same name, transform, and mesh.", info.renderer);
+                else
+                    hashRendererPairs.Add(uniquehash, info);
             }
 
             //Find all renderers
@@ -246,18 +250,18 @@ public class LevelLightmapData : MonoBehaviour
             foreach (var render in renderers)
             {
                 var infoToApply = new RendererInfo();
-
-                if (hashRendererPairs.TryGetValue(GetStableHash(render.gameObject.transform), out infoToApply))
+                var meshfilter = render.gameObject.GetComponent<MeshFilter>();
+                int meshHash = 0;
+                if (meshfilter != null)
+                    meshHash = meshfilter.sharedMesh.GetHashCode();
+                if (hashRendererPairs.TryGetValue(GetStableHash(render.gameObject.transform) + render.gameObject.name.GetHashCode() + meshHash, out infoToApply))
                 {
-                    if (render.gameObject.name == infoToApply.name)
-                    {
-                        render.lightmapIndex = infoToApply.lightmapIndex;
-                        if (applyLightmapScaleAndOffset)
-                            render.lightmapScaleOffset = infoToApply.lightmapScaleOffset;
-                    }
+                    render.lightmapIndex = infoToApply.lightmapIndex;
+                    if (applyLightmapScaleAndOffset)
+                        render.lightmapScaleOffset = infoToApply.lightmapScaleOffset;
                 }
                 else
-                    Debug.LogWarning(messagePrefix + "Couldn't find renderer info for " + render.gameObject.name + ". This can be ignored if it's not supposed to receive any lightmap.");
+                    Debug.LogWarning(messagePrefix + "Couldn't find renderer info for " + render.gameObject.name + ". This can be ignored if it's not supposed to receive any lightmap.", render);
             }
 
             //Find all renderers
@@ -270,7 +274,7 @@ public class LevelLightmapData : MonoBehaviour
 
                 //int transformHash = render.gameObject.transform.position
 
-                if (hashRendererPairs.TryGetValue(GetStableHash(terrain.gameObject.transform), out infoToApply))
+                if (hashRendererPairs.TryGetValue(GetStableHash(terrain.gameObject.transform) + terrain.name.GetHashCode() + terrain.terrainData.GetHashCode(), out infoToApply))
                 {
                     if (terrain.gameObject.name == infoToApply.name)
                     {
@@ -284,8 +288,8 @@ public class LevelLightmapData : MonoBehaviour
         }
         catch (Exception e)
         {
-            if (verbose && Application.isEditor)
-                Debug.LogError("Error in ApplyDataRendererInfo:" + e.GetType().ToString());
+            if (Application.isEditor)
+                Debug.LogError(messagePrefix + "Error in ApplyDataRendererInfo:" + e.GetType().ToString());
         }
     }
     public void ApplyDataRendererInfo(int index)
