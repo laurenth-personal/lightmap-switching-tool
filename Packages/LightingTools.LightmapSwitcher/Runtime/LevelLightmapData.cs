@@ -345,6 +345,7 @@ public class LevelLightmapData : MonoBehaviour
 
 #if UNITY_EDITOR
         newLightingScenarioData.lightingSceneName = lightingScenariosScenes[index].name;
+        newLightingScenarioData.name = newLightingScenarioData.lightingSceneName;
 #endif
         newLightingScenarioData.geometrySceneName = gameObject.scene.name;
         newLightingScenarioData.storeRendererInfos = true;
