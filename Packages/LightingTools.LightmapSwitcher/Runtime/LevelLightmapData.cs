@@ -188,7 +188,8 @@ public class LevelLightmapData : MonoBehaviour
 
     public void LoadLightProbes(int index)
     {
-        if(data.lightProbesAsset.coefficients.Length > 0)
+        var data = lightingScenariosData[index];
+        if (data.coefficients.Length > 0)
         {
             try
             {
