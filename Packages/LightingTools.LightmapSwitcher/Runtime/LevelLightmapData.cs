@@ -188,11 +188,15 @@ public class LevelLightmapData : MonoBehaviour
 
     public void LoadLightProbes(int index)
     {
-        try
+        if(data.lightProbesAsset.coefficients.Length > 0)
         {
-            LightmapSettings.lightProbes.bakedProbes = lightingScenariosData[index].lightProbes;
+            try
+            {
+                LightmapSettings.lightProbes = data.lightProbesAsset.lightprobes;
+                LightmapSettings.lightProbes.bakedProbes = data.lightProbesAsset.lightprobes.bakedProbes;
+            }
+            catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + data.name); }
         }
-        catch { Debug.LogWarning("Warning, error when trying to load lightprobes for scenario " + index); }
     }
 
 
