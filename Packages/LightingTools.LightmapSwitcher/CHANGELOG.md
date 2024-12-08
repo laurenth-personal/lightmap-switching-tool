@@ -19,3 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [2019.3.2] - 2024-11-14
 
 - Implement probes changes in 2019.3.1 version to support loading probes from scenes without tetrahedralization
+
+## [2019.3.3] - 2024-12-08
+
+- Fix compilation issues, previous version was not functional.
