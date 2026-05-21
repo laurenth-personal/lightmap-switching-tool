@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using System.Collections.Generic;
@@ -27,9 +27,9 @@ public class LevelLightmapData : MonoBehaviour
 	}
 
     public bool latestBuildHasReltimeLights;
-    [Tooltip("Enable this if you want to allow the script to load a lighting scene additively. This is useful when the scene contains a light set to realtime or mixed mode or reflection probes. If you're managing the scenes loading yourself you should disable it.")]
+    [Tooltip("Enable this if you want to allow the script to load a lighting scene additively. This is useful when the scene contains a light set to realtime or mixed mode or reflection probes. If you don't have any, you can leave this disabled to improve performance.")]
     public bool allowLoadingLightingScenes = true;
-    [Tooltip("Enable this if you want to use different lightmap resolutions in your different lighting scenarios. In that case you'll have to disable Static Batching in the Player Settings. When disabled, Static Batching can be used but all your lighting scenarios need to use the same lightmap resolution.")]
+    [Tooltip("Enable this if you want to use different lightmap resolutions in your different lighting scenarios. In that case you'll have to disable Static Batching in the Player Settings. When disabled, you will have to manually call LoadLightingScenario to switch between lighting scenarios.")]
     public bool applyLightmapScaleAndOffset = true;
 
 	[SerializeField]
@@ -81,7 +81,7 @@ public class LevelLightmapData : MonoBehaviour
             LightmapSettings.lightmapsMode = data.lightmapsMode;
 
             if (allowLoadingLightingScenes)
-                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(lightingScenariosData.Find(x => x.name == previousLightingScenario)?.lightingSceneName, lightingScenariosData.Find(x => x.name == currentLightingScenario)?.lightingSceneName));
+                m_SwitchSceneCoroutine = StartCoroutine(SwitchSceneCoroutine(lightingScenariosData.Find(x => x.name == previousLightingScenario)?.lightingSceneName, lightingScenariosData.Find(x => x.name == data.name)?.lightingSceneName));
 
             var newLightmaps = LoadLightmaps(data);
 
@@ -251,10 +251,10 @@ public class LevelLightmapData : MonoBehaviour
             {
                 var infoToApply = new RendererInfo();
                 var meshfilter = render.gameObject.GetComponent<MeshFilter>();
-                int meshHash = 0;
-                if (meshfilter != null)
-                    meshHash = meshfilter.sharedMesh.GetHashCode();
-                if (hashRendererPairs.TryGetValue(GetStableHash(render.gameObject.transform) + render.gameObject.name.GetHashCode() + meshHash, out infoToApply))
+                int meshNameHash = 0;
+                if (meshfilter != null && meshfilter.sharedMesh != null)
+                    meshNameHash = meshfilter.sharedMesh.name.GetHashCode();
+                if (hashRendererPairs.TryGetValue(GetStableHash(render.gameObject.transform) + render.gameObject.name.GetHashCode() + meshNameHash, out infoToApply))
                 {
                     render.lightmapIndex = infoToApply.lightmapIndex;
                     if (applyLightmapScaleAndOffset)
@@ -415,7 +415,7 @@ public class LevelLightmapData : MonoBehaviour
                 transformHash = GetStableHash(go.transform),
                 lightmapScaleOffset = r ? r.lightmapScaleOffset : t.lightmapScaleOffset,
                 lightmapIndex = r ? r.lightmapIndex : t.lightmapIndex,
-                meshHash = r ? (m ? m.sharedMesh.GetHashCode() : 0) : t.terrainData.GetHashCode(),
+                meshHash = r ? (m && m.sharedMesh ? m.sharedMesh.name.GetHashCode() : 0) : t.terrainData.GetHashCode(),
                 renderer = r ? r : null,
             };
             newRendererInfos.Add(rendererInfo);

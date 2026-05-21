@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -211,7 +211,7 @@ public class LightingScenarioEditor : Editor
                 transformHash = GetStableHash(go.transform),
                 lightmapScaleOffset = r ? r.lightmapScaleOffset : t.lightmapScaleOffset,
                 lightmapIndex = r ? r.lightmapIndex : t.lightmapIndex,
-                meshHash = r ? (m ? m.sharedMesh.GetHashCode() : 0) : t.terrainData.GetHashCode(),
+                meshHash = r ? (m && m.sharedMesh ? m.sharedMesh.name.GetHashCode() : 0) : t.terrainData.GetHashCode(),
                 renderer = r ? r : null,
             };
             newRendererInfos.Add(rendererInfo);
