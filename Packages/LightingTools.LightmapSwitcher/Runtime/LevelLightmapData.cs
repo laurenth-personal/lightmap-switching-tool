@@ -50,24 +50,28 @@ public class LevelLightmapData : MonoBehaviour
     //TODO : enable logs only when verbose enabled
     public bool verbose = false;
 
-    static string messagePrefix = "Lightmap Switching Tool - ";
+    static string messagePrefix = "Lightmap Switching Tool | ";
 
     public void LoadLightingScenario(int index)
     {
         var dataToLoad = lightingScenariosData[index];
-
-        LoadLightingScenarioData(dataToLoad);
+        if (dataToLoad == null)
+        {
+            Debug.LogError(messagePrefix + "Can't find lighting scenario at index " + index);
+            return;
+        }
+        LoadLightingScenario(dataToLoad);
     }
 
     public void LoadLightingScenario(string name)
     {
-        var data = lightingScenariosData.Find(x => x.name.Equals(name));
-        if(data == null)
+        var dataToLoad = lightingScenariosData.Find(x => x.name.Equals(name));
+        if(dataToLoad == null)
         {
             Debug.LogError(messagePrefix+"Can't find lighting scenario with name (case sensitive) " + name);
             return;
         }
-        LoadLightingScenario(data);
+        LoadLightingScenario(dataToLoad);
     }
 
     public void LoadLightingScenario(LightingScenarioData data)
@@ -91,11 +95,6 @@ public class LevelLightmapData : MonoBehaviour
 
             LoadLightProbes(data);
         }
-    }
-
-    public void LoadLightingScenarioData(LightingScenarioData data)
-    {
-        LoadLightingScenario(data);
     }
 
     public void LoadAssetBundleByName(string name)
@@ -251,10 +250,10 @@ public class LevelLightmapData : MonoBehaviour
             {
                 var infoToApply = new RendererInfo();
                 var meshfilter = render.gameObject.GetComponent<MeshFilter>();
-                int meshHash = 0;
-                if (meshfilter != null)
-                    meshHash = meshfilter.sharedMesh.GetHashCode();
-                if (hashRendererPairs.TryGetValue(GetStableHash(render.gameObject.transform) + render.gameObject.name.GetHashCode() + meshHash, out infoToApply))
+                int meshNameHash = 0;
+                if (meshfilter != null && meshfilter.sharedMesh != null)
+                    meshNameHash = meshfilter.sharedMesh.name.GetHashCode();
+                if (hashRendererPairs.TryGetValue(GetStableHash(render.gameObject.transform) + render.gameObject.name.GetHashCode() + meshNameHash, out infoToApply))
                 {
                     render.lightmapIndex = infoToApply.lightmapIndex;
                     if (applyLightmapScaleAndOffset)
@@ -415,7 +414,7 @@ public class LevelLightmapData : MonoBehaviour
                 transformHash = GetStableHash(go.transform),
                 lightmapScaleOffset = r ? r.lightmapScaleOffset : t.lightmapScaleOffset,
                 lightmapIndex = r ? r.lightmapIndex : t.lightmapIndex,
-                meshHash = r ? (m ? m.sharedMesh.GetHashCode() : 0) : t.terrainData.GetHashCode(),
+                meshHash = r ? (m && m.sharedMesh ? m.sharedMesh.name.GetHashCode() : 0) : t.terrainData.GetHashCode(),
                 renderer = r ? r : null,
             };
             newRendererInfos.Add(rendererInfo);
